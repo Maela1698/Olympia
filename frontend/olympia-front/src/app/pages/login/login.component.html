@@ -1,0 +1,47 @@
+<div class="login-container">
+  <div class="login-card">
+    <h2>Connexion</h2>
+    
+    <div *ngIf="errorMessage" class="alert error">
+      {{ errorMessage }}
+    </div>
+
+    <form [formGroup]="loginForm" (ngSubmit)="onSubmit()">
+      
+      <div class="form-group">
+        <label for="mail">Email</label>
+        <input 
+          type="email" 
+          id="mail" 
+          formControlName="mail" 
+          placeholder="Ex: admin@test.com"
+          [class.invalid]="loginForm.get('mail')?.invalid && loginForm.get('mail')?.touched"
+        >
+        <small *ngIf="loginForm.get('mail')?.invalid && loginForm.get('mail')?.touched" class="text-error">
+          Email valide requis.
+        </small>
+      </div>
+
+      <div class="form-group">
+        <label for="password">Mot de passe</label>
+        <input 
+          type="password" 
+          id="password" 
+          formControlName="password" 
+          placeholder="Votre mot de passe"
+          [class.invalid]="loginForm.get('password')?.invalid && loginForm.get('password')?.touched"
+        >
+      </div>
+
+      <button type="submit" [disabled]="loginForm.invalid || isLoading">
+        <span *ngIf="isLoading">Chargement...</span>
+        <span *ngIf="!isLoading">Se connecter</span>
+      </button>
+
+    </form>
+    
+    <div class="form-footer">
+      <p>Pas encore de compte ? <a href="#">S'inscrire</a></p>
+    </div>
+  </div>
+</div>

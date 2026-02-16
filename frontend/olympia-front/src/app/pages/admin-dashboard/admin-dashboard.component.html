@@ -1,0 +1,26 @@
+<div class="container">
+<button routerLink="/admin/create-boutique" style="background:orange;">+ Ouvrir une Boutique</button>
+  <h1>🏢 Gestion Immobilière (Admin)</h1>
+  
+  <table border="1" cellpadding="10" style="border-collapse: collapse; width: 100%;">
+    <thead>
+      <tr style="background: #eee;">
+        <th>Nom Box</th>
+        <th>Étage</th>
+        <th>Surface</th>
+        <th>État</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr *ngFor="let box of boxes">
+        <td>{{ box.nom }}</td>
+        <td>{{ box.etage === 0 ? 'RDC' : 'Étage ' + box.etage }}</td>
+        <td>{{ box.surface }} m²</td>
+        <td>
+          <span *ngIf="box.est_loue" style="color: red; font-weight: bold;">🔴 LOUÉ</span>
+          <span *ngIf="!box.est_loue" style="color: green; font-weight: bold;">🟢 LIBRE</span>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+</div>

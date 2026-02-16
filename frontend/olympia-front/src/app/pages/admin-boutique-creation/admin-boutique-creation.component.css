@@ -1,0 +1,12 @@
+.container { max-width: 800px; margin: 0 auto; padding: 20px; }
+.form-card { background: white; padding: 30px; border-radius: 8px; box-shadow: 0 4px 15px rgba(0,0,0,0.1); }
+.form-group { margin-bottom: 20px; }
+.form-group label { display: block; font-weight: bold; margin-bottom: 5px; }
+.form-group input, .form-group textarea, select { width: 100%; padding: 10px; border: 1px solid #ddd; border-radius: 5px; }
+
+.row { display: flex; gap: 20px; flex-wrap: wrap; margin-bottom: 20px; }
+.col { flex: 1; min-width: 200px; }
+
+.btn-submit { background-color: #28a745; color: white; border: none; padding: 15px 30px; font-size: 1.1em; cursor: pointer; border-radius: 5px; width: 100%; }
+.btn-submit:hover { background-color: #218838; }
+.btn-submit:disabled { background-color: #ccc; cursor: not-allowed; }

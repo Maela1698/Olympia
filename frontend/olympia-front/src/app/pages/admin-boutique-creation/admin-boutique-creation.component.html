@@ -1,0 +1,57 @@
+<div class="container">
+  <h1>Créer une nouvelle Boutique</h1>
+  <p>Assignez un local commercial à un locataire.</p>
+
+  <form (ngSubmit)="onSubmit()" class="form-card">
+    
+    <div class="form-group">
+      <label>Nom de l'enseigne :</label>
+      <input type="text" [(ngModel)]="formData.nom" name="nom" required placeholder="ex: Olympia Mode">
+    </div>
+
+    <div class="form-group">
+      <label>Description :</label>
+      <textarea [(ngModel)]="formData.description" name="desc" placeholder="Concept de la boutique..."></textarea>
+    </div>
+
+    <div class="row">
+      
+      <div class="col">
+        <label>👤 Gérant (Commercial) :</label>
+        <select [(ngModel)]="formData.id_responsable" name="resp" required>
+          <option value="" disabled>Choisir un utilisateur...</option>
+          <option *ngFor="let u of commerciaux" [value]="u._id">
+            {{ u.name }} ({{ u.mail }})
+          </option>
+        </select>
+      </div>
+
+      <div class="col">
+        <label>Emplacement (Box) :</label>
+        <select [(ngModel)]="formData.id_box" name="box" required>
+          <option value="" disabled>Choisir un local libre...</option>
+          <option *ngFor="let b of boxesLibres" [value]="b._id">
+            {{ b.nom }} ({{ b.surface }} m² - Étage {{ b.etage }})
+          </option>
+        </select>
+        <small *ngIf="boxesLibres.length === 0" style="color:red">Aucun box libre !</small>
+      </div>
+
+      <div class="col">
+        <label>Catégorie :</label>
+        <select [(ngModel)]="formData.id_categorie" name="cat" required>
+          <option value="" disabled>Choisir une catégorie...</option>
+          <option *ngFor="let c of categories" [value]="c._id">
+            {{ c.nom }}
+          </option>
+        </select>
+      </div>
+
+    </div>
+
+    <button type="submit" class="btn-submit" [disabled]="boxesLibres.length === 0">
+      Valider l'ouverture de la boutique
+    </button>
+
+  </form>
+</div>
