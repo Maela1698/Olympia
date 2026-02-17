@@ -1,5 +1,4 @@
 <div class="container">
-<button routerLink="/admin/create-boutique" style="background:orange;">+ Ouvrir une Boutique</button>
 <button routerLink="/admin/categories" style="background:green;">Gestion categories </button>
   <h1>Gestion Immobilière (BOX)</h1>
   
@@ -25,3 +24,56 @@
     </tbody>
   </table>
 </div>
+
+<hr class="separator">
+
+<div class="header-section">
+    <h2>Gestion des Boutiques</h2>
+    <button routerLink="/admin/create-boutique" class="btn-create">+ Ouvrir une Boutique</button>
+</div>
+
+<table class="data-table">
+    <thead>
+        <tr>
+            <th>Logo</th>
+            <th>Enseigne & Info</th>
+            <th>Emplacement</th>
+            <th>Gérant</th>
+            <th>Mail</th>
+            <th>Actions</th>
+        </tr>
+    </thead>
+    <tbody>
+        <tr *ngFor="let b of boutiques">
+            <td>
+                <img [src]="b.logo || 'https://placehold.co/50'" class="mini-logo" style="width: 70px; height: 70px;">
+            </td>
+            <td>
+                <strong>{{ b.nom }}</strong>
+                <br>
+                <small>{{ b.id_categorie?.nom }}</small> | <small>{{ b.horaires }}</small>
+            </td>
+            <td>
+                <span class="badge-box">{{ b.id_box?.nom }}</span>
+                <br>
+                <small>Étage {{ b.id_box?.etage }}</small>
+            </td>
+            <td>
+               
+                <br>
+                <small>{{ b.id_responsable?.name }}</small>.
+                <small>{{ b.id_responsable?.fname }}</small>
+            </td>
+            <td>
+                <br>
+                <small>{{ b.id_responsable?.mail }}</small>
+            </td>
+            <td>
+                <a [routerLink]="['/admin/edit-boutique', b._id]" class="btn-action edit" style="text-decoration:none;">✏️</a>
+                <button (click)="deleteBoutique(b._id)" class="btn-action delete">🗑️</button>
+            </td>
+        </tr>
+    </tbody>
+</table>
+
+<p *ngIf="boutiques.length === 0" style="text-align: center; color: #666;">Aucune boutique ouverte pour le moment.</p>

@@ -1,11 +1,13 @@
 <div class="container">
-  <h1>Créer une nouvelle Boutique</h1>
-  <p>Assignez un local commercial à un locataire.</p>
+  <h1>{{ isEditMode ? '✏️ Modifier la Boutique' : '✍️ Créer une nouvelle Boutique' }}</h1>
+  
+  <p *ngIf="!isEditMode">Assignez un local commercial à un locataire.</p>
+  <p *ngIf="isEditMode">Modifiez les informations de l'enseigne.</p>
 
   <form (ngSubmit)="onSubmit()" class="form-card">
     
     <div class="form-group">
-      <label>Nom de l'enseigne :</label>
+      <label>Nom de boutique :</label>
       <input type="text" [(ngModel)]="formData.nom" name="nom" required placeholder="ex: Olympia Mode">
     </div>
 
@@ -15,10 +17,26 @@
     </div>
 
     <div class="row">
+        <div class="col">
+            <label>Logo de la boutique :</label>
+            <input type="file" (change)="onFileSelected($event)" accept="image/*">
+            
+            <div *ngIf="isEditMode && formData.logo" style="margin-top: 5px;">
+                <small>Actuel :</small>
+                <img [src]="formData.logo" style="height: 50px; border-radius: 5px; vertical-align: middle;">
+            </div>
+        </div>
+        <div class="col">
+            <label>Horaires d'ouverture :</label>
+            <input type="text" [(ngModel)]="formData.horaires" name="horaires" placeholder="ex: Lun-Sam 9h-18h">
+        </div>
+    </div>
+
+    <div class="row">
       
       <div class="col">
         <label>👤 Gérant (Commercial) :</label>
-        <select [(ngModel)]="formData.id_responsable" name="resp" required>
+        <select [(ngModel)]="formData.id_responsable" name="resp" required [disabled]="isEditMode">
           <option value="" disabled>Choisir un utilisateur...</option>
           <option *ngFor="let u of commerciaux" [value]="u._id">
             {{ u.name }} ({{ u.mail }})
@@ -28,13 +46,18 @@
 
       <div class="col">
         <label>Emplacement (Box) :</label>
-        <select [(ngModel)]="formData.id_box" name="box" required>
+        
+        <select *ngIf="!isEditMode" [(ngModel)]="formData.id_box" name="box" required>
           <option value="" disabled>Choisir un local libre...</option>
           <option *ngFor="let b of boxesLibres" [value]="b._id">
             {{ b.nom }} ({{ b.surface }} m² - Étage {{ b.etage }})
           </option>
         </select>
-        <small *ngIf="boxesLibres.length === 0" style="color:red">Aucun box libre !</small>
+        
+        <input *ngIf="isEditMode" type="text" value="Emplacement actuel (Verrouillé)" disabled style="background-color: #e9ecef; cursor: not-allowed;">
+
+        <small *ngIf="!isEditMode && boxesLibres.length === 0" style="color:red">Aucun box libre !</small>
+        <small *ngIf="isEditMode" style="color:orange">Pour changer de local, supprimez et recréez la boutique.</small>
       </div>
 
       <div class="col">
@@ -49,8 +72,8 @@
 
     </div>
 
-    <button type="submit" class="btn-submit" [disabled]="boxesLibres.length === 0">
-      Valider l'ouverture de la boutique
+    <button type="submit" class="btn-submit" [disabled]="!isEditMode && boxesLibres.length === 0">
+      {{ isEditMode ? 'Sauvegarder les modifications' : 'Valider l\'ouverture de la boutique' }}
     </button>
 
   </form>

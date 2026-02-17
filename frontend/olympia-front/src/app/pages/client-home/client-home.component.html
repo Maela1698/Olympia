@@ -12,7 +12,8 @@
       <div class="card-header">
         <span class="badge" *ngIf="b.est_ouvert">OUVERT</span>
         <span class="badge closed" *ngIf="!b.est_ouvert">FERMÉ</span>
-        <img [src]="b.id_categorie?.image || 'https://placehold.co/300'" alt="Image catégorie">
+        
+        <img [src]="b.logo || 'https://placehold.co/300x200?text=Logo+Boutique'" alt="Logo {{ b.nom }}">
       </div>
       
       <div class="card-body">

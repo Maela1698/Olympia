@@ -23,6 +23,7 @@ export const routes: Routes = [
       // Plus tard tu ajouteras : { path: 'boutiques', component: ManageBoutiquesComponent }
       { path: '', redirectTo: 'dashboard', pathMatch: 'full' },
       { path: 'create-boutique', component: AdminBoutiqueCreationComponent },
+      { path: 'edit-boutique/:id', component: AdminBoutiqueCreationComponent },
     ]
   },
 

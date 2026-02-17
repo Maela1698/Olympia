@@ -5,9 +5,9 @@ const ProduitSchema = new mongoose.Schema({
   description: { type: String },
   prix: { type: Number, required: true },
   promo: { type: Boolean, default: false }, // Si vrai, on affiche "PROMO"
-  image: { 
-    type: String,
-    default: 'https://placehold.co/300x300?text=Produit'
+  images: { 
+    type: [String], // Tableau de chaînes de caractères (URLs)
+    default: [] 
   },
   
   // Relation
