@@ -1,31 +1,44 @@
-// const express = require('express');
-// const app = express();
-// const PORT = 3000;
+require("dotenv").config();
+const path = require('path');
 
-// // Middleware pour parser le JSON
-// app.use(express.json());
+const express = require('express');
+const cors = require('cors');
+const connectDB = require("./config/db");
 
-// // Route de test
-// app.get('/', (req, res) => {
-//   res.send('Backend MEAN en marche 🚀');
-// });
 
-// // Lancer le serveur
-// app.listen(PORT, () => {
-//   console.log(`Serveur démarré sur http://localhost:${PORT}`);
-// });
+const authRoutes = require("./routes/authRoutes");
+const boutiqueRoutes = require("./routes/boutiqueRoutes");
+const boxRoutes = require("./routes/boxRoutes");
+const produitRoutes = require("./routes/produitRoutes");
+const categorieRoutes = require("./routes/categorieRoutes");
+const userRoutes = require("./routes/userRoutes");
+const app = express();
+const PORT = process.env.PORT || 3000;
 
-var http = require("http");
 
-function start() {
-  function onRequest(request, response) {
-    console.log("Request received.");
-    response.writeHead(200, {"Content-Type" : "text/plain"});
-    response.write("Hello World");
-    response.end();
-  }
-  http.creqteServert(onRequest).listen(8888);
-  console.log("Démarrage du serveur.");
-}
+connectDB();
 
-exports.start = start;
+app.use(express.json());
+app.use(cors());
+
+app.get('/', (req, res) => {
+  res.send('Backend MEAN en marche 🚀');
+});
+
+/* ROUTES AUTH */
+
+app.use('/uploads', express.static(path.join(__dirname, 'uploads')))
+
+app.use("/api/auth", authRoutes);
+app.use("/api/boutiques", boutiqueRoutes);
+app.use("/api/boxes", boxRoutes);
+app.use("/api/produits", produitRoutes);
+app.use("/api/categories", categorieRoutes);
+app.use("/api/users", userRoutes);
+
+app.listen(PORT, () => {
+  console.log(`Serveur démarré sur http://localhost:${PORT}`);
+}); 
+
+
+

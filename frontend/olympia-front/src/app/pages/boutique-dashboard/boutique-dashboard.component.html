@@ -1,0 +1,52 @@
+<div class="dashboard-container" *ngIf="maBoutique; else errorTpl">
+  <header>
+    <h1>🏪 {{ maBoutique.nom }}</h1>
+    <p>📍 Emplacement : {{ maBoutique.id_box?.nom }}</p>
+  </header>
+
+  <hr>
+
+  <section class="form-card">
+    <h3>{{ isEditMode ? '✏️ Modifier le produit' : '➕ Ajouter un nouveau produit' }}</h3>
+    <form (ngSubmit)="onSubmit()">
+      <div class="form-group">
+        <input type="text" name="nom" [(ngModel)]="productForm.nom" placeholder="Nom du produit" required>
+        <input type="number" name="prix" [(ngModel)]="productForm.prix" placeholder="Prix" required>
+        <textarea name="description" [(ngModel)]="productForm.description" placeholder="Description (Utile pour le SEO)"></textarea>
+      </div>
+      
+      <div class="form-actions">
+        <button type="submit" class="btn-primary">
+          {{ isEditMode ? 'Enregistrer les modifications' : 'Ajouter au catalogue' }}
+        </button>
+        <button type="button" *ngIf="isEditMode" (click)="resetForm()" class="btn-secondary">
+          Annuler
+        </button>
+      </div>
+    </form>
+  </section>
+
+  <hr>
+
+  <section>
+    <h3>📦 Inventaire actuel ({{ mesProduits.length }})</h3>
+    <div class="product-list">
+      <div class="product-item" *ngFor="let p of mesProduits">
+        <div class="product-info">
+          <strong>{{ p.nom }}</strong> - <span>{{ p.prix }} €</span>
+          <p class="small-desc">{{ p.description }}</p>
+        </div>
+        <div class="product-btns">
+          <button (click)="startEdit(p)" class="btn-edit">Modifier</button>
+          <button (click)="onDelete(p._id)" class="btn-delete">Supprimer</button>
+        </div>
+      </div>
+    </div>
+  </section>
+</div>
+
+<ng-template #errorTpl>
+  <div class="error-msg" *ngIf="messageErreur">
+    ⚠️ {{ messageErreur }}
+  </div>
+</ng-template>

@@ -1,0 +1,50 @@
+<div class="container">
+  <h1>📂 Gestion des Catégories</h1>
+
+  <div class="layout">
+    
+    <div class="list-section">
+      <table border="1" style="width: 100%; border-collapse: collapse;">
+        <thead>
+          <tr style="background: #eee;">
+            <th>Image</th>
+            <th>Nom</th>
+            <th>Actions</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let cat of categories">
+            <td style="text-align: center;">
+              <img [src]="cat.image || 'https://placehold.co/50'" style="width: 40px; height: 40px; border-radius: 50%;">
+            </td>
+            <td><strong>{{ cat.nom }}</strong></td>
+            <td>
+              <button (click)="startEdit(cat)">✏️</button>
+              <button (click)="deleteCategory(cat._id)" style="color: red; margin-left: 5px;">🗑️</button>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+
+    <div class="form-section">
+      <div class="card">
+        <h3>{{ isEditMode ? 'Modifier' : 'Nouvelle Catégorie' }}</h3>
+        
+        <form (ngSubmit)="onSubmit()">
+          <label>Nom de la catégorie :</label>
+          <input type="text" [(ngModel)]="formCat.nom" name="nom" required placeholder="ex: High-Tech">
+          
+          <label>URL de l'image (pour l'instant) :</label>
+          <input type="text" [(ngModel)]="formCat.image" name="image" placeholder="http://...">
+
+          <div class="buttons">
+            <button type="submit" style="background: green; color: white;">Valider</button>
+            <button type="button" *ngIf="isEditMode" (click)="resetForm()">Annuler</button>
+          </div>
+        </form>
+      </div>
+    </div>
+
+  </div>
+</div>
