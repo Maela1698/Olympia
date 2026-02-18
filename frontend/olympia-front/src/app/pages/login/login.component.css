@@ -54,8 +54,8 @@ input.invalid {
 button {
   width: 100%;
   padding: 0.75rem;
-  background-color: #007bff;
-  color: white;
+  background-color: var(--primary-color);
+  color: var(--secondary-color);
   border: none;
   border-radius: 4px;
   font-size: 1rem;
@@ -63,6 +63,11 @@ button {
   margin-top: 1rem;
   transition: background-color 0.2s;
 }
+
+button:hover:not(:disabled) {
+  background-color: #156d7a; /* une nuance plus foncée du bleu principal */
+}
+
 
 button:disabled {
   background-color: #ccc;
