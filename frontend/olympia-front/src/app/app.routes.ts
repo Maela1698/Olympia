@@ -7,11 +7,20 @@ import { adminGuard } from './guards/admin.guard';
 import { boutiqueGuard } from './guards/boutique.guard';
 import { AdminCategoriesComponent } from './pages/admin-categories/admin-categories.component';
 import { AdminBoutiqueCreationComponent } from './pages/admin-boutique-creation/admin-boutique-creation.component';
+import { BoutiqueSettingsComponent } from './features/boutique/boutique-settings/boutique-settings.component';
+import { ProductListComponent } from './components/product-list/product-list.component';
+import { ProductFormComponent } from './components/product-form/product-form.component';
+import { BoutiqueStoreComponent } from './pages/boutique-store/boutique-store.component';
+import { ProductDetailComponent } from './pages/product-detail/product-detail.component';
+
+
 
 export const routes: Routes = [
   // 1. Zone Publique (Client)
   { path: '', component: HomeComponent },
   { path: 'login', component: LoginComponent },
+  { path: 'boutique-client/:id', component: BoutiqueStoreComponent },
+  {path: 'produit-client/:id', component: ProductDetailComponent },
 
   // 2. Zone Admin (Protégée par adminGuard)
   { 
@@ -30,11 +39,16 @@ export const routes: Routes = [
   // 3. Zone Boutique (Protégée par boutiqueGuard)
   { 
     path: 'boutique',
-    canActivate: [boutiqueGuard],
+  canActivate: [boutiqueGuard],
     children: [
       { path: 'dashboard', component: BoutiqueDashboardComponent },
       // Plus tard tu ajouteras : { path: 'produits', component: ManageProductsComponent }
-      { path: '', redirectTo: 'dashboard', pathMatch: 'full' }
+      { path: '', redirectTo: 'dashboard', pathMatch: 'full' },
+      { path: 'produits', component: ProductListComponent }, // Liste
+      { path: 'produits/nouveau', component: ProductFormComponent }, // Création
+      { path: 'produits/modifier/:id', component: ProductFormComponent }, // Modification
+      { path: 'settings', component: BoutiqueSettingsComponent }
+     
     ]
   }
 ];

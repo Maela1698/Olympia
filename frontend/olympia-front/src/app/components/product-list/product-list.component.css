@@ -1,0 +1,44 @@
+.image-cell {
+  width: 180px; /* On élargit un peu la colonne */
+  text-align: center;
+}
+
+.carousel-container {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 5px;
+  position: relative;
+}
+
+.product-thumb {
+  width: 60px;
+  height: 60px;
+  object-fit: cover; /* L'image ne sera pas déformée */
+  border-radius: 6px;
+  border: 1px solid #ddd;
+}
+
+.btn-arrow {
+  background: none;
+  border: none;
+  cursor: pointer;
+  font-size: 14px;
+  color: #555;
+  padding: 0 5px;
+  transition: color 0.2s;
+}
+
+.btn-arrow:hover {
+  color: #007bff; /* Bleu au survol */
+  font-weight: bold;
+}
+
+.counter {
+  position: absolute;
+  bottom: -15px;
+  font-size: 10px;
+  color: #888;
+  width: 100%;
+  text-align: center;
+}

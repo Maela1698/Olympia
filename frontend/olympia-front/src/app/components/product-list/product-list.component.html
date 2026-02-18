@@ -1,0 +1,54 @@
+<div class="container">
+  <div class="header-list">
+    <h2>Mon Inventaire</h2>
+    <button routerLink="/boutique/produits/nouveau" class="btn-add">➕ Nouveau Produit</button>
+  </div>
+
+  <a routerLink="/boutique/dashboard">⬅ Retour au tableau de bord</a>
+
+  <table class="table">
+    <thead>
+      <tr>
+        <th>Image</th>
+        <th>Nom</th>
+        <th>Prix</th>
+        <th>Actions</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr *ngFor="let p of produits">
+  
+        <td class="image-cell">
+            <div class="carousel-container">
+            
+            <button *ngIf="p.images.length > 1" 
+                    (click)="prevImage(p)" 
+                    class="btn-arrow">
+                ◀
+            </button>
+
+            <img [src]="p.images[p.currentIndex] || 'assets/placeholder.png'" 
+                class="product-thumb">
+
+            <button *ngIf="p.images.length > 1" 
+                    (click)="nextImage(p)" 
+                    class="btn-arrow">
+                ▶
+            </button>
+
+            <span *ngIf="p.images.length > 1" class="counter">
+                {{ p.currentIndex + 1 }}/{{ p.images.length }}
+            </span>
+
+            </div>
+        </td>
+        <td>{{ p.nom }} <span *ngIf="p.promo" class="badge">PROMO</span></td>
+        <td>{{ p.prix }} Ar</td>
+        <td>
+          <button [routerLink]="['/boutique/produits/modifier', p._id]" class="btn-edit">✏️</button>
+          <button (click)="deleteProduit(p._id)" class="btn-delete">🗑️</button>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+</div>
