@@ -1,1 +1,16 @@
 /* You can add global styles to this file, and also import other style files */
+/* Palette globale */
+:root {
+  --primary-color: #1E94A8;
+  --secondary-color: #ffffff;
+  --error-color: #dc3545;
+  --font-family: 'Segoe UI', Arial, sans-serif;
+}
+
+/* Police globale */
+body {
+  font-family: var(--font-family);
+  margin: 0;
+  background-color: var(--secondary-color);
+  color: #333;
+}
