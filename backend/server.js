@@ -24,7 +24,7 @@ function start() {
     response.write("Hello World");
     response.end();
   }
-  http.creqteServert(onRequest).listen(8888);
+  http.createServer(onRequest).listen(8888);
   console.log("Démarrage du serveur.");
 }
 
