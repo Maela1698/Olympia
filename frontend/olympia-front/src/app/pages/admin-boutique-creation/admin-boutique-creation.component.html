@@ -86,7 +86,9 @@
     </div>
 
     <div class="form-footer">
-      <button type="button" routerLink="/admin/boutiques" class="btn-cancel">Annuler</button>
+     <button type="button" routerLink="/admin/boutiques" class="btn-cancel">
+        🏪 Annuler
+      </button>
       <button type="submit" class="btn-submit" [disabled]="!isEditMode && boxesLibres.length === 0">
         {{ isEditMode ? 'Sauvegarder les modifications' : ' Valider l\'ouverture' }}
       </button>

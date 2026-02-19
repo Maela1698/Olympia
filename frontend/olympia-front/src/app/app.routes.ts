@@ -16,7 +16,7 @@ import { ClientLayoutComponent } from './layouts/client-layout/client-layout.com
 import { AdminLayoutComponent } from './layouts/admin-layout/admin-layout.component';
 import { AdminBoxesComponent } from './pages/admin-boxes/admin-boxes.component';
 import { AdminBoutiquesComponent } from './pages/admin-boutiques/admin-boutiques.component';
-
+import { VendorBoutiquesComponent } from './pages/vendor-boutiques/vendor-boutiques.component';
 
 
 export const routes: Routes = [
@@ -60,7 +60,9 @@ export const routes: Routes = [
       { path: 'produits', component: ProductListComponent }, // Liste
       { path: 'produits/nouveau', component: ProductFormComponent }, // Création
       { path: 'produits/modifier/:id', component: ProductFormComponent }, // Modification
-      { path: 'settings', component: BoutiqueSettingsComponent }
+      { path: 'settings', component: BoutiqueSettingsComponent },
+      { path: '', redirectTo: 'mes-boutiques', pathMatch: 'full' }, // 👈 Change la redirection par défaut vers le Hub !
+      { path: 'mes-boutiques', component: VendorBoutiquesComponent } // 👈 AJOUTE CETTE LIGNE
      
     ]
   }

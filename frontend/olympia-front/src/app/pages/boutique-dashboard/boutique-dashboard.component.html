@@ -1,0 +1,83 @@
+<div class="page-container">
+  
+  <div class="dashboard-header">
+    <div class="welcome-text">
+      <h1>Espace Commercial</h1>
+      <p>Gestion de l'enseigne : <span class="active-shop-tag">{{ activeBoutiqueName }}</span></p>
+    </div>
+    <div class="header-date">
+      📅 {{ today | date:'dd MMMM yyyy' }}
+    </div>
+  </div>
+
+  <div class="kpi-grid">
+    
+    <div class="kpi-card">
+      <div class="kpi-icon blue">🏪</div>
+      <div class="kpi-info">
+        <span class="label">Mes Boutiques</span>
+        <h2 class="value">{{ nbTotalBoutiques }}</h2>
+        <span class="sub-label">Actives sur Olympia</span>
+      </div>
+    </div>
+
+    <div class="kpi-card">
+      <div class="kpi-icon green">📦</div>
+      <div class="kpi-info">
+        <span class="label">Produits ({{ activeBoutiqueName }})</span>
+        <h2 class="value">{{ nbProduitsBoutique }}</h2>
+        <span class="sub-label">Articles en inventaire</span>
+      </div>
+    </div>
+
+    <div class="kpi-card">
+      <div class="kpi-icon red">🔥</div>
+      <div class="kpi-info">
+        <span class="label">Offres Spéciales</span>
+        <h2 class="value">{{ nbPromoBoutique }}</h2>
+        <span class="sub-label">Produits en promotion</span>
+      </div>
+    </div>
+
+  </div>
+
+  <div class="main-layout">
+    <div class="content-area pro-card">
+      <div class="card-header">
+        <h3>Nouveautés au catalogue</h3>
+        <button routerLink="/boutique/produits" class="btn-text">Gérer l'inventaire →</button>
+      </div>
+
+      <div class="product-mini-list">
+        <div class="product-item" *ngFor="let p of derniersProduits">
+          <img [src]="p.images[0] || 'assets/placeholder.png'" alt="">
+          <div class="p-info">
+            <span class="p-name">{{ p.nom }}</span>
+            <span class="p-price">{{ p.prix }} Ar</span>
+          </div>
+          <span class="p-badge" *ngIf="p.promo">PROMO</span>
+        </div>
+        
+        <div class="empty-msg" *ngIf="derniersProduits.length === 0">
+          Aucun produit enregistré pour le moment.
+        </div>
+      </div>
+    </div>
+
+    <div class="side-area">
+      <div class="pro-card actions-box">
+        <h3>Actions Rapides</h3>
+        <button routerLink="/boutique/produits/nouveau" class="btn-action primary">
+          <span>➕</span> Nouveau Produit
+        </button>
+        <button routerLink="/boutique/settings" class="btn-action secondary">
+          <span>⚙️</span> Paramètres Boutique
+        </button>
+        <button routerLink="/boutique/mes-boutiques" class="btn-action tertiary">
+          <span>🔄</span> Changer de Boutique
+        </button>
+      </div>
+    </div>
+  </div>
+
+</div>

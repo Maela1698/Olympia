@@ -19,8 +19,8 @@
 
       <ng-container *ngIf="!isRouteAdmin">
         <p class="menu-label">Ma Boutique</p>
-        <a routerLink="/boutique/dashboard" routerLinkActive="active" class="menu-item">🏠 Accueil Vendeur</a>
-        <a routerLink="/boutique/produits" routerLinkActive="active" class="menu-item">📦 Mes Produits</a>
+        <a routerLink="/boutique/dashboard" routerLinkActive="active" class="menu-item">🏠 Accueil  </a>
+        <a routerLink="/boutique/mes-boutiques" routerLinkActive="active" class="menu-item">🏪 Mes Boutiques</a>
         <a routerLink="/boutique/settings" routerLinkActive="active" class="menu-item">⚙️ Paramètres</a>
       </ng-container>
 
@@ -63,7 +63,16 @@
     </main>
 
     <footer class="footer-simple">
-      <p>&copy; 2026 Olympia Mall — Designed & Engineered by Maela & Jaona</p>
-    </footer>
+  <div class="footer-content">
+    <span class="copyright">&copy; 2026 Olympia Mall. Tous droits réservés.</span>
+    
+    <span class="signature">
+      Designed & Engineered by 
+      <span class="creator">Maela ANDRIAMAHERY</span> 
+      <span class="amp">&</span> 
+      <span class="creator">Jaona RATEFIARIVONY</span>
+    </span>
+  </div>
+</footer>
 
   </div> </div> ```

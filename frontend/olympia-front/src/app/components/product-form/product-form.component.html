@@ -1,53 +1,76 @@
-<div class="container">
-  <h2>{{ isEditMode ? 'Modifier' : 'Nouveau Produit' }}</h2>
-
-  <form [formGroup]="productForm" (ngSubmit)="onSubmit()">
+<div class="page-container" style="max-width: 800px; margin: 0 auto; padding: 1rem 0;">
+  
+  <div class="page-header" style="margin-bottom: 2rem; display: flex; flex-direction: column; gap: 15px;">
     
-    <div>
-      <label>Nom :</label>
-      <input type="text" formControlName="nom">
+    <div style="display: flex; justify-content: flex-start;">
+        <button type="button" routerLink="/boutique/produits" style="background: #f8fafc; border: 1px solid #e2e8f0; color: #475569; padding: 8px 15px; border-radius: 8px; font-weight: 600; font-size: 0.9rem; cursor: pointer; display: flex; align-items: center; gap: 8px; transition: 0.2s;">
+          <span style="font-size: 1.2rem; line-height: 1;">←</span> Retour à l'inventaire
+        </button>
     </div>
 
-    <div>
-      <label>Prix :</label>
-      <input type="number" formControlName="prix">
+    <h1 style="font-size: 1.8rem; font-weight: 800; color: #0f172a; margin: 0;">
+      {{ isEditMode ? 'Modifier le Produit' : 'Nouveau Produit' }}
+    </h1>
+  </div>
+
+  <form [formGroup]="productForm" (ngSubmit)="onSubmit()" class="pro-card" style="background: white; border-radius: 16px; border: 1px solid #e2e8f0; box-shadow: 0 10px 15px -3px rgba(0,0,0,0.05); padding: 2.5rem;">
+    
+    <div class="form-row-grid" style="display: grid; grid-template-columns: 2fr 1fr; gap: 1.5rem; margin-bottom: 1.5rem;">
+      <div class="form-group">
+        <label style="font-size: 0.75rem; font-weight: 700; color: #64748b; text-transform: uppercase; letter-spacing: 0.5px; margin-bottom: 8px; display: block;">Nom du produit</label>
+        <input type="text" formControlName="nom" class="form-control" placeholder="Ex: Chemise en lin" style="width: 100%; padding: 12px 15px; border: 1px solid #cbd5e1; border-radius: 8px; font-size: 0.95rem; color: #1e293b; background: #f8fafc; outline: none;">
+      </div>
+
+      <div class="form-group">
+        <label style="font-size: 0.75rem; font-weight: 700; color: #64748b; text-transform: uppercase; letter-spacing: 0.5px; margin-bottom: 8px; display: block;">Prix unitaire (Ar)</label>
+        <input type="number" formControlName="prix" class="form-control" placeholder="0" style="width: 100%; padding: 12px 15px; border: 1px solid #cbd5e1; border-radius: 8px; font-size: 0.95rem; color: #1e293b; background: #f8fafc; outline: none;">
+      </div>
     </div>
 
-    <div>
-      <label>Description :</label>
-      <textarea formControlName="description"></textarea>
+    <div class="form-group" style="margin-bottom: 1.5rem;">
+      <label style="font-size: 0.75rem; font-weight: 700; color: #64748b; text-transform: uppercase; letter-spacing: 0.5px; margin-bottom: 8px; display: block;">Description détaillée</label>
+      <textarea formControlName="description" class="form-control" rows="4" placeholder="Décrivez votre produit avec précision..." style="width: 100%; padding: 12px 15px; border: 1px solid #cbd5e1; border-radius: 8px; font-size: 0.95rem; color: #1e293b; background: #f8fafc; resize: vertical; outline: none;"></textarea>
     </div>
 
-    <div>
-      <label>
-        <input type="checkbox" formControlName="promo"> En Promo ?
+    <div class="form-group checkbox-pro" style="display: flex; align-items: center; gap: 15px; background: #fff1f2; padding: 15px; border-radius: 10px; border: 1px dashed #fecdd3; margin-bottom: 2rem;">
+      <label class="switch-container">
+        <input type="checkbox" formControlName="promo" class="toggle-checkbox">
+        <span class="toggle-slider"></span>
       </label>
+      <span style="color: #e11d48; font-size: 0.95rem; font-weight: 500;">Mettre ce produit en <strong style="font-weight: 800;">PROMO</strong></span>
     </div>
+
+    <hr class="divider" style="border: 0; border-top: 1px solid #e2e8f0; margin: 2rem 0;">
 
     <div class="form-group">
-      <label>Images du produit :</label>
+      <label style="font-size: 0.75rem; font-weight: 700; color: #64748b; text-transform: uppercase; letter-spacing: 0.5px; margin-bottom: 12px; display: block;">Photographies du produit</label>
 
-      <div *ngIf="existingImages.length > 0" class="image-gallery">
-        <div *ngFor="let img of existingImages" class="img-wrapper">
-          <img [src]="img" class="thumbnail">
-          <button type="button" (click)="removeExistingImage(img)" class="btn-delete-img">❌</button>
+      <div *ngIf="existingImages.length > 0" style="display: flex; flex-wrap: wrap; gap: 10px; margin-bottom: 15px;">
+        <div *ngFor="let img of existingImages" style="position: relative; width: 45px; height: 45px; flex: 0 0 45px; border-radius: 6px; border: 1px solid #cbd5e1; box-shadow: 0 2px 4px rgba(0,0,0,0.05); background: white;">
+            
+            <img [src]="img" alt="Produit" style="width: 100%; height: 100%; object-fit: cover; border-radius: 5px; display: block;">
+            
+            <button type="button" (click)="removeExistingImage(img)" style="position: absolute; top: -5px; right: -5px; background: #ef4444; color: white; border: 1px solid white; border-radius: 50%; width: 14px; height: 14px; font-size: 8px; font-weight: bold; cursor: pointer; display: flex; align-items: center; justify-content: center; padding: 0; box-shadow: 0 2px 4px rgba(0,0,0,0.2); z-index: 10;">✕</button>
         </div>
       </div>
 
-      <br>
-      <label class="btn-upload">
-         ➕ Ajouter des nouvelles photos
-         <input type="file" multiple (change)="onFileSelect($event)" accept="image/*">
+      <label class="upload-zone" style="display: flex; flex-direction: column; align-items: center; justify-content: center; padding: 1.5rem; border: 2px dashed #cbd5e1; border-radius: 12px; background: #f8fafc; cursor: pointer; transition: 0.2s;">
+         <div class="upload-icon" style="font-size: 1.5rem; margin-bottom: 5px;">📸</div>
+         <span style="color: #64748b; font-weight: 600; font-size: 0.85rem;">Cliquez ici pour ajouter de nouvelles photos</span>
+         <input type="file" multiple (change)="onFileSelect($event)" accept="image/*" style="display: none;">
       </label>
-      
-      <div *ngIf="selectedFiles.length > 0">
-        <p><small>{{ selectedFiles.length }} nouveau(x) fichier(s) sélectionné(s)</small></p>
-      </div>
+
+      <p *ngIf="selectedFiles.length > 0" style="color: #10b981; font-size: 0.85rem; font-weight: 600; margin-top: 10px; background: #ecfdf5; padding: 8px 12px; border-radius: 6px; display: inline-block;">
+        ✅ {{ selectedFiles.length }} fichier(s) prêt(s) à être envoyé(s).
+      </p>
     </div>
 
-    <div class="actions">
-      <button type="submit">{{ isEditMode ? 'Mettre à jour' : 'Créer' }}</button>
-      <a routerLink="/boutique/produits">Annuler</a>
+    <div class="form-footer" style="margin-top: 2.5rem; display: flex; gap: 15px; justify-content: flex-end; align-items: center; border-top: 1px solid #e2e8f0; padding-top: 1.5rem;">
+      <button type="button" routerLink="/boutique/produits" style="background: white; border: 1px solid #cbd5e1; color: #475569; padding: 10px 20px; border-radius: 8px; font-weight: 600; cursor: pointer; transition: 0.2s;">Annuler</button>
+
+      <button type="submit" [disabled]="productForm.invalid" style="background: #4f46e5; color: white; border: none; padding: 10px 25px; border-radius: 8px; font-weight: 600; cursor: pointer; transition: 0.2s; box-shadow: 0 4px 6px rgba(79, 70, 229, 0.2);">
+        {{ isEditMode ? '💾 Mettre à jour' : '🚀 Créer le produit' }}
+      </button>
     </div>
 
   </form>

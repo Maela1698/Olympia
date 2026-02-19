@@ -108,13 +108,60 @@
 }
 
 /* Footer */
+/* --- FOOTER PRO & SIGNATURE --- */
 .footer-simple {
-  text-align: right;
-  padding: 1rem 2rem;
-  color: #94a3b8;
-  font-size: 0.8rem;
-  border-top: 1px solid #e2e8f0;
+  padding: 1.5rem 2rem;
   background: white;
+  border-top: 1px solid #e2e8f0;
+  font-family: 'Inter', sans-serif;
+}
+
+.footer-content {
+  display: flex;
+  justify-content: space-between; /* Aligne le copyright à gauche et les noms à droite */
+  align-items: center;
+  font-size: 0.85rem;
+}
+
+.copyright {
+  color: #94a3b8;
+}
+
+.signature {
+  color: #64748b;
+}
+
+/* Le style de vos noms */
+.creator {
+  color: #0f172a; /* Un bleu nuit très sombre, presque noir */
+  font-weight: 800; /* Bien gras */
+  font-size: 0.95rem; /* Plus grand que le reste du texte */
+  letter-spacing: -0.3px; /* Rapproche légèrement les lettres pour un effet moderne */
+  cursor: pointer;
+  transition: color 0.2s ease;
+}
+
+/* Petit effet magique au survol */
+.creator:hover {
+  color: #4f46e5; /* La couleur Indigo de votre thème */
+}
+
+/* L'esperluette (&) stylisée pour la touche Premium */
+.amp {
+  color: #cbd5e1;
+  font-style: italic;
+  font-family: Georgia, serif; /* Police Serif pour l'élégance */
+  font-size: 1.1rem;
+  margin: 0 6px;
+}
+
+/* Responsive : sur téléphone, ça s'empile proprement au centre */
+@media (max-width: 768px) {
+  .footer-content {
+    flex-direction: column;
+    gap: 10px;
+    text-align: center;
+  }
 }
 
 /* --- ZONE UTILISATEUR CLICKABLE --- */

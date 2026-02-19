@@ -1,83 +1,59 @@
 import { Component, OnInit, inject } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { RouterModule } from '@angular/router';
+import { Router, RouterModule } from '@angular/router';
 import { ProductService } from '../../services/product.service';
-import { BoutiqueService } from '../../services/boutique.service';
-import { AuthService } from '../../services/auth.service';
 
 @Component({
   selector: 'app-product-list',
   standalone: true,
   imports: [CommonModule, RouterModule],
   templateUrl: './product-list.component.html',
-  // On ajoute le CSS ici pour aligner les flèches
-  styles: [`
-    .carousel-container { display: flex; align-items: center; justify-content: center; gap: 5px; }
-    .btn-arrow { background: none; border: none; cursor: pointer; font-size: 1.2rem; }
-    .product-thumb { width: 60px; height: 60px; object-fit: cover; border-radius: 4px; border: 1px solid #ddd; }
-  `]
+  styleUrl: './product-list.component.css'
 })
 export class ProductListComponent implements OnInit {
-  // --- INJECTIONS ---
   productService = inject(ProductService);
-  boutiqueService = inject(BoutiqueService);
-  authService = inject(AuthService);
+  router = inject(Router);
 
   produits: any[] = [];
+  activeBoutiqueName: string = '';
 
   ngOnInit() {
-    this.loadProduits();
-  }
+    const activeId = localStorage.getItem('activeBoutiqueId');
+    this.activeBoutiqueName = localStorage.getItem('activeBoutiqueName') || 'ma boutique';
 
-  loadProduits() {
-    const user = this.authService.getUser();
-    
-    // On vérifie que l'utilisateur est bien connecté
-    if (user && user.id) {
-      // 1. On récupère la boutique du user
-      this.boutiqueService.getMaBoutique(user.id).subscribe({
-        next: (res: any) => {
-          const myBoutiqueId = res.boutique._id;
-          
-          // 2. On charge les produits filtrés par cette boutique
-          this.productService.getAll(myBoutiqueId).subscribe(data => {
-            // 👇 MODIFICATION ICI : On ajoute currentIndex: 0 à chaque produit
-            this.produits = data.map((p: any) => ({
-                ...p,
-                currentIndex: 0 // Initialisation pour le carrousel
-            }));
-          });
-        },
-        error: (err) => console.error("Erreur boutique:", err)
-      });
+    if (!activeId) {
+      // Sécurité : s'il n'a pas choisi de boutique, on le renvoie au Hub
+      this.router.navigate(['/boutique/mes-boutiques']);
+      return;
     }
+
+    this.loadProduits(activeId);
   }
 
-  // 👇 FONCTION SUIVANTE
+  loadProduits(boutiqueId: string) {
+    this.productService.getAll(boutiqueId).subscribe(data => {
+      this.produits = data.map((p: any) => ({ ...p, currentIndex: 0 }));
+    });
+  }
+
   nextImage(produit: any) {
     if (produit.images && produit.images.length > 1) {
-      if (produit.currentIndex < produit.images.length - 1) {
-        produit.currentIndex++;
-      } else {
-        produit.currentIndex = 0; // Retour au début
-      }
+      produit.currentIndex = (produit.currentIndex < produit.images.length - 1) ? produit.currentIndex + 1 : 0;
     }
   }
 
-  // 👇 FONCTION PRÉCÉDENTE
   prevImage(produit: any) {
     if (produit.images && produit.images.length > 1) {
-      if (produit.currentIndex > 0) {
-        produit.currentIndex--;
-      } else {
-        produit.currentIndex = produit.images.length - 1; // Aller à la fin
-      }
+      produit.currentIndex = (produit.currentIndex > 0) ? produit.currentIndex - 1 : produit.images.length - 1;
     }
   }
 
   deleteProduit(id: string) {
-    if(confirm('Supprimer ce produit ?')) {
-      this.productService.delete(id).subscribe(() => this.loadProduits());
+    if(confirm('🗑️ Supprimer définitivement ce produit ?')) {
+      this.productService.delete(id).subscribe(() => {
+        const activeId = localStorage.getItem('activeBoutiqueId');
+        if(activeId) this.loadProduits(activeId);
+      });
     }
   }
 }
