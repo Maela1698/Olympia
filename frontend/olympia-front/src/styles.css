@@ -1,1 +1,205 @@
 /* You can add global styles to this file, and also import other style files */
+/* 1. IMPORT DE LA POLICE (Inter - Le standard actuel du web) */
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap');
+
+/* 2. VARIABLES GLOBALES (Le cerveau du design) */
+:root {
+  /* Couleurs Principales (Brand) */
+  --primary: #4f46e5;       /* Indigo vibrant */
+  --primary-hover: #4338ca; /* Indigo plus sombre */
+  --secondary: #0ea5e9;     /* Sky blue */
+  
+  /* Couleurs d'État */
+  --success: #10b981;       /* Vert émeraude */
+  --danger: #ef4444;        /* Rouge vif */
+  --warning: #f59e0b;       /* Orange ambre */
+  
+  /* Couleurs de Fond & Texte */
+  --bg-app: #f8fafc;        /* Gris très très clair (fond de page) */
+  --bg-card: #ffffff;       /* Blanc pur (cartes) */
+  --text-main: #0f172a;     /* Bleu nuit presque noir (texte principal) */
+  --text-muted: #64748b;    /* Gris bleuté (texte secondaire) */
+  --border-light: #e2e8f0;  /* Bordures subtiles */
+
+  /* Formes & Ombres */
+  --radius: 12px;           /* Arrondi des coins */
+  --shadow-sm: 0 1px 3px rgba(0,0,0,0.1);
+  --shadow-md: 0 4px 6px -1px rgba(0,0,0,0.1);
+  --shadow-lg: 0 10px 15px -3px rgba(0,0,0,0.1);
+  --font-main: 'Inter', sans-serif;
+}
+
+/* 3. RESET DE BASE */
+* {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+  font-family: 'Inter', sans-serif;
+  color: #1e293b;
+  
+  /* LE SECRET DU BACKGROUND PRO */
+  background-color: #f3f6fc; /* Base gris bleuté très clair */
+  
+  /* Dégradé atmosphérique fixe */
+  background-image: 
+    radial-gradient(circle at 15% 50%, rgba(99, 102, 241, 0.05), transparent 25%), /* Touche Indigo à gauche */
+    radial-gradient(circle at 85% 30%, rgba(14, 165, 233, 0.05), transparent 25%); /* Touche Cyan à droite */
+    
+  background-attachment: fixed; /* L'image reste fixe quand on scroll */
+  min-height: 100vh;
+}
+
+/* 4. CLASSES UTILITAIRES (Pour aller vite) */
+
+/* Conteneur centré */
+.container {
+  max-width: 96%; /* Occupe presque tout l'écran */
+  margin: 0 auto;
+  padding: 2rem; /* Un peu d'air sur les côtés */
+}
+
+/* Optionnel : Si tu veux que le header (navbar) suive aussi */
+.nav-container {
+  max-width: 96% !important; /* Force la barre de menu à s'élargir */
+}
+/* Titres */
+h1, h2, h3 {
+  color: var(--text-main);
+  font-weight: 700;
+  letter-spacing: -0.025em; /* Un peu serré pour faire moderne */
+  margin-top: 0;
+}
+
+h1 { font-size: 2.25rem; }
+h2 { font-size: 1.875rem; }
+h3 { font-size: 1.5rem; }
+
+/* Boutons (Le plus important !) */
+button, .btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0.75rem 1.5rem;
+  border-radius: var(--radius);
+  font-weight: 600;
+  font-size: 0.95rem;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  border: none;
+  text-decoration: none;
+  gap: 0.5rem; /* Espace entre icône et texte */
+}
+
+/* Bouton Primaire (Action principale) */
+.btn-primary, button[type="submit"] {
+  background-color: var(--primary);
+  color: white;
+  box-shadow: var(--shadow-md);
+}
+
+.btn-primary:hover, button[type="submit"]:hover {
+  background-color: var(--primary-hover);
+  transform: translateY(-1px);
+  box-shadow: var(--shadow-lg);
+}
+
+/* Bouton Secondaire/Annuler */
+.btn-secondary, .btn-cancel {
+  background-color: white;
+  color: var(--text-main);
+  border: 1px solid var(--border-light);
+}
+
+.btn-secondary:hover, .btn-cancel:hover {
+  background-color: #f1f5f9;
+  border-color: #cbd5e1;
+}
+
+/* Bouton Danger (Supprimer) */
+.btn-danger, .btn-delete {
+  background-color: #fee2e2;
+  color: var(--danger);
+}
+
+.btn-danger:hover, .btn-delete:hover {
+  background-color: var(--danger);
+  color: white;
+}
+
+/* Inputs & Formulaires */
+input[type="text"], 
+input[type="number"], 
+input[type="password"], 
+input[type="email"],
+textarea, 
+select {
+  width: 100%;
+  padding: 0.75rem 1rem;
+  border: 1px solid var(--border-light);
+  border-radius: var(--radius);
+  font-family: var(--font-main);
+  font-size: 1rem;
+  background-color: white;
+  transition: border-color 0.2s, box-shadow 0.2s;
+  outline: none;
+}
+
+input:focus, textarea:focus, select:focus {
+  border-color: var(--primary);
+  box-shadow: 0 0 0 3px rgba(79, 70, 229, 0.1); /* Petit halo bleu */
+}
+
+label {
+  display: block;
+  margin-bottom: 0.5rem;
+  font-weight: 500;
+  color: var(--text-main);
+  font-size: 0.9rem;
+}
+
+/* Tableaux Modernes */
+table {
+  width: 100%;
+  border-collapse: separate; /* Important pour le radius */
+  border-spacing: 0;
+  background: white;
+  border-radius: var(--radius);
+  overflow: hidden;
+  box-shadow: var(--shadow-sm);
+  margin-bottom: 1.5rem;
+}
+
+th {
+  background-color: #f8fafc;
+  color: var(--text-muted);
+  font-weight: 600;
+  text-transform: uppercase;
+  font-size: 0.75rem;
+  letter-spacing: 0.05em;
+  padding: 1rem;
+  text-align: left;
+  border-bottom: 1px solid var(--border-light);
+}
+
+td {
+  padding: 1rem;
+  border-bottom: 1px solid var(--border-light);
+  color: var(--text-main);
+  font-size: 0.95rem;
+  vertical-align: middle;
+}
+
+tr:last-child td { border-bottom: none; }
+tr:hover td { background-color: #f8fafc; }
+
+/* Badges (Étiquettes) */
+.badge {
+  display: inline-flex;
+  padding: 0.25rem 0.75rem;
+  border-radius: 9999px; /* Pill shape */
+  font-size: 0.75rem;
+  font-weight: 700;
+  text-transform: uppercase;
+}

@@ -1,89 +1,196 @@
-.login-container {
+/* --- LE FOND DE LA PAGE --- */
+.login-wrapper {
   display: flex;
   justify-content: center;
-  align-items: center;
-  height: 100vh;
-  background-color: #f4f7f6;
+  align-items: flex-start; /* 👈 1. On l'aligne vers le haut (au lieu de center) */
+  padding-top: 12vh;       /* 👈 2. On le descend juste de 12% pour la position parfaite */
+  min-height: 100vh;
+  background: linear-gradient(135deg, #f8fafc 0%, #e2e8f0 100%);
+  font-family: 'Inter', sans-serif;
+  box-sizing: border-box; /* Évite que le padding ne crée une barre de défilement */
 }
 
+/* --- LA CARTE BLANCHE AVEC COULEUR --- */
 .login-card {
-  background: white;
-  padding: 2rem;
-  border-radius: 8px;
-  box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+  background: #ffffff;
+  
+  /* 👈 3. LA TOUCHE DE COULEUR : Ligne épaisse indigo en haut + fond très légèrement teinté au sommet */
+  border-top: 6px solid #4f46e5; 
+  background-image: linear-gradient(to bottom, #f4f6fb 0%, #ffffff 20%);
+  
+  padding: 3rem 2.5rem;
+  border-radius: 20px;
+  
+  /* 👈 4. L'OMBRE COLORÉE : Au lieu d'une ombre noire triste, on met une ombre bleutée lumineuse */
+  box-shadow: 0 25px 50px -12px rgba(79, 70, 229, 0.25), 0 0px 15px rgba(0, 0, 0, 0.03);
+  
   width: 100%;
-  max-width: 400px;
+  max-width: 420px;
+  border-left: 1px solid #f1f5f9;
+  border-right: 1px solid #f1f5f9;
+  border-bottom: 1px solid #f1f5f9;
+  margin-top: -80px;
 }
 
-h2 {
+/* --- EN-TÊTE & LOGO --- */
+.login-header {
   text-align: center;
-  margin-bottom: 1.5rem;
-  color: #333;
+  margin-bottom: 2rem;
 }
 
+.logo-emblem {
+  background: linear-gradient(135deg, #4f46e5 0%, #818cf8 100%);
+  width: 50px;
+  height: 50px;
+  border-radius: 14px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin: 0 auto 1.5rem auto;
+  box-shadow: 0 10px 15px -3px rgba(79, 70, 229, 0.3);
+  font-size: 1.5rem;
+}
+
+.login-header h2 {
+  font-size: 1.6rem;
+  font-weight: 800;
+  color: #0f172a;
+  margin: 0 0 8px 0;
+  letter-spacing: -0.5px;
+}
+.login-header h2 .accent { color: #4f46e5; }
+
+.subtitle {
+  color: #64748b;
+  font-size: 0.95rem;
+  margin: 0;
+}
+
+/* --- ALERTE ERREUR GLOBALE --- */
+.alert-error {
+  background-color: #fef2f2;
+  color: #ef4444;
+  padding: 12px 15px;
+  border-radius: 10px;
+  margin-bottom: 1.5rem;
+  border: 1px solid #fecaca;
+  font-size: 0.9rem;
+  font-weight: 500;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+/* --- FORMULAIRE --- */
 .form-group {
-  margin-bottom: 1rem;
+  margin-bottom: 1.5rem;
+}
+
+.label-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: baseline;
 }
 
 label {
   display: block;
-  margin-bottom: 0.5rem;
-  color: #666;
+  font-size: 0.85rem;
+  font-weight: 600;
+  color: #334155;
+  margin-bottom: 8px;
 }
 
-input {
+.forgot-password {
+  font-size: 0.8rem;
+  color: #4f46e5;
+  text-decoration: none;
+  font-weight: 600;
+}
+.forgot-password:hover { text-decoration: underline; }
+
+.input-wrapper input {
   width: 100%;
-  padding: 0.75rem;
-  border: 1px solid #ddd;
-  border-radius: 4px;
-  font-size: 1rem;
-  box-sizing: border-box; /* Important pour que le padding ne casse pas la largeur */
+  padding: 14px 16px;
+  border: 1px solid #cbd5e1;
+  border-radius: 10px;
+  font-size: 0.95rem;
+  color: #1e293b;
+  transition: all 0.2s ease;
+  background: #f8fafc;
+  font-family: 'Inter', sans-serif;
 }
 
-input.invalid {
-  border-color: #dc3545;
+.input-wrapper input::placeholder { color: #94a3b8; }
+
+.input-wrapper input:focus {
+  background: #ffffff;
+  border-color: #4f46e5;
+  box-shadow: 0 0 0 4px rgba(79, 70, 229, 0.1);
+  outline: none;
 }
+
+.input-wrapper input.invalid {
+  border-color: #ef4444;
+  background: #fef2f2;
+}
+.input-wrapper input.invalid:focus { box-shadow: 0 0 0 4px rgba(239, 68, 68, 0.1); }
 
 .text-error {
-  color: #dc3545;
-  font-size: 0.875rem;
-  margin-top: 0.25rem;
+  color: #ef4444;
+  font-size: 0.8rem;
+  margin-top: 6px;
   display: block;
+  font-weight: 500;
 }
 
-button {
+/* --- BOUTON SUBMIT --- */
+.btn-submit {
   width: 100%;
-  padding: 0.75rem;
-  background-color: #007bff;
+  padding: 14px;
+  background: #4f46e5;
   color: white;
   border: none;
-  border-radius: 4px;
+  border-radius: 10px;
   font-size: 1rem;
+  font-weight: 600;
   cursor: pointer;
   margin-top: 1rem;
-  transition: background-color 0.2s;
+  transition: all 0.2s;
+  display: flex;
+  justify-content: center;
+  align-items: center;
 }
 
-button:disabled {
-  background-color: #ccc;
+.btn-submit:hover:not(:disabled) {
+  background: #4338ca;
+  transform: translateY(-2px);
+  box-shadow: 0 10px 15px -3px rgba(79, 70, 229, 0.3);
+}
+
+.btn-submit:disabled {
+  background: #cbd5e1;
   cursor: not-allowed;
+  color: #f1f5f9;
 }
 
-button:hover:not(:disabled) {
-  background-color: #0056b3;
-}
-
-.alert.error {
-  background-color: #f8d7da;
-  color: #721c24;
-  padding: 0.75rem;
-  border-radius: 4px;
-  margin-bottom: 1rem;
-  border: 1px solid #f5c6cb;
-}
-
+/* --- PIED DE PAGE --- */
 .form-footer {
   text-align: center;
-  margin-top: 1rem;
-  font-size: 0.9rem;
+  margin-top: 1rem;      /* 👈 On divise la marge par deux (avant: 2rem) */
+  padding-top: 1rem;     /* 👈 On réduit un peu l'espace sous la ligne (avant: 1.5rem) */
+  border-top: 1px solid #f1f5f9;
 }
+
+.form-footer p {
+  color: #64748b;
+  font-size: 0.85rem;
+  margin: 0;
+  line-height: 1.6;
+}
+
+.register-link {
+  color: #0f172a;
+  font-weight: 700;
+  text-decoration: none;
+}
+.register-link:hover { text-decoration: underline; color: #4f46e5; }

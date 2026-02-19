@@ -1,0 +1,83 @@
+<div class="page-container">
+  
+  <div class="page-header">
+    <div class="header-info">
+      <h1 class="page-title">Immobilier & Boxes</h1>
+      <p class="page-subtitle">Gérez les emplacements physiques de votre galerie.</p>
+    </div>
+    <div class="header-actions">
+      <button (click)="openCreateBox()" class="btn-primary">➕ Nouveau Box</button>
+    </div>
+  </div>
+
+  <div class="pro-card">
+    <table class="pro-table">
+      <thead>
+        <tr>
+          <th>Nom du Box</th>
+          <th>Emplacement</th>
+          <th>Surface</th>
+          <th>Statut</th>
+          <th class="text-right">Actions</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let box of boxes">
+          <td class="font-bold">{{ box.nom }}</td>
+          <td>{{ box.etage === 0 ? 'Rez-de-chaussée' : 'Étage ' + box.etage }}</td>
+          <td>{{ box.surface }} m²</td>
+          <td>
+            <span class="status-badge" [class.loue]="box.est_loue" [class.libre]="!box.est_loue">
+              {{ box.est_loue ? '🔴 Loué' : '🟢 Libre' }}
+            </span>
+          </td>
+          <td class="text-right actions-cell">
+            <button (click)="openEditBox(box)" class="icon-btn edit" title="Modifier">✏️</button>
+            <button *ngIf="!box.est_loue" (click)="deleteBox(box)" class="icon-btn delete" title="Supprimer">🗑️</button>
+          </td>
+        </tr>
+        <tr *ngIf="boxes.length === 0">
+          <td colspan="5" class="empty-state">Aucun box configuré pour le moment.</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</div>
+
+<div class="modal-overlay" *ngIf="showBoxForm">
+  <div class="modal-content">
+    
+    <div class="modal-header">
+      <h3>{{ isEditMode ? 'Modifier le Box' : 'Créer un Box' }}</h3>
+      <button class="btn-close" (click)="cancelBox()">✕</button>
+    </div>
+
+    <div class="modal-body">
+      <div class="form-group">
+        <label>Identifiant du Box</label>
+        <input type="text" [(ngModel)]="boxForm.nom" class="form-control" placeholder="ex: A-01">
+      </div>
+      
+      <div class="form-row-2">
+        <div class="form-group">
+          <label>Étage (0 = RDC)</label>
+          <input type="number" [(ngModel)]="boxForm.etage" class="form-control">
+        </div>
+        <div class="form-group">
+          <label>Surface (m²)</label>
+          <input type="number" [(ngModel)]="boxForm.surface" class="form-control">
+        </div>
+      </div>
+    </div>
+
+    <div class="modal-footer">
+      <button (click)="cancelBox()" class="btn-secondary">Annuler</button>
+      <button (click)="saveBox()" class="btn-primary">💾 Enregistrer</button>
+    </div>
+    
+  </div>
+</div>
+
+<div class="toast-notification" [class.show]="toastMessage !== ''">
+  {{ toastMessage }}
+</div>

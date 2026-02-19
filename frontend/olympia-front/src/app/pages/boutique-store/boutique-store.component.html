@@ -1,34 +1,54 @@
 <div class="container" *ngIf="shopData">
   
-  <div class="shop-banner">
-    <img [src]="shopData.boutique.logo" class="logo-circle">
-    <div class="info">
-      <h1>{{ shopData.boutique.nom }}</h1>
-      <p>{{ shopData.boutique.description }}</p>
-      <span class="location">📍 Emplacement : {{ shopData.boutique.id_box?.nom || 'Non défini' }}</span>
+<div class="store-header">
+  <div class="store-cover"></div> 
+
+  <div class="store-profile-container">
+    <div class="logo-wrapper">
+      <img [src]="shopData.boutique.logo || 'assets/placeholder-shop.jpg'" 
+           class="store-logo" 
+           alt="Logo {{ shopData.boutique.nom }}">
+    </div>
+
+    <div class="store-info-content">
+      <div class="info-header">
+        <h1>{{ shopData.boutique.nom }}</h1>
+        <div class="store-badges">
+          <span class="badge category">
+            <span class="icon">🏷️</span> {{ shopData.boutique.id_categorie?.nom }}
+          </span>
+          <span class="badge location">
+            <span class="icon">📍</span> {{ shopData.boutique.id_box?.nom }}
+          </span>
+        </div>
+      </div>
+      
+      <p class="store-description">
+        {{ shopData.boutique.description || 'Bienvenue dans notre boutique officielle sur Olympia Mall.' }}
+      </p>
     </div>
   </div>
+</div>
 
-  <hr>
-
-  <h2 class="section-title">Produits disponibles</h2>
+  <h2 class="section-heading">Collection <span class="count">({{ shopData.produits.length }})</span></h2>
   
   <div class="products-grid">
-    <div class="product-card" *ngFor="let p of shopData.produits">
-      <img [src]="p.images[0] || 'https://placehold.co/200'" class="product-img">
+    <a [routerLink]="['/produit-client', p._id]" class="product-card" *ngFor="let p of shopData.produits">
+      <div class="product-image-box">
+         <img [src]="p.images[0] || 'assets/no-img.png'" loading="lazy">
+        <span class="btn-quick-view">Voir</span>
+      </div>
       
-        <div class="product-details">
-            <h4>{{ p.nom }}</h4>
-            <p class="price">{{ p.prix | number }} Ar</p>
-            
-            <button [routerLink]="['/produit-client', p._id]" class="btn-detail">
-                Voir le produit
-            </button>
+      <div class="product-info">
+        <h4>{{ p.nom }}</h4>
+        <div class="price-row">
+          <span class="price">{{ p.prix | number }} Ar</span>
         </div>
-    </div>
+      </div>
+    </a>
   </div>
 
-  <div *ngIf="shopData.produits.length === 0" class="no-products">
-    Cette boutique n'a pas encore ajouté de produits.
+  <div *ngIf="shopData.produits.length === 0" class="empty-state">
+    <p>🍃 Cette boutique prépare sa collection...</p>
   </div>
 </div>

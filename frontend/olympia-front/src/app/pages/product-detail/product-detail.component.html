@@ -1,51 +1,44 @@
 <div class="container" *ngIf="product">
   
-  <div class="breadcrumbs">
-    <a routerLink="/">Accueil</a> > 
-    <a [routerLink]="['/boutique-client', product.id_boutique]">Boutique</a> > 
-    <span>{{ product.nom }}</span>
-  </div>
-
-  <div class="product-wrapper">
+  <div class="detail-layout">
     
-    <div class="gallery-section">
-      <div class="main-image-container">
-        <span *ngIf="product.promo" class="promo-tag">PROMO 🔥</span>
-        <img [src]="selectedImage || 'https://placehold.co/400'" class="main-img">
+    <div class="visual-col">
+      <div class="main-frame">
+        <span *ngIf="product.promo" class="tag-promo">PROMO</span>
+        <img [src]="selectedImage || 'assets/no-img.png'" class="hero-img">
       </div>
-
-      <div class="thumbnails" *ngIf="product.images.length > 1">
+      
+      <div class="thumbs-list" *ngIf="product.images.length > 1">
         <img *ngFor="let img of product.images" 
              [src]="img" 
              (click)="changeImage(img)"
-             [class.active]="selectedImage === img"
-             class="thumb">
+             [class.active]="selectedImage === img">
       </div>
     </div>
 
-    <div class="info-section">
-      <h1 class="product-title">{{ product.nom }}</h1>
-      
-      <div class="price-block">
-        <span class="price">{{ product.prix | number }} Ar</span>
-      </div>
+    <div class="info-col">
+      <h1 class="p-title">{{ product.nom }}</h1>
+      <div class="p-price">{{ product.prix | number }} Ar</div>
 
-      <p class="description">{{ product.description }}</p>
+      <div class="divider"></div>
 
-      <div class="actions">
-        <div class="quantity-selector">
+      <p class="p-desc">{{ product.description }}</p>
+
+      <div class="buy-box">
+        <div class="qty-control">
           <button>-</button>
-          <input type="number" value="1" readonly>
+          <span>1</span>
           <button>+</button>
         </div>
         <button (click)="addToCart()" class="btn-add-cart">
-          🛒 Ajouter au panier
+          Ajouter au panier 🛒
         </button>
       </div>
 
-      <div class="meta-info">
-        <p>📦 Livraison disponible</p>
-        <p>🛡️ Paiement sécurisé</p>
+      <div class="trust-badges">
+        <div class="badge-item">📦 Livraison Rapide</div>
+        <div class="badge-item">🔒 Paiement Sécurisé</div>
+        <div class="badge-item">📞 Support 24/7</div>
       </div>
     </div>
 
