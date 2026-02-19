@@ -1,110 +1,63 @@
 import { Component, OnInit, inject } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { FormsModule } from '@angular/forms';
-import { HttpClient } from '@angular/common/http';
-import { AuthService } from '../../services/auth.service';
+import { RouterModule, Router } from '@angular/router';
 import { ProductService } from '../../services/product.service';
+import { HttpClient } from '@angular/common/http';
 import { environment } from '../../../environments/environment';
+import { AuthService } from '../../services/auth.service';
 
 @Component({
   selector: 'app-boutique-dashboard',
   standalone: true,
-  imports: [CommonModule, FormsModule],
+  imports: [CommonModule, RouterModule],
   templateUrl: './boutique-dashboard.component.html',
   styleUrl: './boutique-dashboard.component.css'
 })
 export class BoutiqueDashboardComponent implements OnInit {
-  private http = inject(HttpClient);
-  private authService = inject(AuthService);
-  private productService = inject(ProductService);
+  productService = inject(ProductService);
+  authService = inject(AuthService);
+  http = inject(HttpClient);
+  router = inject(Router);
+  today: Date = new Date();
 
-  maBoutique: any = null;
-  mesProduits: any[] = [];
-  messageErreur: string = '';
+  activeBoutiqueName: string = '';
+  activeBoutiqueId: string | null = null;
   
-  // Objet unique pour le formulaire (Sert à l'Ajout ET à la Modif)
-  productForm = { _id: '', nom: '', prix: 0, description: '' };
-  isEditMode = false;
+  // Stats Réelles
+  nbTotalBoutiques: number = 0;
+  nbProduitsBoutique: number = 0;
+  nbPromoBoutique: number = 0;
+  derniersProduits: any[] = [];
 
   ngOnInit() {
-    this.refreshData();
+    this.activeBoutiqueId = localStorage.getItem('activeBoutiqueId');
+    this.activeBoutiqueName = localStorage.getItem('activeBoutiqueName') || 'Boutique';
+
+    if (!this.activeBoutiqueId) {
+      this.router.navigate(['/boutique/mes-boutiques']);
+      return;
+    }
+
+    this.loadGlobalStats();
+    this.loadBoutiqueData(this.activeBoutiqueId);
   }
 
-  refreshData() {
+  loadGlobalStats() {
     const user = this.authService.getUser();
     if (user?.id) {
-      this.http.get<any>(`${environment.apiUrl}/boutiques/mes-infos/${user.id}`)
-        .subscribe({
-          next: (data) => {
-            this.maBoutique = data.boutique;
-            this.mesProduits = data.produits;
-            this.messageErreur = ''; 
-          },
-          error: (err) => {
-            this.messageErreur = "Impossible de charger votre boutique. Vérifiez votre connexion ou l'assignation du box.";
-          }
-        });
-    }
-  }
-
-  // Action : Envoyer le formulaire (Détecte si c'est une Création ou une Mise à jour)
-  // Action : Envoyer le formulaire
-  onSubmit() {
-    if (this.isEditMode) {
-      // --- CAS UPDATE ---
-      // Ici l'ID est nécessaire car il existe déjà en base
-      this.productService.update(this.productForm._id, this.productForm).subscribe({
-        next: () => {
-          this.resetForm();
-          this.refreshData();
-          alert("Produit mis à jour !");
-        },
-        error: (err) => console.error("Erreur update", err)
-      });
-    } else {
-      // --- CAS CREATE ---
-      // 💡 ASTUCE : On extrait l'ID pour ne PAS l'envoyer (il est vide)
-      const { _id, ...cleanData } = this.productForm; 
-      
-      const payload = { 
-        ...cleanData, 
-        id_boutique: this.maBoutique._id 
-      };
-
-      this.productService.create(payload).subscribe({
-        next: () => {
-          this.resetForm();
-          this.refreshData();
-          alert("Produit ajouté avec succès !");
-        },
-        error: (err) => {
-          console.error("Détail de l'erreur serveur :", err.error);
-          alert("Erreur lors de la création. Vérifie la console.");
-        }
+      // On récupère toutes les boutiques pour compter celles du vendeur
+      this.http.get<any[]>(`${environment.apiUrl}/boutiques/admin/all`).subscribe(all => {
+        const sesBoutiques = all.filter(b => b.id_responsable?._id === user.id || b.id_responsable === user.id);
+        this.nbTotalBoutiques = sesBoutiques.length;
       });
     }
   }
 
-  // Action : Préparer la modification
-  startEdit(produit: any) {
-    this.isEditMode = true;
-    // On utilise le "spread operator" {...produit} pour créer une copie
-    // et ne pas modifier la liste en direct avant d'avoir cliqué sur sauvegarder
-    this.productForm = { ...produit }; 
-  }
-
-  // Action : Supprimer
-  onDelete(id: string) {
-    if (confirm("Supprimer ce produit définitivement ?")) {
-      this.productService.delete(id).subscribe({
-        next: () => this.refreshData(),
-        error: (err) => console.error("Erreur suppression", err)
-      });
-    }
-  }
-
-  resetForm() {
-    this.productForm = { _id: '', nom: '', prix: 0, description: '' };
-    this.isEditMode = false;
+  loadBoutiqueData(id: string) {
+    this.productService.getAll(id).subscribe(produits => {
+      this.nbProduitsBoutique = produits.length;
+      this.nbPromoBoutique = produits.filter(p => p.promo === true || p.promo === 'true').length;
+      this.derniersProduits = produits.slice().reverse().slice(0, 4); // Top 4 récents
+    });
   }
 }

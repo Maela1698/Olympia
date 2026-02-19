@@ -8,14 +8,17 @@ import { CategoryService } from '../../services/category.service';
   standalone: true,
   imports: [CommonModule, FormsModule],
   templateUrl: './admin-categories.component.html',
-  styleUrl: './admin-categories.component.css' // Crée le fichier CSS si besoin
+  styleUrl: './admin-categories.component.css'
 })
 export class AdminCategoriesComponent implements OnInit {
   categoryService = inject(CategoryService);
 
   categories: any[] = [];
-  formCat = { _id: '', nom: '', image: '' }; // Modèle du formulaire
+  formCat = { _id: '', nom: '', image: '' };
+  
   isEditMode = false;
+  showModal = false; // 👈 Gère l'affichage du Pop-up
+  toastMessage = ''; // 👈 Gère la notification
 
   ngOnInit() {
     this.loadCategories();
@@ -25,36 +28,54 @@ export class AdminCategoriesComponent implements OnInit {
     this.categoryService.getAll().subscribe(data => this.categories = data);
   }
 
-  onSubmit() {
-    if (this.isEditMode) {
-      // UPDATE
-      this.categoryService.update(this.formCat._id, this.formCat).subscribe(() => {
-        this.resetForm();
-        this.loadCategories();
-      });
-    } else {
-      // CREATE (On enlève l'ID vide)
-      const { _id, ...newCat } = this.formCat;
-      this.categoryService.create(newCat).subscribe(() => {
-        this.resetForm();
-        this.loadCategories();
-      });
-    }
+  // --- SYSTÈME DE NOTIFICATION ---
+  showToast(message: string) {
+    this.toastMessage = message;
+    setTimeout(() => { this.toastMessage = ''; }, 3000);
+  }
+
+  // --- GESTION DU POP-UP (MODAL) ---
+  openCreateModal() {
+    this.isEditMode = false;
+    this.formCat = { _id: '', nom: '', image: '' };
+    this.showModal = true;
   }
 
   startEdit(cat: any) {
     this.isEditMode = true;
-    this.formCat = { ...cat }; // Copie pour édition
+    this.formCat = { ...cat }; // Copie pour ne pas modifier le tableau en direct
+    this.showModal = true;
   }
 
-  deleteCategory(id: string) {
-    if (confirm("Supprimer cette catégorie ?")) {
-      this.categoryService.delete(id).subscribe(() => this.loadCategories());
+  closeModal() {
+    this.showModal = false;
+    this.formCat = { _id: '', nom: '', image: '' };
+  }
+
+  // --- ACTIONS CRUD ---
+  onSubmit() {
+    if (this.isEditMode) {
+      this.categoryService.update(this.formCat._id, this.formCat).subscribe(() => {
+        this.closeModal();
+        this.loadCategories();
+        this.showToast('✅ Catégorie modifiée avec succès !');
+      });
+    } else {
+      const { _id, ...newCat } = this.formCat; // On enlève l'ID vide
+      this.categoryService.create(newCat).subscribe(() => {
+        this.closeModal();
+        this.loadCategories();
+        this.showToast('🎉 Nouvelle catégorie ajoutée !');
+      });
     }
   }
 
-  resetForm() {
-    this.formCat = { _id: '', nom: '', image: '' };
-    this.isEditMode = false;
+  deleteCategory(id: string) {
+    if (confirm("Supprimer définitivement cette catégorie ?")) {
+      this.categoryService.delete(id).subscribe(() => {
+        this.loadCategories();
+        this.showToast('🗑️ Catégorie supprimée.');
+      });
+    }
   }
 }

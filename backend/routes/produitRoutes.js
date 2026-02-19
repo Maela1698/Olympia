@@ -1,27 +1,27 @@
 const express = require('express');
 const router = express.Router();
-
-// 👇 IMPORT IMPORTANT : À METTRE TOUT EN HAUT !
 const produitController = require('../controllers/produitController');
-const multer = require('../middleware/multer-config'); 
+
+// On importe notre configuration corrigée
+// J'ai renommé la variable 'upload' pour que ce soit plus logique
+const upload = require('../middleware/multer-config'); 
+
 
 // --- ROUTES ---
 
-// 1. Création de produit (Avec images multiples)
-// Note : multer.array permet d'envoyer plusieurs images (max 5 ici)
-router.post('/', multer.array, produitController.createProduit);
+// 1. CRÉATION : On utilise upload.array('images', 5)
+// 'images' = le nom du champ dans le formulaire Angular
+// 5 = nombre max de photos
+router.post('/', upload.array('images', 5), produitController.createProduit);
 
-// 2. Lecture (Liste des produits)
-// Attention : assure-toi que cette fonction existe bien dans ton produitController
+// 2. LECTURE
 router.get('/', produitController.getAllProduits);
-
-// 3. Lecture (Un seul produit)
 router.get('/:id', produitController.getProduitById);
 
-// 4. Modification (Si on veut changer l'image ou le prix)
-router.put('/:id', multer.array, produitController.updateProduit);
+// 3. MODIFICATION (On accepte aussi de nouvelles images)
+router.put('/:id', upload.array('images', 5), produitController.updateProduit);
 
-// 5. Suppression
+// 4. SUPPRESSION
 router.delete('/:id', produitController.deleteProduit);
 
 module.exports = router;

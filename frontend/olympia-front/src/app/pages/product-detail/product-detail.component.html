@@ -1,0 +1,46 @@
+<div class="container" *ngIf="product">
+  
+  <div class="detail-layout">
+    
+    <div class="visual-col">
+      <div class="main-frame">
+        <span *ngIf="product.promo" class="tag-promo">PROMO</span>
+        <img [src]="selectedImage || 'assets/no-img.png'" class="hero-img">
+      </div>
+      
+      <div class="thumbs-list" *ngIf="product.images.length > 1">
+        <img *ngFor="let img of product.images" 
+             [src]="img" 
+             (click)="changeImage(img)"
+             [class.active]="selectedImage === img">
+      </div>
+    </div>
+
+    <div class="info-col">
+      <h1 class="p-title">{{ product.nom }}</h1>
+      <div class="p-price">{{ product.prix | number }} Ar</div>
+
+      <div class="divider"></div>
+
+      <p class="p-desc">{{ product.description }}</p>
+
+      <div class="buy-box">
+        <div class="qty-control">
+          <button>-</button>
+          <span>1</span>
+          <button>+</button>
+        </div>
+        <button (click)="addToCart()" class="btn-add-cart">
+          Ajouter au panier 🛒
+        </button>
+      </div>
+
+      <div class="trust-badges">
+        <div class="badge-item">📦 Livraison Rapide</div>
+        <div class="badge-item">🔒 Paiement Sécurisé</div>
+        <div class="badge-item">📞 Support 24/7</div>
+      </div>
+    </div>
+
+  </div>
+</div>

@@ -4,11 +4,12 @@ import { FormsModule } from '@angular/forms';
 import { HttpClient } from '@angular/common/http';
 import { Router, ActivatedRoute } from '@angular/router';
 import { environment } from '../../../environments/environment';
+import { RouterModule } from '@angular/router';
 
 @Component({
+  imports: [CommonModule, FormsModule, RouterModule],
   selector: 'app-admin-boutique-creation',
   standalone: true,
-  imports: [CommonModule, FormsModule],
   templateUrl: './admin-boutique-creation.component.html',
   styleUrl: './admin-boutique-creation.component.css'
 })
