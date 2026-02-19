@@ -24,8 +24,14 @@ function start() {
     response.write("Hello World");
     response.end();
   }
-  http.createServer(onRequest).listen(8888);
-  console.log("Démarrage du serveur.");
+
+  // L'hébergeur donne le port dans process.env.PORT. 
+  // S'il n'existe pas (en local), on utilise 8888 par défaut.
+  const PORT = process.env.PORT || 8888;
+
+  http.createServer(onRequest).listen(PORT, () => {
+    console.log("Serveur démarré sur le port : " + PORT);
+  });
 }
 
 exports.start = start;
