@@ -24,7 +24,9 @@
       </div>
 
       <div class="card-footer">
-        <button>Voir la boutique</button>
+        <button [routerLink]="['/boutique-client', b._id]" class="btn-primary">
+          Voir la boutique
+        </button>
       </div>
     </div>
 

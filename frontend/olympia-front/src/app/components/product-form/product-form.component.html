@@ -1,0 +1,54 @@
+<div class="container">
+  <h2>{{ isEditMode ? 'Modifier' : 'Nouveau Produit' }}</h2>
+
+  <form [formGroup]="productForm" (ngSubmit)="onSubmit()">
+    
+    <div>
+      <label>Nom :</label>
+      <input type="text" formControlName="nom">
+    </div>
+
+    <div>
+      <label>Prix :</label>
+      <input type="number" formControlName="prix">
+    </div>
+
+    <div>
+      <label>Description :</label>
+      <textarea formControlName="description"></textarea>
+    </div>
+
+    <div>
+      <label>
+        <input type="checkbox" formControlName="promo"> En Promo ?
+      </label>
+    </div>
+
+    <div class="form-group">
+      <label>Images du produit :</label>
+
+      <div *ngIf="existingImages.length > 0" class="image-gallery">
+        <div *ngFor="let img of existingImages" class="img-wrapper">
+          <img [src]="img" class="thumbnail">
+          <button type="button" (click)="removeExistingImage(img)" class="btn-delete-img">❌</button>
+        </div>
+      </div>
+
+      <br>
+      <label class="btn-upload">
+         ➕ Ajouter des nouvelles photos
+         <input type="file" multiple (change)="onFileSelect($event)" accept="image/*">
+      </label>
+      
+      <div *ngIf="selectedFiles.length > 0">
+        <p><small>{{ selectedFiles.length }} nouveau(x) fichier(s) sélectionné(s)</small></p>
+      </div>
+    </div>
+
+    <div class="actions">
+      <button type="submit">{{ isEditMode ? 'Mettre à jour' : 'Créer' }}</button>
+      <a routerLink="/boutique/produits">Annuler</a>
+    </div>
+
+  </form>
+</div>

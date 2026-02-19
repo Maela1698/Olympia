@@ -1,0 +1,38 @@
+<div class="container">
+  <h2>⚙️ Configurer ma Boutique</h2>
+  
+  <form [formGroup]="settingsForm" (ngSubmit)="onSubmit()" class="form-settings">
+    
+    <div class="form-group center">
+      <img [src]="currentLogo || 'assets/placeholder.png'" class="preview-img">
+      <br>
+      <label class="btn-secondary">
+        📷 Changer le logo
+        <input type="file" (change)="onFileSelected($event)" accept="image/*" style="display: none;">
+      </label>
+    </div>
+
+    <div class="form-group">
+      <label>Nom de l'enseigne</label>
+      <input type="text" formControlName="nom">
+    </div>
+
+    <div class="form-group">
+      <label>Description (Slogan)</label>
+      <textarea formControlName="description" rows="3"></textarea>
+    </div>
+
+    <div class="form-group checkbox">
+      <label>
+        <input type="checkbox" formControlName="est_ouvert">
+        🟢 Boutique Ouverte aux clients
+      </label>
+    </div>
+
+    <div class="actions">
+      <button type="submit" class="btn-primary">Enregistrer</button>
+      <a routerLink="/boutique/dashboard" class="btn-cancel">Annuler</a>
+    </div>
+
+  </form>
+</div>

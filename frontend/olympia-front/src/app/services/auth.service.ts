@@ -17,6 +17,10 @@ export class AuthService {
     return this.http.post<any>(`${this.apiUrl}/login`, credentials).pipe(
       tap(response => {
         // Si la connexion réussit, on sauvegarde le token tout de suite
+        // ✅ TRÈS IMPORTANT : Stocker le token pour l'intercepteur
+      localStorage.setItem('token', response.token);
+      // ✅ Stocker l'utilisateur pour connaître son ID et son rôle
+      localStorage.setItem('user', JSON.stringify(response.user));
         if (response.token) {
           this.saveToken(response.token);
           this.saveUser(response.user); // Si ton backend renvoie aussi les infos user
@@ -43,6 +47,8 @@ export class AuthService {
     const user = localStorage.getItem('user');
     return user ? JSON.parse(user) : null;
   }
+
+  
 
   // Déconnexion
   logout(): void {

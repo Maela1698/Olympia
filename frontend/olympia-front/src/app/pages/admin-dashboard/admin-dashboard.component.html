@@ -1,7 +1,36 @@
 <div class="container">
-<button routerLink="/admin/categories" style="background:green;">Gestion categories </button>
-  <h1>Gestion Immobilière (BOX)</h1>
   
+  <div class="top-actions">
+    <button routerLink="/admin/categories" class="btn-secondary">Gestion Catégories</button>
+  </div>
+
+  <div class="header-section">
+    <h1>🏛️ Gestion Immobilière (BOX)</h1>
+    <button (click)="openCreateBox()" class="btn-create">➕ Ajouter un Box</button>
+  </div>
+
+  <div *ngIf="showBoxForm" class="form-box-container" style="background: #f9f9f9; padding: 15px; border: 1px solid #ddd; margin-bottom: 20px;">
+    <h3>{{ isEditMode ? 'Modifier le Box' : 'Nouveau Box' }}</h3>
+    
+    <div style="display: flex; gap: 10px; align-items: flex-end;">
+        <div>
+            <label>Nom (ex: A-01)</label>
+            <input type="text" [(ngModel)]="boxForm.nom" class="input-field">
+        </div>
+        <div>
+            <label>Étage (0=RDC)</label>
+            <input type="number" [(ngModel)]="boxForm.etage" class="input-field">
+        </div>
+        <div>
+            <label>Surface (m²)</label>
+            <input type="number" [(ngModel)]="boxForm.surface" class="input-field">
+        </div>
+        
+        <button (click)="saveBox()" class="btn-save">💾 Enregistrer</button>
+        <button (click)="cancelBox()" class="btn-cancel">Annuler</button>
+    </div>
+  </div>
+
   <table border="1" cellpadding="10" style="border-collapse: collapse; width: 100%;">
     <thead>
       <tr style="background: #eee;">
@@ -9,7 +38,7 @@
         <th>Étage</th>
         <th>Surface</th>
         <th>État</th>
-      </tr>
+        <th>Actions</th> </tr>
     </thead>
     <tbody>
       <tr *ngFor="let box of boxes">
@@ -19,6 +48,11 @@
         <td>
           <span *ngIf="box.est_loue" style="color: red; font-weight: bold;">🔴 LOUÉ</span>
           <span *ngIf="!box.est_loue" style="color: green; font-weight: bold;">🟢 LIBRE</span>
+        </td>
+        <td>
+            <button (click)="openEditBox(box)" style="cursor:pointer; margin-right: 5px;">✏️</button>
+            
+            <button *ngIf="!box.est_loue" (click)="deleteBox(box._id)" style="cursor:pointer; color:red;">🗑️</button>
         </td>
       </tr>
     </tbody>

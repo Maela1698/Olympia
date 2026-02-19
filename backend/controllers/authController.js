@@ -26,11 +26,25 @@ exports.login = async (req, res) => {
     const userRole = user.id_role ? user.id_role.role : "client"; 
 
     // 5. Création Token
-    const token = jwt.sign(
-      { id: user._id, role: userRole },
-      process.env.JWT_SECRET,
+   const token = jwt.sign(
+      { 
+        userId: user._id, // 👈 On utilise 'userId' (très important !)
+        role: userRole 
+      },
+      process.env.JWT_SECRET || 'monsecret', // 👈 Utilise la même clé que dans auth.js
       { expiresIn: "1h" }
     );
+
+    // 6. Réponse
+    res.status(200).json({ 
+        token, 
+        user: {
+            id: user._id,
+            name: user.name,
+            role: userRole,
+            email: user.mail
+        }
+    });
 
     // 6. Réponse propre
     res.status(200).json({ 

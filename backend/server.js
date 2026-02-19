@@ -18,6 +18,8 @@ const PORT = process.env.PORT || 3000;
 
 connectDB();
 
+app.use('/uploads', express.static(path.join(__dirname, 'uploads')))
+
 app.use(express.json());
 app.use(cors());
 
@@ -27,7 +29,7 @@ app.get('/', (req, res) => {
 
 /* ROUTES AUTH */
 
-app.use('/uploads', express.static(path.join(__dirname, 'uploads')))
+
 
 app.use("/api/auth", authRoutes);
 app.use("/api/boutiques", boutiqueRoutes);

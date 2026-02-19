@@ -11,6 +11,7 @@ exports.getPublicBoutiques = async (req, res) => {
     const boutiques = await Boutique.find({}) 
                                     .populate('id_categorie', 'nom image')
                                     .populate('id_box', 'nom etage');
+                                  
     res.status(200).json(boutiques);
   } catch (error) {
     res.status(500).json({ message: "Erreur serveur", error });
@@ -32,7 +33,9 @@ exports.getAdminBoutiques = async (req, res) => {
 
 exports.getBoutiqueById = async (req, res) => {
   try {
-    const boutique = await Boutique.findById(req.params.id).populate('id_categorie');
+    const boutique = await Boutique.findById(req.params.id)
+    .populate('id_categorie') 
+    .populate('id_box');
     if (!boutique) return res.status(404).json({ message: "Boutique introuvable" });
     const produits = await Produit.find({ id_boutique: boutique._id });
     res.status(200).json({ boutique, produits });
@@ -99,41 +102,51 @@ exports.createBoutique = async (req, res) => {
   }
 };
 
-// 2. UPDATE avec gestion de nouvelle image
+// backend/controllers/boutiqueController.js
+
 exports.updateBoutique = async (req, res) => {
   try {
-    // Si une nouvelle image est envoyée
-    const boutiqueObject = req.file ?
-      {
-        ...req.body,
-        logo: `${req.protocol}://${req.get('host')}/uploads/${req.file.filename}`
-      } : { ...req.body };
+    const boutiqueId = req.params.id;
+    const userRole = req.auth.role;
+    const userId = req.auth.userId;
 
-    // Sécurité Box (on ne change pas le box en update simple)
-    delete boutiqueObject.id_box;
+    // 1. Chercher la boutique pour vérifier qui en est le chef
+    const boutiqueAmodifier = await Boutique.findById(boutiqueId);
+    if (!boutiqueAmodifier) return res.status(404).json({ message: "Boutique non trouvée" });
 
-    // Si on a une nouvelle image, on pourrait supprimer l'ancienne ici (optionnel mais propre)
-    if (req.file) {
-        const oldBoutique = await Boutique.findById(req.params.id);
-        if (oldBoutique && oldBoutique.logo) {
-            const filename = oldBoutique.logo.split('/uploads/')[1];
-            // Si c'est bien un fichier local (pas une URL internet), on supprime
-            if (filename) {
-                fs.unlink(`uploads/${filename}`, (err) => {
-                    if (err) console.log("Ancienne image non trouvée ou erreur suppresssion");
-                });
-            }
-        }
+    // 2. LA RÈGLE D'OR : 
+    // SI c'est un admin -> OK il passe.
+    // SINON SI c'est le responsable -> OK il passe.
+    // SINON -> 403.
+    const estAdmin = userRole === 'admin';
+    const estResponsable = boutiqueAmodifier.id_responsable.toString() === userId;
+
+    if (!estAdmin && !estResponsable) {
+      return res.status(403).json({ 
+        message: "Accès refusé. Vous n'êtes ni admin, ni le gérant de cette boutique." 
+      });
     }
 
-    const boutique = await Boutique.findByIdAndUpdate(
-        req.params.id, 
-        boutiqueObject, 
-        { new: true }
-    );
-    res.status(200).json(boutique);
+    // 3. Préparer les données
+    let updateData = req.file ? {
+      ...req.body,
+      logo: `${req.protocol}://${req.get('host')}/uploads/${req.file.filename}`
+    } : { ...req.body };
+
+    // 4. Protection des champs sensibles pour le commercial
+    if (!estAdmin) {
+      delete updateData.id_box;
+      delete updateData.id_responsable;
+      delete updateData.id_categorie;
+    }
+
+    // 5. Exécuter la mise à jour
+    const updatedBoutique = await Boutique.findByIdAndUpdate(boutiqueId, updateData, { new: true });
+    res.status(200).json(updatedBoutique);
+
   } catch (error) {
-    res.status(500).json({ message: "Erreur modification", error });
+    console.error("Erreur Update:", error);
+    res.status(500).json({ message: "Erreur serveur", error });
   }
 };
 

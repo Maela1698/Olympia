@@ -1,0 +1,53 @@
+<div class="container" *ngIf="product">
+  
+  <div class="breadcrumbs">
+    <a routerLink="/">Accueil</a> > 
+    <a [routerLink]="['/boutique-client', product.id_boutique]">Boutique</a> > 
+    <span>{{ product.nom }}</span>
+  </div>
+
+  <div class="product-wrapper">
+    
+    <div class="gallery-section">
+      <div class="main-image-container">
+        <span *ngIf="product.promo" class="promo-tag">PROMO 🔥</span>
+        <img [src]="selectedImage || 'https://placehold.co/400'" class="main-img">
+      </div>
+
+      <div class="thumbnails" *ngIf="product.images.length > 1">
+        <img *ngFor="let img of product.images" 
+             [src]="img" 
+             (click)="changeImage(img)"
+             [class.active]="selectedImage === img"
+             class="thumb">
+      </div>
+    </div>
+
+    <div class="info-section">
+      <h1 class="product-title">{{ product.nom }}</h1>
+      
+      <div class="price-block">
+        <span class="price">{{ product.prix | number }} Ar</span>
+      </div>
+
+      <p class="description">{{ product.description }}</p>
+
+      <div class="actions">
+        <div class="quantity-selector">
+          <button>-</button>
+          <input type="number" value="1" readonly>
+          <button>+</button>
+        </div>
+        <button (click)="addToCart()" class="btn-add-cart">
+          🛒 Ajouter au panier
+        </button>
+      </div>
+
+      <div class="meta-info">
+        <p>📦 Livraison disponible</p>
+        <p>🛡️ Paiement sécurisé</p>
+      </div>
+    </div>
+
+  </div>
+</div>
