@@ -79,3 +79,15 @@
   flex-shrink: 0; /* Empêche l'image de se ratatiner si le nom de la boutique est très long */
   box-shadow: 0 2px 4px rgba(0,0,0,0.05); /* Ombre très légère pour le volume */
 }
+/* Bouton Modifier (Vrai Bleu pur) */
+.btn-outline-edit {
+  color: #3b82f6; /* Un vrai bleu vif */
+  border: 1px solid #bfdbfe; /* Bordure bleu très clair */
+  background: white; /* Assure que le fond du bouton est propre */
+}
+
+.btn-outline-edit:hover {
+  background-color: #eff6ff; /* Fond bleu pastel au survol */
+  border-color: #93c5fd;
+  color: #2563eb; /* Bleu un peu plus foncé pour le contraste au survol */
+}

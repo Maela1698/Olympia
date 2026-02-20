@@ -23,13 +23,16 @@
   font-size: 0.9rem;
 }
 
-/* KPI CARDS */
+
 .kpi-grid {
   display: grid;
-  grid-template-columns: repeat(3, 1fr);
+  /* Astuce pro : ça crée des colonnes automatiquement selon l'espace dispo */
+  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
   gap: 20px;
   margin-bottom: 30px;
 }
+
+/* Le reste de ton CSS (.kpi-card, .kpi-icon, etc.) reste le même */
 
 .kpi-card {
   background: white;

@@ -73,11 +73,11 @@
           </select>
           
           <div *ngIf="isEditMode" class="locked-box">
-            <span class="icon">🔒</span> Emplacement actuel verrouillé
+            Emplacement actuel verrouillé
           </div>
 
           <div *ngIf="!isEditMode && boxesLibres.length === 0" class="alert-error">
-            ⚠️ Aucun box n'est actuellement libre dans le centre commercial.
+             Aucun box n'est actuellement libre dans le centre commercial.
           </div>
           <small *ngIf="isEditMode" class="help-text">Pour déménager la boutique, supprimez-la et recréez-la dans le nouveau Box.</small>
         </div>
@@ -87,7 +87,7 @@
 
     <div class="form-footer">
      <button type="button" routerLink="/admin/boutiques" class="btn-cancel">
-        🏪 Annuler
+        Annuler
       </button>
       <button type="submit" class="btn-submit" [disabled]="!isEditMode && boxesLibres.length === 0">
         {{ isEditMode ? 'Sauvegarder les modifications' : ' Valider l\'ouverture' }}

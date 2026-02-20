@@ -11,7 +11,7 @@
       <label style="font-size: 0.8rem; font-weight: 600; color: #64748b; margin-bottom: 5px; display: block;">Boutique à configurer :</label>
       <select class="form-control custom-select highlight-select" (change)="onBoutiqueChange($event)">
         <option *ngFor="let b of mesBoutiques" [value]="b._id" [selected]="b._id === boutiqueId">
-          🏪 {{ b.nom }}
+           {{ b.nom }}
         </option>
       </select>
     </div>
@@ -28,7 +28,7 @@
           <img [src]="currentLogo || 'assets/placeholder-shop.jpg'" class="preview-img" alt="Logo">
           <br>
           <label class="btn-secondary w-100 upload-btn">
-            📷 Changer le logo
+            Changer le logo
             <input type="file" (change)="onFileSelected($event)" accept="image/*" style="display: none;">
           </label>
         </div>
@@ -65,7 +65,7 @@
     <div class="form-footer">
       <a routerLink="/boutique/dashboard" class="btn-cancel" style="margin-right: 15px;">Annuler</a>
       <button type="submit" class="btn-primary" [disabled]="settingsForm.invalid">
-        💾 Enregistrer les modifications
+         Enregistrer les modifications
       </button>
     </div>
 

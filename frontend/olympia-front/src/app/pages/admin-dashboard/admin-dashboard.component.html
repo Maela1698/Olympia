@@ -1,4 +1,3 @@
-
 <div class="page-container">
   
   <div class="page-header">
@@ -11,7 +10,6 @@
   <div class="kpi-grid">
     
     <div class="kpi-card highlight">
-      <div class="kpi-icon">📈</div>
       <div class="kpi-content">
         <p class="kpi-label">Taux d'occupation</p>
         <h2 class="kpi-value">{{ tauxOccupation }}%</h2>
@@ -23,7 +21,6 @@
     </div>
 
     <div class="kpi-card">
-      <div class="kpi-icon blue">🏪</div>
       <div class="kpi-content">
         <p class="kpi-label">Boutiques Actives</p>
         <h2 class="kpi-value">{{ totalBoutiques }}</h2>
@@ -32,7 +29,6 @@
     </div>
 
     <div class="kpi-card">
-      <div class="kpi-icon green">🔑</div>
       <div class="kpi-content">
         <p class="kpi-label">Locaux Disponibles</p>
         <h2 class="kpi-value">{{ boxesLibres }}</h2>
@@ -41,7 +37,6 @@
     </div>
 
     <div class="kpi-card">
-      <div class="kpi-icon purple">📁</div>
       <div class="kpi-content">
         <p class="kpi-label">Rayons & Catégories</p>
         <h2 class="kpi-value">{{ totalCategories }}</h2>
@@ -55,10 +50,10 @@
     <h3>Actions Rapides</h3>
     <div class="actions-grid">
       <a routerLink="/admin/create-boutique" class="action-btn primary">
-        <span class="icon">➕</span> Ouvrir une nouvelle boutique
+        <i class="fa-solid fa-plus icon"></i> Ouvrir une nouvelle boutique
       </a>
       <a routerLink="/admin/boxes" class="action-btn secondary">
-        <span class="icon">🏗️</span> Créer un nouveau Box
+        <i class="fa-solid fa-cubes icon"></i> Créer un nouveau Box
       </a>
     </div>
   </div>

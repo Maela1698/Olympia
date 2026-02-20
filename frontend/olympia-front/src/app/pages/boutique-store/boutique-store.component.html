@@ -14,12 +14,17 @@
       <div class="info-header">
         <h1>{{ shopData.boutique.nom }}</h1>
         <div class="store-badges">
+  
           <span class="badge category">
-            <span class="icon">🏷️</span> {{ shopData.boutique.id_categorie?.nom }}
+            <i class="fa-solid fa-tag icon" style="color: #64748b;"></i> 
+            {{ shopData.boutique.id_categorie?.nom }}
           </span>
+          
           <span class="badge location">
-            <span class="icon">📍</span> {{ shopData.boutique.id_box?.nom }}
+            <i class="fa-solid fa-location-dot icon" style="color: #ef4444;"></i> 
+            {{ shopData.boutique.id_box?.nom }}
           </span>
+          
         </div>
       </div>
       

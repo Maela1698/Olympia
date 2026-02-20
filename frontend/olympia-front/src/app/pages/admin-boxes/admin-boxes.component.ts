@@ -67,7 +67,7 @@ export class AdminBoxesComponent implements OnInit {
           this.loadData(); 
           this.showBoxForm = false; 
           this.currentBoxId = null; 
-          this.showToast('✅ Box modifié avec succès !'); 
+          this.showToast('Box modifié avec succès !'); 
         },
         error: () => alert("Erreur lors de la modification")
       });
@@ -76,7 +76,7 @@ export class AdminBoxesComponent implements OnInit {
         next: () => { 
           this.loadData(); 
           this.showBoxForm = false; 
-          this.showToast('🎉 Nouveau box créé avec succès !'); // 👈 Ajout
+          this.showToast(' Nouveau box créé avec succès !'); 
         },
         error: () => alert("Erreur : Ce nom de box existe peut-être déjà ?")
       });
@@ -92,7 +92,7 @@ export class AdminBoxesComponent implements OnInit {
       this.http.delete(`${environment.apiUrl}/boxes/${box._id}`).subscribe({
         next: () => {
           this.loadData();
-          this.showToast('🗑️ Box supprimé avec succès.'); // 👈 Ajout
+          this.showToast(' Box supprimé avec succès.');
         },
         error: (err) => alert(err.error.message || "Impossible de supprimer")
       });

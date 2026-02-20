@@ -203,3 +203,22 @@ tr:hover td { background-color: #f8fafc; }
   font-weight: 700;
   text-transform: uppercase;
 }
+
+/* 1. Force l'alignement du texte à droite pour l'en-tête "Actions" */
+.text-right {
+  text-align: right !important;
+}
+
+/* 2. Force les boutons à se coller complètement à droite de la cellule */
+.table-actions {
+  display: flex;
+  gap: 10px;
+  justify-content: flex-end; /* Pousse les boutons vers la droite */
+  align-items: center;
+  width: 100%; /* S'assure que la div prend toute la place de la cellule */
+}
+
+/* 3. Ajuste le padding pour que le "s" de Actions s'aligne avec le bord du bouton */
+th.text-right, td.text-right {
+  padding-right: 1.5rem !important; /* Ajuste cette valeur si besoin */
+}

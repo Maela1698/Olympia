@@ -1,11 +1,10 @@
 <div class="container">
-  <header class="hero-section">
-    <div class="hero-content">
-      <h1>Bienvenue chez <span class="brand-highlight">Olympia</span> 🛍️</h1>
-      <p>Explorez les meilleures boutiques et trouvez vos coups de cœur.</p>
-    </div>
-  </header>
-
+<header class="hero-section">
+  <div class="hero-content">
+    <h1>Bienvenue chez <span class="brand-highlight">Olympia</span></h1>
+    <p>Explorez les meilleures boutiques, trouvez vos coups de cœur et profitez d'une expérience shopping inédite.</p>
+  </div>
+</header>
   <div *ngIf="isLoading" class="loading-state">
     <div class="spinner"></div>
     <p>Recherche des meilleures adresses...</p>
@@ -32,7 +31,7 @@
         
         <div class="card-footer-info">
           <span class="location">
-            <i class="icon">📍</i> {{ b.id_box?.nom }} <small>({{ b.id_box?.etage == 0 ? 'RDC' : 'Étage ' + b.id_box?.etage }})</small>
+            <i class="fa-solid fa-location-dot" style="color: #ef4444;"></i> {{ b.id_box?.nom }} <small>({{ b.id_box?.etage == 0 ? 'RDC' : 'Étage ' + b.id_box?.etage }})</small>
           </span>
         </div>
       </div>

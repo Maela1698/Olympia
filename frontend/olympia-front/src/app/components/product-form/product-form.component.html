@@ -55,7 +55,9 @@
       </div>
 
       <label class="upload-zone" style="display: flex; flex-direction: column; align-items: center; justify-content: center; padding: 1.5rem; border: 2px dashed #cbd5e1; border-radius: 12px; background: #f8fafc; cursor: pointer; transition: 0.2s;">
-         <div class="upload-icon" style="font-size: 1.5rem; margin-bottom: 5px;">📸</div>
+         <div class="upload-icon" style="font-size: 1.5rem; margin-bottom: 5px;">
+            <i class="fa-solid fa-camera"></i>
+        </div>
          <span style="color: #64748b; font-weight: 600; font-size: 0.85rem;">Cliquez ici pour ajouter de nouvelles photos</span>
          <input type="file" multiple (change)="onFileSelect($event)" accept="image/*" style="display: none;">
       </label>
@@ -69,7 +71,7 @@
       <button type="button" routerLink="/boutique/produits" style="background: white; border: 1px solid #cbd5e1; color: #475569; padding: 10px 20px; border-radius: 8px; font-weight: 600; cursor: pointer; transition: 0.2s;">Annuler</button>
 
       <button type="submit" [disabled]="productForm.invalid" style="background: #4f46e5; color: white; border: none; padding: 10px 25px; border-radius: 8px; font-weight: 600; cursor: pointer; transition: 0.2s; box-shadow: 0 4px 6px rgba(79, 70, 229, 0.2);">
-        {{ isEditMode ? '💾 Mettre à jour' : '🚀 Créer le produit' }}
+        {{ isEditMode ? 'Mettre à jour' : 'Créer le produit' }}
       </button>
     </div>
 

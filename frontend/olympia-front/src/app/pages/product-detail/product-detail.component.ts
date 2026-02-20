@@ -40,6 +40,6 @@ export class ProductDetailComponent implements OnInit {
   }
 
   addToCart() {
-    alert("Produit ajouté au panier (Simulation) ! 🛒");
+    alert("Produit ajouté au panier (Simulation) !"); 
   }
 }
