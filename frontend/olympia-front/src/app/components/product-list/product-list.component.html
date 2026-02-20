@@ -6,7 +6,7 @@
       <p class="page-subtitle">Produits de la boutique <strong>{{ activeBoutiqueName }}</strong></p>
     </div>
     <div class="header-actions">
-      <a routerLink="/boutique/produits/nouveau" class="btn-primary text-decoration-none">➕ Nouveau Produit</a>
+      <a routerLink="/boutique/produits/nouveau" class="btn-primary text-decoration-none">Nouveau Produit</a>
     </div>
   </div>
 
@@ -41,10 +41,17 @@
           <td class="price-text">{{ p.prix }} Ar</td>
           
           <td class="text-right actions-cell">
-            <a [routerLink]="['/boutique/produits/modifier', p._id]" class="icon-btn edit">✏️</a>
-            <button (click)="deleteProduit(p._id)" class="icon-btn delete">🗑️</button>
+            <div class="table-actions">
+              <a [routerLink]="['/boutique/produits/modifier', p._id]" class="btn-sm btn-outline-edit" style="text-decoration: none;">
+                <i class="fa-solid fa-pen-to-square"></i> Modifier
+              </a>
+              
+              <button (click)="deleteProduit(p._id)" class="btn-sm btn-outline-delete">
+                <i class="fa-solid fa-trash"></i> Supprimer
+              </button>
+            </div>
           </td>
-          
+                    
         </tr>
         <tr *ngIf="produits.length === 0">
           <td colspan="4" class="empty-state">Aucun produit dans cette boutique. Commencez à vendre !</td>

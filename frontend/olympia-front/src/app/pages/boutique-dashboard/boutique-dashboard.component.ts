@@ -20,43 +20,72 @@ export class BoutiqueDashboardComponent implements OnInit {
   router = inject(Router);
   today: Date = new Date();
 
-  activeBoutiqueName: string = '';
-  activeBoutiqueId: string | null = null;
+  activeBoutiqueName: string = 'Chargement...';
+  activeBoutiqueId: string = '';
   
-  // Stats Réelles
-  nbTotalBoutiques: number = 0;
-  nbProduitsBoutique: number = 0;
-  nbPromoBoutique: number = 0;
+  userBoutiques: any[] = []; // Toutes les boutiques de l'utilisateur connecté
+  boutiquesStats: any[] = []; // Les statistiques séparées
   derniersProduits: any[] = [];
 
   ngOnInit() {
-    this.activeBoutiqueId = localStorage.getItem('activeBoutiqueId');
-    this.activeBoutiqueName = localStorage.getItem('activeBoutiqueName') || 'Boutique';
-
-    if (!this.activeBoutiqueId) {
-      this.router.navigate(['/boutique/mes-boutiques']);
+    const user = this.authService.getUser();
+    
+    // Sécurité : si aucun utilisateur n'est connecté, on bloque.
+    if (!user || !user.id) {
+      this.router.navigate(['/login']);
       return;
     }
 
-    this.loadGlobalStats();
-    this.loadBoutiqueData(this.activeBoutiqueId);
+    // 1. On récupère toutes les boutiques et on filtre pour CE vendeur
+    this.http.get<any[]>(`${environment.apiUrl}/boutiques/admin/all`).subscribe(all => {
+      this.userBoutiques = all.filter(b => b.id_responsable?._id === user.id || b.id_responsable === user.id);
+
+      if (this.userBoutiques.length === 0) {
+        this.activeBoutiqueName = 'Aucune boutique';
+        return; // Le vendeur n'a pas encore de boutique
+      }
+
+      // 2. CORRECTION DU BUG LOCALSTORAGE : On vérifie si l'ID en mémoire appartient bien à ce vendeur
+      const savedBoutiqueId = localStorage.getItem('activeBoutiqueId');
+      const boutiqueValide = this.userBoutiques.find(b => b._id === savedBoutiqueId);
+
+      if (boutiqueValide) {
+        // La boutique en mémoire lui appartient bien
+        this.activeBoutiqueId = boutiqueValide._id;
+        this.activeBoutiqueName = boutiqueValide.nom;
+      } else {
+        // L'ID en mémoire appartient à l'ancien utilisateur ! On écrase avec SA première boutique.
+        this.activeBoutiqueId = this.userBoutiques[0]._id;
+        this.activeBoutiqueName = this.userBoutiques[0].nom;
+        localStorage.setItem('activeBoutiqueId', this.activeBoutiqueId);
+        localStorage.setItem('activeBoutiqueName', this.activeBoutiqueName);
+      }
+
+      // 3. Charger les stats pour CHAQUE boutique (pour les séparer)
+      this.loadAllStats();
+
+      // 4. Charger les derniers produits pour la liste rapide
+      this.loadActiveBoutiqueProducts();
+    });
   }
 
-  loadGlobalStats() {
-    const user = this.authService.getUser();
-    if (user?.id) {
-      // On récupère toutes les boutiques pour compter celles du vendeur
-      this.http.get<any[]>(`${environment.apiUrl}/boutiques/admin/all`).subscribe(all => {
-        const sesBoutiques = all.filter(b => b.id_responsable?._id === user.id || b.id_responsable === user.id);
-        this.nbTotalBoutiques = sesBoutiques.length;
+  loadAllStats() {
+    this.boutiquesStats = []; // On vide le tableau
+    
+    // On boucle sur chaque boutique du vendeur pour récupérer ses propres produits
+    this.userBoutiques.forEach(boutique => {
+      this.productService.getAll(boutique._id).subscribe(produits => {
+        this.boutiquesStats.push({
+          nom: boutique.nom,
+          nbProduits: produits.length,
+          nbPromo: produits.filter(p => p.promo === true || p.promo === 'true').length
+        });
       });
-    }
+    });
   }
 
-  loadBoutiqueData(id: string) {
-    this.productService.getAll(id).subscribe(produits => {
-      this.nbProduitsBoutique = produits.length;
-      this.nbPromoBoutique = produits.filter(p => p.promo === true || p.promo === 'true').length;
+  loadActiveBoutiqueProducts() {
+    this.productService.getAll(this.activeBoutiqueId).subscribe(produits => {
       this.derniersProduits = produits.slice().reverse().slice(0, 4); // Top 4 récents
     });
   }

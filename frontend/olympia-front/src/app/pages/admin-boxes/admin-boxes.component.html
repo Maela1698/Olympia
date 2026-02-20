@@ -6,7 +6,9 @@
       <p class="page-subtitle">Gérez les emplacements physiques de votre galerie.</p>
     </div>
     <div class="header-actions">
-      <button (click)="openCreateBox()" class="btn-primary">➕ Nouveau Box</button>
+      <button (click)="openCreateBox()" class="btn-primary">
+         Nouveau Box
+      </button>
     </div>
   </div>
 
@@ -27,17 +29,27 @@
           <td>{{ box.etage === 0 ? 'Rez-de-chaussée' : 'Étage ' + box.etage }}</td>
           <td>{{ box.surface }} m²</td>
           <td>
-            <span class="status-badge" [class.loue]="box.est_loue" [class.libre]="!box.est_loue">
-              {{ box.est_loue ? '🔴 Loué' : '🟢 Libre' }}
+            <span class="badge-status" [ngClass]="box.est_loue ? 'badge-loue' : 'badge-libre'">
+              <i class="fa-solid" [ngClass]="box.est_loue ? 'fa-lock' : 'fa-check'" style="margin-right: 6px;"></i>
+              {{ box.est_loue ? 'Loué' : 'Libre' }}
             </span>
           </td>
           <td class="text-right actions-cell">
-            <button (click)="openEditBox(box)" class="icon-btn edit" title="Modifier">✏️</button>
-            <button *ngIf="!box.est_loue" (click)="deleteBox(box)" class="icon-btn delete" title="Supprimer">🗑️</button>
+            <div class="table-actions">
+              <button (click)="openEditBox(box)" class="btn-sm btn-outline-edit">
+                <i class="fa-solid fa-pen-to-square"></i> Modifier
+              </button>
+              <button *ngIf="!box.est_loue" (click)="deleteBox(box)" class="btn-sm btn-outline-delete">
+                <i class="fa-solid fa-trash"></i> Supprimer
+              </button>
+            </div>
           </td>
         </tr>
         <tr *ngIf="boxes.length === 0">
-          <td colspan="5" class="empty-state">Aucun box configuré pour le moment.</td>
+          <td colspan="5" class="empty-state">
+            <i class="fa-solid fa-folder-open" style="font-size: 2rem; color: #cbd5e1; margin-bottom: 10px; display: block;"></i>
+            Aucun box configuré pour le moment.
+          </td>
         </tr>
       </tbody>
     </table>
@@ -49,7 +61,9 @@
     
     <div class="modal-header">
       <h3>{{ isEditMode ? 'Modifier le Box' : 'Créer un Box' }}</h3>
-      <button class="btn-close" (click)="cancelBox()">✕</button>
+      <button class="btn-close" (click)="cancelBox()">
+        <i class="fa-solid fa-xmark"></i>
+      </button>
     </div>
 
     <div class="modal-body">
@@ -72,12 +86,14 @@
 
     <div class="modal-footer">
       <button (click)="cancelBox()" class="btn-secondary">Annuler</button>
-      <button (click)="saveBox()" class="btn-primary">💾 Enregistrer</button>
+      <button (click)="saveBox()" class="btn-primary">
+         Enregistrer
+      </button>
     </div>
     
   </div>
 </div>
 
 <div class="toast-notification" [class.show]="toastMessage !== ''">
-  {{ toastMessage }}
+  <i class="fa-solid fa-circle-info" style="margin-right: 8px;"></i> {{ toastMessage }}
 </div>

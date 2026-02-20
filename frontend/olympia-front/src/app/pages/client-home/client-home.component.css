@@ -19,22 +19,27 @@
   content: '';
   position: absolute;
   top: 0; left: 0; right: 0; bottom: 0;
-  background: rgba(255, 255, 255, 0.85); /* Voile blanc */
-  backdrop-filter: blur(5px);
+  /* Dégradé Bleu Nuit vers Indigo avec 85% d'opacité */
+  background: linear-gradient(135deg, rgba(15, 23, 42, 0.9) 0%, rgba(79, 70, 229, 0.8) 100%);
+  z-index: 1;
 }
-
 .hero-content {
   position: relative;
   z-index: 2; /* Pour passer au-dessus du voile */
   max-width: 800px;
-  margin: 0 auto; /* Le texte reste centré pour être lisible */
-  margin-top: -100px;
+  margin: 0 auto; 
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+  /* J'ai retiré ton ancien "margin-top: -100px" car Flexbox centre tout parfaitement maintenant ! */
 }
 
 .hero-content h1 {
-  font-size: 4rem; /* Titre GÉANT */
+  font-size: 4rem; 
   font-weight: 800;
   letter-spacing: -2px;
+  color: white; /* 👈 Indispensable : le titre passe en blanc ! */
+  margin: 0;
 }
 
 /* 2. GRILLE : S'adapte aux écrans larges */
@@ -52,8 +57,10 @@
 }
 
 .hero-content p {
-  font-size: 1.2rem;
-  color: #64748b;
+  font-size: 1.25rem;
+  color: #8b94a0; /* 👈 Gris très clair (presque blanc) pour la lisibilité */
+  line-height: 1.6;
+  margin: 0;
 }
 
 

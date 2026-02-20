@@ -69,3 +69,23 @@ textarea.form-control { resize: vertical; min-height: 100px; }
 .btn-submit { background: #4f46e5; border: none; padding: 12px 30px; border-radius: 8px; font-weight: 600; color: white; cursor: pointer; transition: 0.2s; font-size: 1rem; }
 .btn-submit:hover { background: #4338ca; transform: translateY(-2px); box-shadow: 0 4px 12px rgba(79, 70, 229, 0.3); }
 .btn-submit:disabled { background: #cbd5e1; cursor: not-allowed; transform: none; box-shadow: none; }
+
+/* Bouton Modifier (Bleu/Indigo) */
+.btn-outline-edit {
+  color: #4f46e5;
+  border: 1px solid #c7d2fe;
+}
+.btn-outline-edit:hover {
+  background-color: #eef2ff;
+  border-color: #818cf8;
+}
+
+/* Bouton Supprimer (Rouge) */
+.btn-outline-delete {
+  color: #ef4444;
+  border: 1px solid #fecaca;
+}
+.btn-outline-delete:hover {
+  background-color: #fef2f2;
+  border-color: #f87171;
+}

@@ -30,15 +30,49 @@
           <span>1</span>
           <button>+</button>
         </div>
-        <button (click)="addToCart()" class="btn-add-cart">
-          Ajouter au panier 🛒
+       <button (click)="addToCart()" class="btn-add-cart">
+          <i class="fa-solid fa-cart-shopping"></i> Ajouter au panier
         </button>
       </div>
 
       <div class="trust-badges">
-        <div class="badge-item">📦 Livraison Rapide</div>
-        <div class="badge-item">🔒 Paiement Sécurisé</div>
-        <div class="badge-item">📞 Support 24/7</div>
+        <div class="badge-item">
+          <i class="fa-solid fa-truck-fast" style="color: #4f46e5;"></i> Livraison Rapide
+        </div>
+        
+        <div class="badge-item">
+          <i class="fa-solid fa-lock" style="color: #10b981;"></i> Paiement Sécurisé
+        </div>
+        
+        <div class="badge-item">
+          <i class="fa-solid fa-headset" style="color: #f59e0b;"></i> Support 24/7
+        </div>
+      </div>
+      <div class="seller-info-card" *ngIf="product.id_boutique?.id_responsable">
+        <h3 class="seller-title">Besoin d'informations ?</h3>
+        <p class="seller-subtitle">Contactez directement le responsable de la boutique : <strong>{{ product.id_boutique?.nom }}</strong></p>
+        
+        <div class="contact-list">
+          <div class="contact-item">
+            <div class="icon-wrapper"><i class="fa-solid fa-envelope"></i></div>
+            <div class="contact-text">
+              <span class="c-label">Email professionnel</span>
+              <a [href]="'mailto:' + product.id_boutique.id_responsable.mail" class="c-value link">
+                {{ product.id_boutique.id_responsable.mail }}
+              </a>
+            </div>
+          </div>
+
+          <div class="contact-item" *ngIf="product.id_boutique.id_responsable.contact" style="margin-left: 40px;">
+            <div class="icon-wrapper"><i class="fa-solid fa-phone"></i></div>
+            <div class="contact-text">
+              <span class="c-label">Téléphone direct</span>
+              <a [href]="'tel:' + product.id_boutique.id_responsable.contact" class="c-value link">
+                {{ product.id_boutique.id_responsable.contact }}
+              </a>
+            </div>
+          </div>
+        </div>
       </div>
     </div>
 

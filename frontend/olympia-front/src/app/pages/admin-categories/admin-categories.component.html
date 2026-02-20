@@ -6,7 +6,7 @@
       <p class="page-subtitle">Organisez les secteurs d'activité du centre commercial.</p>
     </div>
     <div class="header-actions">
-      <button (click)="openCreateModal()" class="btn-primary">➕ Nouvelle Catégorie</button>
+      <button (click)="openCreateModal()" class="btn-primary"> Nouvelle Catégorie</button>
     </div>
   </div>
 
@@ -26,9 +26,15 @@
           </td>
           <td class="font-bold">{{ cat.nom }}</td>
           <td class="text-right actions-cell">
-            <button (click)="startEdit(cat)" class="icon-btn edit" title="Modifier">✏️</button>
-            <button (click)="deleteCategory(cat._id)" class="icon-btn delete" title="Supprimer">🗑️</button>
-          </td>
+          <div class="table-actions">
+            <button (click)="startEdit(cat)" class="btn-sm btn-outline-edit">
+              <i class="fa-solid fa-pen-to-square"></i> Modifier
+            </button>
+            <button (click)="deleteCategory(cat._id)" class="btn-sm btn-outline-delete">
+              <i class="fa-solid fa-trash"></i> Supprimer
+            </button>
+          </div>
+        </td>
         </tr>
         <tr *ngIf="categories.length === 0">
           <td colspan="3" class="empty-state">Aucune catégorie créée pour le moment.</td>
@@ -68,7 +74,7 @@
 
       <div class="modal-footer">
         <button type="button" class="btn-secondary" (click)="closeModal()">Annuler</button>
-        <button type="submit" class="btn-primary" [disabled]="!formCat.nom">💾 Enregistrer</button>
+        <button type="submit" class="btn-primary" [disabled]="!formCat.nom"> Enregistrer</button>
       </div>
     </form>
     

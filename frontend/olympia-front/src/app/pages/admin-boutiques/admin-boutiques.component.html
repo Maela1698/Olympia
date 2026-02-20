@@ -6,7 +6,7 @@
       <p class="page-subtitle">Pilotez les commerces locataires de votre espace Olympia Mall.</p>
     </div>
     <div class="header-actions">
-        <button routerLink="/admin/create-boutique" class="btn-primary">➕ Ouvrir une Boutique</button>
+        <button routerLink="/admin/create-boutique" class="btn-primary">Ouvrir une Boutique</button>
     </div>
   </div>
 
@@ -42,9 +42,15 @@
             <small class="text-muted">{{ b.id_responsable?.mail }}</small>
           </td>
           <td class="text-right actions-cell">
-            <a [routerLink]="['/admin/edit-boutique', b._id]" class="icon-btn edit" title="Modifier">✏️</a>
-            <button (click)="deleteBoutique(b._id)" class="icon-btn delete" title="Supprimer">🗑️</button>
-          </td>
+  <div class="table-actions">
+    <a [routerLink]="['/admin/edit-boutique', b._id]" class="btn-sm btn-outline-edit" style="text-decoration: none;">
+      <i class="fa-solid fa-pen-to-square"></i> Modifier
+    </a>
+    <button (click)="deleteBoutique(b._id)" class="btn-sm btn-outline-delete">
+      <i class="fa-solid fa-trash"></i> Supprimer
+    </button>
+  </div>
+</td>
         </tr>
         <tr *ngIf="boutiques.length === 0">
           <td colspan="5" class="empty-state">Aucune boutique ouverte pour le moment.</td>

@@ -21,7 +21,7 @@
         <p class="shop-category">{{ b.id_categorie?.nom || 'Catégorie non définie' }}</p>
         
         <div class="shop-location">
-          <span class="icon">📍</span> 
+          <i class="fa-solid fa-location-dot icon" style="color: #ef4444;"></i> 
           Emplacement : <strong>{{ b.id_box?.nom || 'Non assigné' }}</strong>
         </div>
       </div>
@@ -36,7 +36,6 @@
   </div>
 
   <div class="empty-state-pro" *ngIf="!isLoading && mesBoutiques.length === 0">
-    <div class="empty-icon">🏪</div>
     <h3>Vous n'avez pas encore de boutique</h3>
     <p>Contactez l'administration d'Olympia Mall pour vous voir assigner un local et ouvrir votre première boutique.</p>
   </div>
