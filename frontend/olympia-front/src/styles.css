@@ -203,8 +203,6 @@ tr:hover td { background-color: #f8fafc; }
   font-weight: 700;
   text-transform: uppercase;
 }
-<<<<<<< HEAD
-=======
 
 /* 1. Force l'alignement du texte à droite pour l'en-tête "Actions" */
 .text-right {
@@ -224,4 +222,3 @@ tr:hover td { background-color: #f8fafc; }
 th.text-right, td.text-right {
   padding-right: 1.5rem !important; /* Ajuste cette valeur si besoin */
 }
->>>>>>> f0f1c64ad5534caa7377f6ada2e8d83cf50f718a
