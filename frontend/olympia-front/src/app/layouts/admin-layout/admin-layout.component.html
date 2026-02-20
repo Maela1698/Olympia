@@ -1,0 +1,93 @@
+<div class="dashboard-wrapper">
+  
+  <aside class="sidebar">
+    
+    <div class="brand">
+      <i class="fa-solid fa-bag-shopping icon" style="color: #4f46e5; margin-right: 10px;"></i>
+      <span class="text">Olympia <span class="light">{{ isRouteAdmin ? 'Admin' : 'Pro' }}</span></span>
+    </div>
+
+    <nav class="sidebar-menu">
+      
+      <ng-container *ngIf="isRouteAdmin">
+        <p class="menu-label">Administration</p>
+        <a routerLink="/admin/dashboard" routerLinkActive="active" [routerLinkActiveOptions]="{exact: true}" class="menu-item">
+          <i class="fa-solid fa-chart-pie" style="width: 25px; text-align: center; margin-right: 8px;"></i> Tableau de bord
+        </a>
+        <a routerLink="/admin/boxes" routerLinkActive="active" class="menu-item">
+          <i class="fa-solid fa-cubes" style="width: 25px; text-align: center; margin-right: 8px;"></i> Gestion Boxes
+        </a>
+        <a routerLink="/admin/boutiques" routerLinkActive="active" class="menu-item">
+          <i class="fa-solid fa-store" style="width: 25px; text-align: center; margin-right: 8px;"></i> Boutiques
+        </a>
+        <a routerLink="/admin/categories" routerLinkActive="active" class="menu-item">
+          <i class="fa-solid fa-layer-group" style="width: 25px; text-align: center; margin-right: 8px;"></i> Catégories
+        </a>
+      </ng-container>
+
+      <ng-container *ngIf="!isRouteAdmin">
+        <p class="menu-label">Ma Boutique</p>
+        <a routerLink="/boutique/dashboard" routerLinkActive="active" class="menu-item">
+          <i class="fa-solid fa-house" style="width: 25px; text-align: center; margin-right: 8px;"></i> Accueil  
+        </a>
+        <a routerLink="/boutique/mes-boutiques" routerLinkActive="active" class="menu-item">
+          <i class="fa-solid fa-store" style="width: 25px; text-align: center; margin-right: 8px;"></i> Mes Boutiques
+        </a>
+        <a routerLink="/boutique/settings" routerLinkActive="active" class="menu-item">
+          <i class="fa-solid fa-gear" style="width: 25px; text-align: center; margin-right: 8px;"></i> Paramètres
+        </a>
+      </ng-container>
+
+    </nav>
+  </aside>
+
+  <div class="main-content">
+    
+    <header class="top-header">
+      <div class="header-title">
+        <h2>{{ isRouteAdmin ? 'Espace Gestionnaire' : 'Espace Commercial' }}</h2>
+      </div>
+      
+      <div class="header-user user-menu-container" (click)="toggleDropdown()">
+        
+        <div class="user-info-text">
+          <span class="user-name">{{ currentUser?.name || 'Utilisateur' }}</span>
+          <span class="role-badge">{{ isRouteAdmin ? 'Administrateur' : 'Vendeur' }}</span>
+        </div>
+        
+        <div class="avatar">{{ userInitials }}</div>
+
+        <div class="dropdown-menu" *ngIf="isDropdownOpen">
+          <div class="dropdown-header">
+            <strong>{{ currentUser?.name }}</strong>
+            <small>{{ currentUser?.mail || 'Connecté' }}</small>
+          </div>
+          <hr class="dropdown-divider">
+          
+          <button (click)="logout()" class="dropdown-item logout-btn">
+            <i class="fa-solid fa-right-from-bracket" style="margin-right: 8px; color: #ef4444;"></i> Se déconnecter
+          </button>
+        </div>
+
+      </div>
+    </header>
+
+    <main class="page-container">
+      <router-outlet></router-outlet>
+    </main>
+
+    <footer class="footer-simple">
+      <div class="footer-content">
+        <span class="copyright">&copy; 2026 Olympia Mall. Tous droits réservés.</span>
+        
+        <span class="signature">
+          Designed & Engineered by 
+          <span class="creator">Maela ANDRIAMAHERY</span> 
+          <span class="amp">&</span> 
+          <span class="creator">Jaona RATEFIARIVONY</span>
+        </span>
+      </div>
+    </footer>
+
+  </div> 
+</div>

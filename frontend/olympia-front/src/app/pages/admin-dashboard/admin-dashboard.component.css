@@ -1,0 +1,87 @@
+.page-container { padding: 1rem 0; }
+.page-header { margin-bottom: 2.5rem; }
+.page-title { font-size: 1.8rem; font-weight: 800; color: #0f172a; margin: 0 0 5px 0; }
+.page-subtitle { color: #64748b; font-size: 0.95rem; margin: 0; }
+
+/* Grille des KPIs */
+.kpi-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+  gap: 1.5rem;
+  margin-bottom: 3rem;
+}
+
+.kpi-card {
+  background: white;
+  border-radius: 16px;
+  padding: 1.5rem;
+  box-shadow: 0 4px 6px -1px rgba(0,0,0,0.05);
+  border: 1px solid #e2e8f0;
+  display: flex;
+  flex-direction: column;
+  transition: transform 0.2s;
+}
+.kpi-card:hover { transform: translateY(-5px); box-shadow: 0 10px 15px -3px rgba(0,0,0,0.1); }
+
+/* Carte Highlight (Taux d'occupation) */
+.kpi-card.highlight {
+  background: linear-gradient(135deg, #0f172a 0%, #1e293b 100%);
+  color: white;
+  border: none;
+}
+.kpi-card.highlight .kpi-label { color: #94a3b8; }
+.kpi-card.highlight .kpi-value { color: white; }
+
+/* Icônes */
+.kpi-icon {
+  width: 45px; height: 45px;
+  border-radius: 12px;
+  display: flex; align-items: center; justify-content: center;
+  font-size: 1.5rem;
+  margin-bottom: 1rem;
+  background: #f1f5f9;
+}
+.kpi-icon.blue { background: #eff6ff; color: #3b82f6; }
+.kpi-icon.green { background: #dcfce3; color: #22c55e; }
+.kpi-icon.purple { background: #f3e8ff; color: #a855f7; }
+
+/* Textes */
+.kpi-label { font-size: 0.85rem; font-weight: 600; color: #64748b; margin: 0 0 5px 0; text-transform: uppercase; letter-spacing: 0.5px; }
+.kpi-value { font-size: 2.5rem; font-weight: 800; color: #0f172a; margin: 0; line-height: 1; }
+
+/* Liens en bas des cartes */
+.kpi-link {
+  margin-top: auto; padding-top: 1rem;
+  font-size: 0.85rem; font-weight: 600; color: #4f46e5;
+  text-decoration: none; display: inline-block;
+}
+.kpi-link:hover { text-decoration: underline; }
+
+/* Barre de progression */
+.progress-container {
+  width: 100%; height: 6px;
+  background: rgba(255,255,255,0.2);
+  border-radius: 10px;
+  margin: 1.5rem 0 0.5rem 0;
+  overflow: hidden;
+}
+.progress-bar {
+  height: 100%;
+  background: #38bdf8; /* Cyan vif */
+  border-radius: 10px;
+  transition: width 1s ease-in-out;
+}
+.kpi-detail { font-size: 0.8rem; color: #cbd5e1; margin: 0; }
+
+/* Actions Rapides */
+.quick-actions-section h3 { font-size: 1.2rem; color: #0f172a; margin-bottom: 1rem; }
+.actions-grid { display: flex; gap: 1rem; flex-wrap: wrap; }
+.action-btn {
+  display: flex; align-items: center; gap: 10px;
+  padding: 12px 24px; border-radius: 12px;
+  font-weight: 600; text-decoration: none; transition: 0.2s;
+}
+.action-btn.primary { background: #4f46e5; color: white; }
+.action-btn.primary:hover { background: #4338ca; box-shadow: 0 4px 12px rgba(79, 70, 229, 0.3); transform: translateY(-2px); }
+.action-btn.secondary { background: white; color: #1e293b; border: 1px solid #cbd5e1; }
+.action-btn.secondary:hover { background: #f8fafc; transform: translateY(-2px); }

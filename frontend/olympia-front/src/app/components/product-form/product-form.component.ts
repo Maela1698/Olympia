@@ -42,13 +42,12 @@ export class ProductFormComponent implements OnInit {
   }
 
   ngOnInit() {
-    // 1. Récupérer l'ID de la boutique du commerçant
-    const user = this.authService.getUser();
-    if (user?.id) {
-      this.http.get<any>(`${environment.apiUrl}/boutiques/mes-infos/${user.id}`)
-        .subscribe(data => {
-          this.boutiqueId = data.boutique._id;
-        });
+    // 1. On lit l'ID directement dans la mémoire locale !
+    this.boutiqueId = localStorage.getItem('activeBoutiqueId') as string;
+
+    if (!this.boutiqueId) {
+      this.router.navigate(['/boutique/mes-boutiques']);
+      return;
     }
 
     // 2. Vérifier si on est en mode modification
@@ -56,10 +55,7 @@ export class ProductFormComponent implements OnInit {
     if (this.productId) {
       this.isEditMode = true;
       this.productService.getById(this.productId).subscribe(p => {
-        // Remplir le formulaire
         this.productForm.patchValue(p);
-
-        // Remplir les images existantes
         if (p.images && Array.isArray(p.images)) {
           this.existingImages = p.images;
         }

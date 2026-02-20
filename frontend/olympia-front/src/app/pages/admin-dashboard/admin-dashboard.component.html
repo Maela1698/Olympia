@@ -1,113 +1,61 @@
-<div class="container">
+<div class="page-container">
   
-  <div class="top-actions">
-    <button routerLink="/admin/categories" class="btn-secondary">Gestion Catégories</button>
-  </div>
-
-  <div class="header-section">
-    <h1>🏛️ Gestion Immobilière (BOX)</h1>
-    <button (click)="openCreateBox()" class="btn-create">➕ Ajouter un Box</button>
-  </div>
-
-  <div *ngIf="showBoxForm" class="form-box-container" style="background: #f9f9f9; padding: 15px; border: 1px solid #ddd; margin-bottom: 20px;">
-    <h3>{{ isEditMode ? 'Modifier le Box' : 'Nouveau Box' }}</h3>
-    
-    <div style="display: flex; gap: 10px; align-items: flex-end;">
-        <div>
-            <label>Nom (ex: A-01)</label>
-            <input type="text" [(ngModel)]="boxForm.nom" class="input-field">
-        </div>
-        <div>
-            <label>Étage (0=RDC)</label>
-            <input type="number" [(ngModel)]="boxForm.etage" class="input-field">
-        </div>
-        <div>
-            <label>Surface (m²)</label>
-            <input type="number" [(ngModel)]="boxForm.surface" class="input-field">
-        </div>
-        
-        <button (click)="saveBox()" class="btn-save">💾 Enregistrer</button>
-        <button (click)="cancelBox()" class="btn-cancel">Annuler</button>
+  <div class="page-header">
+    <div class="header-info">
+      <h1 class="page-title">Vue d'ensemble</h1>
+      <p class="page-subtitle">Bienvenue sur le centre de contrôle d'Olympia Mall.</p>
     </div>
   </div>
 
-  <table border="1" cellpadding="10" style="border-collapse: collapse; width: 100%;">
-    <thead>
-      <tr style="background: #eee;">
-        <th>Nom Box</th>
-        <th>Étage</th>
-        <th>Surface</th>
-        <th>État</th>
-        <th>Actions</th> </tr>
-    </thead>
-    <tbody>
-      <tr *ngFor="let box of boxes">
-        <td>{{ box.nom }}</td>
-        <td>{{ box.etage === 0 ? 'RDC' : 'Étage ' + box.etage }}</td>
-        <td>{{ box.surface }} m²</td>
-        <td>
-          <span *ngIf="box.est_loue" style="color: red; font-weight: bold;">🔴 LOUÉ</span>
-          <span *ngIf="!box.est_loue" style="color: green; font-weight: bold;">🟢 LIBRE</span>
-        </td>
-        <td>
-            <button (click)="openEditBox(box)" style="cursor:pointer; margin-right: 5px;">✏️</button>
-            
-            <button *ngIf="!box.est_loue" (click)="deleteBox(box._id)" style="cursor:pointer; color:red;">🗑️</button>
-        </td>
-      </tr>
-    </tbody>
-  </table>
+  <div class="kpi-grid">
+    
+    <div class="kpi-card highlight">
+      <div class="kpi-content">
+        <p class="kpi-label">Taux d'occupation</p>
+        <h2 class="kpi-value">{{ tauxOccupation }}%</h2>
+      </div>
+      <div class="progress-container">
+        <div class="progress-bar" [style.width.%]="tauxOccupation"></div>
+      </div>
+      <p class="kpi-detail">{{ boxesLoues }} boxes loués sur {{ totalBoxes }}</p>
+    </div>
+
+    <div class="kpi-card">
+      <div class="kpi-content">
+        <p class="kpi-label">Boutiques Actives</p>
+        <h2 class="kpi-value">{{ totalBoutiques }}</h2>
+      </div>
+      <a routerLink="/admin/boutiques" class="kpi-link">Voir les boutiques →</a>
+    </div>
+
+    <div class="kpi-card">
+      <div class="kpi-content">
+        <p class="kpi-label">Locaux Disponibles</p>
+        <h2 class="kpi-value">{{ boxesLibres }}</h2>
+      </div>
+      <a routerLink="/admin/boxes" class="kpi-link">Gérer les locaux →</a>
+    </div>
+
+    <div class="kpi-card">
+      <div class="kpi-content">
+        <p class="kpi-label">Rayons & Catégories</p>
+        <h2 class="kpi-value">{{ totalCategories }}</h2>
+      </div>
+      <a routerLink="/admin/categories" class="kpi-link">Gérer les rayons →</a>
+    </div>
+
+  </div>
+
+  <div class="quick-actions-section">
+    <h3>Actions Rapides</h3>
+    <div class="actions-grid">
+      <a routerLink="/admin/create-boutique" class="action-btn primary">
+        <i class="fa-solid fa-plus icon"></i> Ouvrir une nouvelle boutique
+      </a>
+      <a routerLink="/admin/boxes" class="action-btn secondary">
+        <i class="fa-solid fa-cubes icon"></i> Créer un nouveau Box
+      </a>
+    </div>
+  </div>
+
 </div>
-
-<hr class="separator">
-
-<div class="header-section">
-    <h2>Gestion des Boutiques</h2>
-    <button routerLink="/admin/create-boutique" class="btn-create">+ Ouvrir une Boutique</button>
-</div>
-
-<table class="data-table">
-    <thead>
-        <tr>
-            <th>Logo</th>
-            <th>Enseigne & Info</th>
-            <th>Emplacement</th>
-            <th>Gérant</th>
-            <th>Mail</th>
-            <th>Actions</th>
-        </tr>
-    </thead>
-    <tbody>
-        <tr *ngFor="let b of boutiques">
-            <td>
-                <img [src]="b.logo || 'https://placehold.co/50'" class="mini-logo" style="width: 70px; height: 70px;">
-            </td>
-            <td>
-                <strong>{{ b.nom }}</strong>
-                <br>
-                <small>{{ b.id_categorie?.nom }}</small> | <small>{{ b.horaires }}</small>
-            </td>
-            <td>
-                <span class="badge-box">{{ b.id_box?.nom }}</span>
-                <br>
-                <small>Étage {{ b.id_box?.etage }}</small>
-            </td>
-            <td>
-               
-                <br>
-                <small>{{ b.id_responsable?.name }}</small>.
-                <small>{{ b.id_responsable?.fname }}</small>
-            </td>
-            <td>
-                <br>
-                <small>{{ b.id_responsable?.mail }}</small>
-            </td>
-            <td>
-                <a [routerLink]="['/admin/edit-boutique', b._id]" class="btn-action edit" style="text-decoration:none;">✏️</a>
-                <button (click)="deleteBoutique(b._id)" class="btn-action delete">🗑️</button>
-            </td>
-        </tr>
-    </tbody>
-</table>
-
-<p *ngIf="boutiques.length === 0" style="text-align: center; color: #666;">Aucune boutique ouverte pour le moment.</p>

@@ -1,0 +1,43 @@
+<div class="page-container">
+  
+  <div class="page-header">
+    <div class="header-info">
+      <h1 class="page-title">Mes Boutiques</h1>
+      <p class="page-subtitle">Sélectionnez l'espace de travail que vous souhaitez gérer aujourd'hui.</p>
+    </div>
+  </div>
+
+  <div *ngIf="isLoading" class="loading-state">Chargement de vos boutiques...</div>
+
+  <div class="boutique-grid" *ngIf="!isLoading && mesBoutiques.length > 0">
+    
+    <div class="boutique-card" *ngFor="let b of mesBoutiques">
+      <div class="card-header">
+        <img [src]="b.logo || 'assets/placeholder-shop.jpg'" class="shop-logo" alt="Logo">
+      </div>
+      
+      <div class="card-body">
+        <h3>{{ b.nom }}</h3>
+        <p class="shop-category">{{ b.id_categorie?.nom || 'Catégorie non définie' }}</p>
+        
+        <div class="shop-location">
+          <i class="fa-solid fa-location-dot icon" style="color: #ef4444;"></i> 
+          Emplacement : <strong>{{ b.id_box?.nom || 'Non assigné' }}</strong>
+        </div>
+      </div>
+      
+      <div class="card-footer">
+        <button (click)="gererBoutique(b)" class="btn-primary w-100">
+           Gérer les produits
+        </button>
+      </div>
+    </div>
+
+  </div>
+
+  <div class="empty-state-pro" *ngIf="!isLoading && mesBoutiques.length === 0">
+    <h3>Vous n'avez pas encore de boutique</h3>
+    <p>Contactez l'administration d'Olympia Mall pour vous voir assigner un local et ouvrir votre première boutique.</p>
+  </div>
+
+</div>

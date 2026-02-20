@@ -24,16 +24,25 @@ exports.getAllProduits = async (req, res) => {
 };
 
 // 2. RÉCUPÉRER UN SEUL PRODUIT
+// 2. RÉCUPÉRER UN SEUL PRODUIT
 exports.getProduitById = async (req, res) => {
   try {
-    const produit = await Produit.findById(req.params.id);
+    const produit = await Produit.findById(req.params.id)
+      .populate({
+        path: 'id_boutique', // On demande les infos de la boutique
+        populate: {
+          path: 'id_responsable', // À L'INTÉRIEUR de la boutique, on demande les infos du commercial
+          model: 'User' // On précise que ça vient du modèle User
+        }
+      });
+
     if (!produit) return res.status(404).json({ message: "Introuvable" });
+    
     res.status(200).json(produit);
   } catch (error) {
     res.status(500).json({ error });
   }
 };
-
 // 3. CRÉER UN PRODUIT
 exports.createProduit = async (req, res) => {
   try {

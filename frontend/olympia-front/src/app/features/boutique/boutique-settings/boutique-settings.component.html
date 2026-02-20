@@ -1,38 +1,77 @@
-<div class="container">
-  <h2>⚙️ Configurer ma Boutique</h2>
+<div class="page-container">
   
-  <form [formGroup]="settingsForm" (ngSubmit)="onSubmit()" class="form-settings">
+  <div class="page-header" style="display: flex; justify-content: space-between; align-items: flex-start;">
     
-    <div class="form-group center">
-      <img [src]="currentLogo || 'assets/placeholder.png'" class="preview-img">
-      <br>
-      <label class="btn-secondary">
-        📷 Changer le logo
-        <input type="file" (change)="onFileSelected($event)" accept="image/*" style="display: none;">
-      </label>
+    <div class="header-info">
+      <h1 class="page-title">Configuration</h1>
+      <p class="page-subtitle">Modifiez les paramètres de vos enseignes.</p>
     </div>
 
-    <div class="form-group">
-      <label>Nom de l'enseigne</label>
-      <input type="text" formControlName="nom">
+    <div class="boutique-selector">
+      <label style="font-size: 0.8rem; font-weight: 600; color: #64748b; margin-bottom: 5px; display: block;">Boutique à configurer :</label>
+      <select class="form-control custom-select highlight-select" (change)="onBoutiqueChange($event)">
+        <option *ngFor="let b of mesBoutiques" [value]="b._id" [selected]="b._id === boutiqueId">
+           {{ b.nom }}
+        </option>
+      </select>
     </div>
 
-    <div class="form-group">
-      <label>Description (Slogan)</label>
-      <textarea formControlName="description" rows="3"></textarea>
+  </div>
+  
+  <form [formGroup]="settingsForm" (ngSubmit)="onSubmit()" class="pro-card">
+    
+    <div class="settings-grid">
+      
+      <div class="settings-sidebar">
+        
+        <div class="logo-upload-box">
+          <img [src]="currentLogo || 'assets/placeholder-shop.jpg'" class="preview-img" alt="Logo">
+          <br>
+          <label class="btn-secondary w-100 upload-btn">
+            Changer le logo
+            <input type="file" (change)="onFileSelected($event)" accept="image/*" style="display: none;">
+          </label>
+        </div>
+
+        <div class="status-box" [class.is-open]="settingsForm.get('est_ouvert')?.value">
+          <label class="switch-container">
+            <input type="checkbox" formControlName="est_ouvert" class="toggle-checkbox">
+            <span class="toggle-slider"></span>
+          </label>
+          <div class="status-text">
+            <strong>{{ settingsForm.get('est_ouvert')?.value ? 'Ouverte aux clients' : 'Boutique fermée' }}</strong>
+            <small>Visibilité publique</small>
+          </div>
+        </div>
+
+      </div>
+
+      <div class="settings-main">
+        
+        <div class="form-group">
+          <label>Nom de l'enseigne</label>
+          <input type="text" formControlName="nom" class="form-control" placeholder="Ex: Olympia Mode">
+        </div>
+
+        <div class="form-group">
+          <label>Description (Slogan)</label>
+          <textarea formControlName="description" rows="5" class="form-control" placeholder="Décrivez le concept de votre boutique..."></textarea>
+        </div>
+
+      </div>
+
     </div>
 
-    <div class="form-group checkbox">
-      <label>
-        <input type="checkbox" formControlName="est_ouvert">
-        🟢 Boutique Ouverte aux clients
-      </label>
-    </div>
-
-    <div class="actions">
-      <button type="submit" class="btn-primary">Enregistrer</button>
-      <a routerLink="/boutique/dashboard" class="btn-cancel">Annuler</a>
+    <div class="form-footer">
+      <a routerLink="/boutique/dashboard" class="btn-cancel" style="margin-right: 15px;">Annuler</a>
+      <button type="submit" class="btn-primary" [disabled]="settingsForm.invalid">
+         Enregistrer les modifications
+      </button>
     </div>
 
   </form>
+</div>
+
+<div class="toast-notification" [class.show]="toastMessage !== ''">
+  {{ toastMessage }}
 </div>
