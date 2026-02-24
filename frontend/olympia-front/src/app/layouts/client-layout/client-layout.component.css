@@ -1,0 +1,183 @@
+/* --- NAVBAR (Effet Glassmorphism Premium) --- */
+.navbar {
+  position: fixed;
+  top: 0; left: 0; width: 100%; height: 75px; /* Légèrement plus haut */
+  background: rgba(255, 255, 255, 0.85);
+  backdrop-filter: blur(12px);
+  border-bottom: 1px solid rgba(226, 232, 240, 0.8);
+  box-shadow: 0 4px 30px rgba(0, 0, 0, 0.03);
+  z-index: 1000;
+  display: flex; align-items: center;
+}
+
+.nav-container {
+  width: 100%; max-width: 1200px; margin: 0 auto; padding: 0 20px;
+  display: flex; justify-content: space-between; align-items: center;
+}
+
+/* --- LOGO PRO --- */
+.nav-logo-pro {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  text-decoration: none;
+}
+
+.logo-emblem {
+  background: linear-gradient(135deg, #4f46e5 0%, #818cf8 100%);
+  width: 40px;
+  height: 40px;
+  border-radius: 10px; /* Carré arrondi moderne */
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: 0 4px 10px rgba(79, 70, 229, 0.25);
+}
+
+.logo-emblem .icon { font-size: 1.2rem; }
+
+.logo-text { font-size: 1.5rem; font-weight: 800; color: #0f172a; letter-spacing: -0.5px; }
+.logo-text .accent { color: #4f46e5; } /* Le point de couleur à la fin */
+
+/* --- RECHERCHE PRO --- */
+.search-wrapper-pro {
+  position: relative;
+  display: flex;
+  align-items: center;
+  background: #f1f5f9;
+  border-radius: 12px; /* Moins rond, plus SaaS */
+  padding: 0 15px;
+  width: 320px;
+  height: 44px;
+  border: 1px solid transparent;
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+/* Effet magique : la barre s'allonge et s'illumine quand on clique dedans */
+.search-wrapper-pro:focus-within {
+  background: #ffffff;
+  border-color: #cbd5e1;
+  box-shadow: 0 4px 20px rgba(0,0,0,0.06);
+  width: 380px; 
+}
+
+.search-icon { font-size: 1.1rem; color: #94a3b8; margin-right: 12px; }
+
+.search-wrapper-pro input {
+  border: none;
+  background: transparent;
+  outline: none;
+  width: 100%;
+  font-size: 0.95rem;
+  color: #1e293b;
+  font-family: 'Inter', sans-serif;
+}
+
+.search-wrapper-pro input::placeholder { color: #94a3b8; }
+
+/* Le petit badge visuel de raccourci clavier */
+.search-shortcut {
+  background: #e2e8f0;
+  color: #64748b;
+  font-size: 0.7rem;
+  padding: 4px 8px;
+  border-radius: 6px;
+  font-weight: 700;
+  letter-spacing: 0.5px;
+  flex-shrink: 0;
+}
+
+/* --- ACTIONS & BOUTON --- */
+.nav-actions { display: flex; align-items: center; gap: 20px; }
+.nav-link { text-decoration: none; color: #64748b; font-weight: 600; font-size: 0.95rem; transition: 0.2s; }
+.nav-link:hover { color: #0f172a; }
+
+.separator { width: 1px; height: 24px; background: #e2e8f0; }
+
+.btn-login-pro {
+  text-decoration: none;
+  background: #0f172a;
+  color: white;
+  padding: 10px 20px;
+  border-radius: 10px; /* Assorti au logo */
+  font-size: 0.9rem;
+  font-weight: 600;
+  transition: 0.2s;
+}
+
+.btn-login-pro:hover {
+  background: #4f46e5;
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(79, 70, 229, 0.25);
+}
+
+/* --- MAIN CONTENT --- */
+.main-content {
+  padding-top: 100px; /* Espace pour le header */
+  min-height: 80vh;
+}
+
+/* --- FOOTER SIGNATURE (Le changement majeur) --- */
+.footer-signature {
+  background: #0f172a; /* Bleu nuit profond */
+  color: white;
+  padding: 4rem 1rem;
+  margin-top: 4rem;
+  text-align: center;
+}
+
+.footer-container {
+  max-width: 800px;
+  margin: 0 auto;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
+
+.brand-tag {
+  color: #64748b;
+  font-size: 0.9rem;
+  text-transform: uppercase;
+  letter-spacing: 2px;
+  margin-bottom: 2rem;
+}
+
+.divider-line {
+  width: 50px;
+  height: 2px;
+  background: #4f46e5; /* La touche de couleur */
+  margin-bottom: 2rem;
+}
+
+.creators-block {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.created-by {
+  font-family: 'Inter', sans-serif;
+  font-size: 0.85rem;
+  color: #94a3b8;
+  font-style: italic;
+}
+
+.creator-names {
+  font-family: 'Inter', sans-serif; /* Ou une police Serif si tu veux plus classe */
+  font-size: 1.8rem;
+  font-weight: 700;
+  color: #f8fafc;
+  margin: 0;
+  letter-spacing: -0.5px;
+}
+
+.amp {
+  color: #4f46e5; /* L'esperluette en couleur */
+  font-family: serif;
+  font-style: italic;
+  font-weight: 400;
+  font-size: 2rem;
+  margin: 0 10px;
+}

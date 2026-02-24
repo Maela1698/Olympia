@@ -1,0 +1,83 @@
+<div class="page-container">
+  
+  <div class="dashboard-header">
+    <div class="welcome-text">
+      <h1>Espace Commercial</h1>
+      <p>Gestion en cours : <span class="active-shop-tag">{{ activeBoutiqueName }}</span></p>
+    </div>
+    <div class="header-date">
+      {{ today | date:'dd MMMM yyyy' }}
+    </div>
+  </div>
+
+  <div class="kpi-grid">
+    <div class="kpi-card">
+      <div class="kpi-icon blue"><i class="fa-solid fa-store"></i></div>
+      <div class="kpi-info">
+        <span class="label">Mes Boutiques</span>
+        <h2 class="value">{{ userBoutiques.length }}</h2>
+        <span class="sub-label">Enseigne(s) active(s)</span>
+      </div>
+    </div>
+
+    <ng-container *ngFor="let stat of boutiquesStats">
+      <div class="kpi-card">
+        <div class="kpi-icon green"><i class="fa-solid fa-box-open"></i></div>
+        <div class="kpi-info">
+          <span class="label">Produits ({{ stat.nom }})</span>
+          <h2 class="value">{{ stat.nbProduits }}</h2>
+          <span class="sub-label">Articles en inventaire</span>
+        </div>
+      </div>
+
+      <div class="kpi-card">
+        <div class="kpi-icon red"><i class="fa-solid fa-tags"></i></div>
+        <div class="kpi-info">
+          <span class="label">Promos ({{ stat.nom }})</span>
+          <h2 class="value">{{ stat.nbPromo }}</h2>
+          <span class="sub-label">Offres spéciales en cours</span>
+        </div>
+      </div>
+    </ng-container>
+  </div>
+
+  <div class="main-layout">
+    <div class="content-area pro-card">
+      <div class="card-header">
+        <h3>Nouveautés au catalogue ({{ activeBoutiqueName }})</h3>
+        <button routerLink="/boutique/produits" class="btn-text">Gérer l'inventaire →</button>
+      </div>
+
+      <div class="product-mini-list">
+        <div class="product-item" *ngFor="let p of derniersProduits">
+          <img [src]="p.images[0] || 'assets/placeholder-shop.jpg'" alt="">
+          <div class="p-info">
+            <span class="p-name">{{ p.nom }}</span>
+            <span class="p-price">{{ p.prix }} Ar</span>
+          </div>
+          <span class="p-badge" *ngIf="p.promo">PROMO</span>
+        </div>
+        
+        <div class="empty-msg" *ngIf="derniersProduits.length === 0">
+          Aucun produit enregistré pour le moment.
+        </div>
+      </div>
+    </div>
+
+    <div class="side-area">
+      <div class="pro-card actions-box">
+        <h3>Actions Rapides</h3>
+        <button routerLink="/boutique/produits/nouveau" class="btn-action primary">
+          <i class="fa-solid fa-plus" style="margin-right: 8px;"></i> Nouveau Produit
+        </button>
+        <button routerLink="/boutique/settings" class="btn-action secondary">
+          <i class="fa-solid fa-gear" style="margin-right: 8px;"></i> Paramètres
+        </button>
+        <button routerLink="/boutique/mes-boutiques" class="btn-action tertiary">
+          <i class="fa-solid fa-right-left" style="margin-right: 8px;"></i> Changer de Boutique
+        </button>
+      </div>
+    </div>
+  </div>
+
+</div>

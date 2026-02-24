@@ -1,0 +1,41 @@
+<div class="container">
+<header class="hero-section">
+  <div class="hero-content">
+    <h1>Bienvenue chez <span class="brand-highlight">Olympia</span></h1>
+    <p>Explorez les meilleures boutiques, trouvez vos coups de cœur et profitez d'une expérience shopping inédite.</p>
+  </div>
+</header>
+  <div *ngIf="isLoading" class="loading-state">
+    <div class="spinner"></div>
+    <p>Recherche des meilleures adresses...</p>
+  </div>
+
+  <div class="grid-boutiques" *ngIf="!isLoading">
+    
+    <a [routerLink]="['/boutique-client', b._id]" class="card" *ngFor="let b of boutiques">
+      <div class="card-image-wrapper">
+        <span class="badge" [class.closed]="!b.est_ouvert">
+          {{ b.est_ouvert ? 'Ouvert' : 'Fermé' }}
+        </span>
+        <img [src]="b.logo || 'assets/placeholder-shop.jpg'" alt="{{ b.nom }}">
+        <div class="card-overlay">Voir la boutique</div>
+      </div>
+      
+      <div class="card-content">
+        <div class="card-header-text">
+          <h3>{{ b.nom }}</h3>
+          <span class="category-tag">{{ b.id_categorie?.nom || 'Divers' }}</span>
+        </div>
+        
+        <p class="desc">{{ b.description }}</p>
+        
+        <div class="card-footer-info">
+          <span class="location">
+            <i class="fa-solid fa-location-dot" style="color: #ef4444;"></i> {{ b.id_box?.nom }} <small>({{ b.id_box?.etage == 0 ? 'RDC' : 'Étage ' + b.id_box?.etage }})</small>
+          </span>
+        </div>
+      </div>
+    </a>
+
+  </div>
+</div>

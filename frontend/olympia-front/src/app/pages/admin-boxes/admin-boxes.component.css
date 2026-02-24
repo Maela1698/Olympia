@@ -1,0 +1,133 @@
+/* --- EN-TÊTE --- */
+.page-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 2rem; }
+.page-title { font-size: 1.8rem; font-weight: 800; color: #0f172a; margin: 0 0 5px 0; }
+.page-subtitle { color: #64748b; font-size: 0.95rem; margin: 0; }
+.header-actions { display: flex; gap: 10px; }
+
+/* --- POP-UP (MODAL) --- */
+.modal-overlay {
+  position: fixed;
+  top: 0; left: 0; right: 0; bottom: 0;
+  background: rgba(15, 23, 42, 0.6); /* Fond sombre transparent */
+  backdrop-filter: blur(4px); /* Effet verre */
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 9999;
+  animation: fadeIn 0.2s ease-out;
+}
+
+.modal-content {
+  background: white;
+  border-radius: 16px;
+  width: 100%;
+  max-width: 450px;
+  box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1);
+  overflow: hidden;
+  animation: slideUp 0.3s ease-out;
+}
+
+.modal-header {
+  display: flex; justify-content: space-between; align-items: center;
+  padding: 1.5rem 2rem; border-bottom: 1px solid #e2e8f0;
+}
+.modal-header h3 { margin: 0; font-size: 1.25rem; color: #0f172a; }
+.btn-close { background: none; border: none; font-size: 1.2rem; cursor: pointer; color: #94a3b8; transition: 0.2s; }
+.btn-close:hover { color: #ef4444; }
+
+.modal-body { padding: 2rem; }
+.form-group { margin-bottom: 1.5rem; display: flex; flex-direction: column; gap: 8px; }
+.form-row-2 { display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; }
+.form-group label { font-size: 0.85rem; font-weight: 600; color: #475569; }
+.form-control { padding: 12px 15px; border: 1px solid #cbd5e1; border-radius: 8px; outline: none; transition: 0.2s; font-size: 0.95rem; }
+.form-control:focus { border-color: #4f46e5; box-shadow: 0 0 0 3px rgba(79, 70, 229, 0.1); }
+
+.modal-footer {
+  padding: 1.5rem 2rem; background: #f8fafc; border-top: 1px solid #e2e8f0;
+  display: flex; justify-content: flex-end; gap: 10px;
+}
+
+/* --- TOAST NOTIFICATION --- */
+.toast-notification {
+  position: fixed;
+  bottom: -100px; /* Caché par défaut en bas */
+  right: 20px;
+  background: #10b981; /* Vert succès */
+  color: white;
+  padding: 15px 25px;
+  border-radius: 10px;
+  font-weight: 600;
+  box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1);
+  z-index: 10000;
+  transition: all 0.4s cubic-bezier(0.68, -0.55, 0.265, 1.55); /* Animation "rebond" sympa */
+}
+
+.toast-notification.show { bottom: 30px; } /* Remonte quand il est actif */
+
+/* BADGES DE STATUT (Design Pilule) */
+.badge-status {
+  display: inline-flex;
+  align-items: center;
+  padding: 6px 12px;
+  border-radius: 9999px; /* Forme de pilule */
+  font-size: 0.8rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+.badge-libre {
+  background-color: #dcfce7; /* Fond vert très clair */
+  color: #16a34a; /* Texte vert soutenu */
+  border: 1px solid #bbf7d0;
+}
+
+.badge-loue {
+  background-color: #fee2e2; /* Fond rouge très clair */
+  color: #dc2626; /* Texte rouge soutenu */
+  border: 1px solid #fecaca;
+}
+
+/* BOUTONS D'ACTION DU TABLEAU */
+.table-actions {
+  display: flex;
+  gap: 10px;
+  justify-content: flex-end;
+}
+
+.btn-sm {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 6px 12px;
+  font-size: 0.85rem;
+  font-weight: 600;
+  border-radius: 6px;
+  cursor: pointer;
+  transition: all 0.2s;
+  background: white;
+}
+
+/* Bouton Modifier (Bleu/Indigo) */
+.btn-outline-edit {
+  color: #4f46e5;
+  border: 1px solid #c7d2fe;
+}
+.btn-outline-edit:hover {
+  background-color: #eef2ff;
+  border-color: #818cf8;
+}
+
+/* Bouton Supprimer (Rouge) */
+.btn-outline-delete {
+  color: #ef4444;
+  border: 1px solid #fecaca;
+}
+.btn-outline-delete:hover {
+  background-color: #fef2f2;
+  border-color: #f87171;
+}
+
+/* Animations */
+@keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
+@keyframes slideUp { from { transform: translateY(20px); opacity: 0; } to { transform: translateY(0); opacity: 1; } }
