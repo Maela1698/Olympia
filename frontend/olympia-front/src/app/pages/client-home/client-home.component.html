@@ -17,7 +17,7 @@
         <span class="badge" [class.closed]="!b.est_ouvert">
           {{ b.est_ouvert ? 'Ouvert' : 'Fermé' }}
         </span>
-        <img [src]="b.logo || 'assets/placeholder-shop.jpg'" alt="{{ b.nom }}">
+        <img [src]="b.logo | imageUrl" alt="{{ b.nom }}">
         <div class="card-overlay">Voir la boutique</div>
       </div>
       

@@ -3,12 +3,13 @@ import { CommonModule } from '@angular/common';
 import { HttpClient } from '@angular/common/http';
 import { RouterModule } from '@angular/router'; // 👈 1. IMPORT OBLIGATOIRE
 import { environment } from '../../../environments/environment';
+import { ImageUrlPipe } from '../../pipes/image-url.pipe';
 
 @Component({
   selector: 'app-client-home',
   standalone: true,
   // 👇 2. AJOUTE RouterModule ICI pour que [routerLink] fonctionne dans le HTML
-  imports: [CommonModule, RouterModule], 
+  imports: [CommonModule, RouterModule,ImageUrlPipe], 
   templateUrl: './client-home.component.html',
   styleUrls: ['./client-home.component.css']
 })
