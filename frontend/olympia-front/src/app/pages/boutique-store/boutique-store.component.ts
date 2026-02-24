@@ -3,11 +3,13 @@ import { CommonModule } from '@angular/common';
 import { ActivatedRoute, RouterModule } from '@angular/router';
 import { HttpClient } from '@angular/common/http';
 import { environment } from '../../../environments/environment';
+import { ImageUrlPipe } from '../../pipes/image-url.pipe';
+
 
 @Component({
   selector: 'app-boutique-store',
   standalone: true,
-  imports: [CommonModule, RouterModule],
+  imports: [CommonModule, RouterModule, ImageUrlPipe],
   templateUrl: './boutique-store.component.html',
   styleUrls: ['./boutique-store.component.css']
 })

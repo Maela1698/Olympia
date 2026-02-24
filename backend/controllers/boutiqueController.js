@@ -80,7 +80,7 @@ exports.createBoutique = async (req, res) => {
     
     if (req.file) {
       // On construit l'URL complète : http://localhost:3000/uploads/mon-image.jpg
-      logoUrl = `${req.protocol}://${req.get('host')}/uploads/${req.file.filename}`;
+      logoUrl = `${req.file.filename}`;
     } else if (boutiqueObject.logo) {
        // Si l'utilisateur a quand même mis une URL texte (cas rare)
        logoUrl = boutiqueObject.logo;

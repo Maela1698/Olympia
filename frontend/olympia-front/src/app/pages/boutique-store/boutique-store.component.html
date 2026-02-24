@@ -5,7 +5,7 @@
 
   <div class="store-profile-container">
     <div class="logo-wrapper">
-      <img [src]="shopData.boutique.logo || 'assets/placeholder-shop.jpg'" 
+      <img [src]="shopData.boutique.logo | imageUrl" 
            class="store-logo" 
            alt="Logo {{ shopData.boutique.nom }}">
     </div>
