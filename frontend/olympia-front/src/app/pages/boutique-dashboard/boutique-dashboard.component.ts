@@ -5,11 +5,13 @@ import { ProductService } from '../../services/product.service';
 import { HttpClient } from '@angular/common/http';
 import { environment } from '../../../environments/environment';
 import { AuthService } from '../../services/auth.service';
+import { ImageUrlPipe } from '../../pipes/image-url.pipe';
+
 
 @Component({
   selector: 'app-boutique-dashboard',
   standalone: true,
-  imports: [CommonModule, RouterModule],
+  imports: [CommonModule, RouterModule, ImageUrlPipe],
   templateUrl: './boutique-dashboard.component.html',
   styleUrl: './boutique-dashboard.component.css'
 })

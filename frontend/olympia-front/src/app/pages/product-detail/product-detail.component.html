@@ -5,12 +5,12 @@
     <div class="visual-col">
       <div class="main-frame">
         <span *ngIf="product.promo" class="tag-promo">PROMO</span>
-        <img [src]="selectedImage || 'assets/no-img.png'" class="hero-img">
+        <img [src]="selectedImage | imageUrl" class="hero-img">
       </div>
       
       <div class="thumbs-list" *ngIf="product.images.length > 1">
         <img *ngFor="let img of product.images" 
-             [src]="img" 
+             [src]="img | imageUrl"
              (click)="changeImage(img)"
              [class.active]="selectedImage === img">
       </div>

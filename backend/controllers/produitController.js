@@ -50,7 +50,7 @@ exports.createProduit = async (req, res) => {
     let imagesPaths = [];
     if (req.files && req.files.length > 0) {
       imagesPaths = req.files.map(file => 
-        `${req.protocol}://${req.get('host')}/uploads/${file.filename}`
+        `${file.filename}`
       );
     }
 

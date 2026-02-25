@@ -3,11 +3,13 @@ import { CommonModule } from '@angular/common';
 import { HttpClient } from '@angular/common/http';
 import { environment } from '../../../environments/environment';
 import { RouterLink } from '@angular/router';
+import { ImageUrlPipe } from '../../pipes/image-url.pipe';
+
 
 @Component({
   selector: 'app-admin-boutiques',
   standalone: true,
-  imports: [CommonModule, RouterLink], 
+  imports: [CommonModule, RouterLink, ImageUrlPipe], 
   templateUrl: './admin-boutiques.component.html',
   styleUrl: './admin-boutiques.component.css'
 })

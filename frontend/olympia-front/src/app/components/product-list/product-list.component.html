@@ -28,7 +28,7 @@
               <button *ngIf="p.images?.length > 1" (click)="prevImage(p)" class="btn-arrow">◀</button>
               
               <div class="img-badge-wrapper">
-                <img [src]="p.images[p.currentIndex] || 'assets/placeholder-shop.jpg'" class="product-thumb">
+                <img [src]="p.images[p.currentIndex] | imageUrl" class="product-thumb">
                 <span *ngIf="p.promo" class="promo-badge">PROMO</span>
               </div>
 

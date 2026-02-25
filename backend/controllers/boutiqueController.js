@@ -26,7 +26,7 @@ exports.getAdminBoutiques = async (req, res) => {
             .populate('id_responsable', 'name fname mail'); 
         res.status(200).json(boutiques);
     } catch (error) {
-        console.error("❌ ERREUR BACKEND :", error); 
+        console.error(" ERREUR BACKEND :", error); 
         res.status(500).json({ message: "Erreur serveur", error: error.message });
     }
 };

@@ -25,7 +25,7 @@
         <tr *ngFor="let b of boutiques">
           <td>
             <div class="boutique-info-cell">
-              <img [src]="b.logo || 'assets/placeholder-shop.jpg'" class="avatar-img">
+              <img [src]="b.logo | imageUrl" class="avatar-img">
               <div>
                 <div class="font-bold">{{ b.nom }}</div>
                 <small class="text-muted">{{ b.horaires }}</small>

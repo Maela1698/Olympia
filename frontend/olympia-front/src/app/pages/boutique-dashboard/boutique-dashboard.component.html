@@ -50,7 +50,7 @@
 
       <div class="product-mini-list">
         <div class="product-item" *ngFor="let p of derniersProduits">
-          <img [src]="p.images[0] || 'assets/placeholder-shop.jpg'" alt="">
+          <img [src]="p.images[0] | imageUrl" alt="">
           <div class="p-info">
             <span class="p-name">{{ p.nom }}</span>
             <span class="p-price">{{ p.prix }} Ar</span>
