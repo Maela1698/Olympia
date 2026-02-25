@@ -6,11 +6,13 @@ import { ProductService } from '../../services/product.service';
 import { AuthService } from '../../services/auth.service';
 import { HttpClient } from '@angular/common/http';
 import { environment } from '../../../environments/environment';
+import { ImageUrlPipe } from '../../pipes/image-url.pipe';
+
 
 @Component({
   selector: 'app-product-form',
   standalone: true,
-  imports: [CommonModule, ReactiveFormsModule, RouterModule],
+  imports: [CommonModule, ReactiveFormsModule, RouterModule, ImageUrlPipe],
   templateUrl: './product-form.component.html'
 })
 export class ProductFormComponent implements OnInit {
