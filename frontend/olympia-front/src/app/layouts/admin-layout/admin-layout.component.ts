@@ -54,4 +54,20 @@ export class AdminLayoutComponent implements OnInit {
       this.isDropdownOpen = false;
     }
   }
+
+  isSidebarOpen: boolean = false;
+  isSidebarCollapsed: boolean = false; // NOUVEAU : Pour minimiser/agrandir sur PC
+
+  // La fonction pour ouvrir/fermer
+  toggleSidebar() {
+    this.isSidebarOpen = !this.isSidebarOpen;
+  }
+
+  // La fonction pour fermer automatiquement quand on clique sur un lien (très pratique sur mobile !)
+  closeSidebar() {
+    this.isSidebarOpen = false;
+  }
+  toggleCollapse() {
+    this.isSidebarCollapsed = !this.isSidebarCollapsed;
+  }
 }

@@ -10,32 +10,48 @@
     <p>Recherche des meilleures adresses...</p>
   </div>
 
+
+  <div *ngIf="selectedBoutiqueId" style="margin-bottom: 20px; text-align: center;">
+    <p style="color: #4f46e5; font-weight: bold; margin-bottom: 10px;">Résultat de votre recherche</p>
+    <button routerLink="/" 
+            style="background: #f1f5f9; color: #0f172a; border: none; padding: 8px 16px; border-radius: 8px; cursor: pointer; font-weight: bold;">
+      <i class="fa-solid fa-arrow-left"></i> Voir toutes les boutiques
+    </button>
+  </div>
+  
   <div class="grid-boutiques" *ngIf="!isLoading">
     
-    <a [routerLink]="['/boutique-client', b._id]" class="card" *ngFor="let b of boutiques">
-      <div class="card-image-wrapper">
-        <span class="badge" [class.closed]="!b.est_ouvert">
-          {{ b.est_ouvert ? 'Ouvert' : 'Fermé' }}
-        </span>
-        <img [src]="b.logo | imageUrl" alt="{{ b.nom }}">
-        <div class="card-overlay">Voir la boutique</div>
-      </div>
+    <ng-container *ngFor="let b of boutiques">
       
-      <div class="card-content">
-        <div class="card-header-text">
-          <h3>{{ b.nom }}</h3>
-          <span class="category-tag">{{ b.id_categorie?.nom || 'Divers' }}</span>
-        </div>
+      <a [routerLink]="['/boutique-client', b._id]" 
+         class="card" 
+         *ngIf="!selectedBoutiqueId || b._id === selectedBoutiqueId">
         
-        <p class="desc">{{ b.description }}</p>
-        
-        <div class="card-footer-info">
-          <span class="location">
-            <i class="fa-solid fa-location-dot" style="color: #ef4444;"></i> {{ b.id_box?.nom }} <small>({{ b.id_box?.etage == 0 ? 'RDC' : 'Étage ' + b.id_box?.etage }})</small>
+        <div class="card-image-wrapper">
+          <span class="badge" [class.closed]="!b.est_ouvert">
+            {{ b.est_ouvert ? 'Ouvert' : 'Fermé' }}
           </span>
+          <img [src]="b.logo | imageUrl" alt="{{ b.nom }}">
+          <div class="card-overlay">Voir la boutique</div>
         </div>
-      </div>
-    </a>
+        
+        <div class="card-content">
+          <div class="card-header-text">
+            <h3>{{ b.nom }}</h3>
+            <span class="category-tag">{{ b.id_categorie?.nom || 'Divers' }}</span>
+          </div>
+          
+          <p class="desc">{{ b.description }}</p>
+          
+          <div class="card-footer-info">
+            <span class="location">
+              <i class="fa-solid fa-location-dot" style="color: #ef4444;"></i> {{ b.id_box?.nom }} <small>({{ b.id_box?.etage == 0 ? 'RDC' : 'Étage ' + b.id_box?.etage }})</small>
+            </span>
+          </div>
+        </div>
+      </a>
+      
+    </ng-container>
 
   </div>
 </div>

@@ -15,7 +15,7 @@
 
   <form [formGroup]="productForm" (ngSubmit)="onSubmit()" class="pro-card" style="background: white; border-radius: 16px; border: 1px solid #e2e8f0; box-shadow: 0 10px 15px -3px rgba(0,0,0,0.05); padding: 2.5rem;">
     
-    <div class="form-row-grid" style="display: grid; grid-template-columns: 2fr 1fr; gap: 1.5rem; margin-bottom: 1.5rem;">
+    <div class="form-row-grid" style="display: grid; grid-template-columns: 2fr 1fr 1fr; gap: 1.5rem; margin-bottom: 1.5rem;">
       <div class="form-group">
         <label style="font-size: 0.75rem; font-weight: 700; color: #64748b; text-transform: uppercase; letter-spacing: 0.5px; margin-bottom: 8px; display: block;">Nom du produit</label>
         <input type="text" formControlName="nom" class="form-control" placeholder="Ex: Chemise en lin" style="width: 100%; padding: 12px 15px; border: 1px solid #cbd5e1; border-radius: 8px; font-size: 0.95rem; color: #1e293b; background: #f8fafc; outline: none;">
@@ -24,6 +24,11 @@
       <div class="form-group">
         <label style="font-size: 0.75rem; font-weight: 700; color: #64748b; text-transform: uppercase; letter-spacing: 0.5px; margin-bottom: 8px; display: block;">Prix unitaire (Ar)</label>
         <input type="number" formControlName="prix" class="form-control" placeholder="0" style="width: 100%; padding: 12px 15px; border: 1px solid #cbd5e1; border-radius: 8px; font-size: 0.95rem; color: #1e293b; background: #f8fafc; outline: none;">
+      </div>
+
+      <div class="form-group">
+        <label style="font-size: 0.75rem; font-weight: 700; color: #64748b; text-transform: uppercase; letter-spacing: 0.5px; margin-bottom: 8px; display: block;">Stock disponible</label>
+        <input type="number" formControlName="stock" class="form-control" placeholder="1" min="0" style="width: 100%; padding: 12px 15px; border: 1px solid #cbd5e1; border-radius: 8px; font-size: 0.95rem; color: #1e293b; background: #f8fafc; outline: none;">
       </div>
     </div>
 

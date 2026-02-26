@@ -9,6 +9,8 @@ router.get('/', boutiqueController.getPublicBoutiques);
 router.get('/admin/all', boutiqueController.getAdminBoutiques);
 router.get('/mes-infos/:userId', boutiqueController.getMaBoutique);
 router.get('/:id', boutiqueController.getBoutiqueById);
+// Route : /api/boutiques/responsable/:vendeurId
+router.get('/responsable/:vendeurId', boutiqueController.getBoutiquesParResponsable);
 
 // --- ROUTES ECRITURE ---
 

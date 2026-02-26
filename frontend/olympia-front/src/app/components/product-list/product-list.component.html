@@ -17,6 +17,7 @@
           <th>Visuel</th>
           <th>Nom du produit</th>
           <th>Prix unitaire</th>
+          <th>Stock</th> 
           <th class="text-right">Actions</th>
         </tr>
       </thead>
@@ -39,6 +40,11 @@
           
           <td class="font-bold">{{ p.nom }}</td>
           <td class="price-text">{{ p.prix }} Ar</td>
+          <td>
+            <span [ngStyle]="{'color': p.stock > 0 ? '#10b981' : '#ef4444', 'font-weight': 'bold'}">
+              {{ p.stock > 0 ? p.stock + ' en stock' : 'Rupture' }}
+            </span>
+          </td>
           
           <td class="text-right actions-cell">
             <div class="table-actions">

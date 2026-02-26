@@ -1,0 +1,81 @@
+<div class="page-container" style="max-width: 1000px; margin: 2rem auto; padding: 2rem; background: white; border-radius: 12px; box-shadow: 0 4px 6px rgba(0,0,0,0.05);">
+  
+  <h1 style="font-size: 1.8rem; color: #0f172a; border-bottom: 2px solid #e2e8f0; padding-bottom: 1rem; margin-bottom: 2rem;">
+    <i class="fa-solid fa-chart-line" style="color: #4f46e5; margin-right: 10px;"></i> Historique de mes ventes
+  </h1>
+
+  <div style="margin-bottom: 2rem; background: #f8fafc; padding: 1.5rem; border-radius: 8px; border: 1px solid #e2e8f0;">
+    <label style="display: block; font-weight: 600; color: #475569; margin-bottom: 8px;">Sélectionnez la boutique à analyser :</label>
+    <select 
+      [(ngModel)]="boutiqueSelectionnee" 
+      (change)="onChangementBoutique()"
+      style="width: 100%; max-width: 400px; padding: 10px; border-radius: 6px; border: 1px solid #cbd5e1; font-size: 1rem;">
+      <option *ngFor="let boutique of mesBoutiques" [value]="boutique._id">
+        {{ boutique.nom }}
+      </option>
+    </select>
+  </div>
+
+  <div *ngIf="isLoading" style="text-align: center; padding: 2rem; color: #64748b;">
+    <i class="fa-solid fa-spinner fa-spin fa-2x"></i>
+    <p>Chargement de l'historique...</p>
+  </div>
+
+  <div *ngIf="!isLoading && historiqueVentes.length === 0" style="text-align: center; padding: 3rem; background: #f8fafc; border-radius: 8px; color: #64748b;">
+    <i class="fa-solid fa-box-open" style="font-size: 3rem; color: #cbd5e1; margin-bottom: 1rem;"></i>
+    <h3>Aucune vente pour le moment</h3>
+    <p>Les futurs achats de vos clients apparaîtront ici.</p>
+  </div>
+
+  <div *ngIf="!isLoading && historiqueVentes.length > 0">
+    <div *ngFor="let vente of historiqueVentes" style="border: 1px solid #e2e8f0; border-radius: 8px; margin-bottom: 1.5rem; overflow: hidden;">
+      
+      <div style="background: #f8fafc; padding: 15px 20px; display: grid; grid-template-columns: 1fr 1.5fr 1fr; align-items: center; border-bottom: 1px solid #e2e8f0;">
+        
+        <div>
+          <span style="font-size: 0.85rem; color: #64748b; text-transform: uppercase; font-weight: bold;">Date de la commande</span>
+          <div style="color: #0f172a; font-weight: 600; margin-top: 5px;">{{ vente.date_commande | date:'dd/MM/yyyy HH:mm' }}</div>
+        </div>
+
+        <div style="border-left: 2px solid #e2e8f0; border-right: 2px solid #e2e8f0; padding: 0 15px;">
+          <span style="font-size: 0.85rem; color: #64748b; text-transform: uppercase; font-weight: bold;">Client / Acheteur</span>
+          <div style="color: #0f172a; font-weight: 600; display: flex; align-items: center; gap: 8px; margin-top: 5px;">
+            <i class="fa-solid fa-circle-user" style="color: #4f46e5; font-size: 1.2rem;"></i>
+            {{ vente.client?.name || vente.client?.fname || vente.client?.nom || 'Client inconnu' }}
+          </div>
+          <div style="color: #64748b; font-size: 0.85rem; margin-left: 28px;">
+            {{ vente.client?.email || vente.client?.mail }}
+          </div>
+        </div>
+
+        <div style="text-align: right;">
+          <span style="font-size: 0.85rem; color: #64748b; text-transform: uppercase; font-weight: bold;">Ma recette</span>
+          <div style="color: #10b981; font-weight: 800; font-size: 1.2rem; margin-top: 5px;">+ {{ vente.total_gagne | number }} Ar</div>
+        </div>
+      </div>
+
+      <div style="padding: 15px 20px;">
+        <table style="width: 100%; border-collapse: collapse;">
+          <thead>
+            <tr style="text-align: left; color: #64748b; font-size: 0.85rem; border-bottom: 2px solid #f1f5f9;">
+              <th style="padding-bottom: 10px;">Article vendu</th>
+              <th style="padding-bottom: 10px;">Quantité</th>
+              <th style="padding-bottom: 10px;">Prix unitaire</th>
+              <th style="padding-bottom: 10px; text-align: right;">Total ligne</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr *ngFor="let article of vente.articles" style="border-bottom: 1px solid #f8fafc;">
+              <td style="padding: 12px 0; color: #1e293b; font-weight: 500;">{{ article.nom_produit }}</td>
+              <td style="padding: 12px 0; color: #475569;">x {{ article.quantite }}</td>
+              <td style="padding: 12px 0; color: #475569;">{{ article.prix_unitaire | number }} Ar</td>
+              <td style="padding: 12px 0; text-align: right; color: #0f172a; font-weight: 600;">{{ (article.prix_unitaire * article.quantite) | number }} Ar</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+
+    </div>
+  </div>
+
+</div>

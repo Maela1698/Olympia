@@ -18,6 +18,23 @@ exports.getPublicBoutiques = async (req, res) => {
   }
 };
 
+// Récupérer toutes les boutiques d'un vendeur spécifique
+exports.getBoutiquesParResponsable = async (req, res) => {
+  try {
+    const vendeurId = req.params.vendeurId;
+    // On cherche les boutiques où id_responsable correspond à l'ID reçu
+    const boutiques = await Boutique.find({ id_responsable: vendeurId });
+    
+    if (!boutiques) {
+      return res.status(404).json({ message: "Aucune boutique trouvée pour ce vendeur." });
+    }
+    
+    res.status(200).json(boutiques);
+  } catch (error) {
+    res.status(500).json({ message: "Erreur lors de la récupération des boutiques", error });
+  }
+};
+
 exports.getAdminBoutiques = async (req, res) => {
     try {
         const boutiques = await Boutique.find()

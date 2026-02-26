@@ -7,13 +7,12 @@ import { environment } from '../../../environments/environment';
 import { AuthService } from '../../services/auth.service';
 import { ImageUrlPipe } from '../../pipes/image-url.pipe';
 
-
 @Component({
   selector: 'app-boutique-dashboard',
   standalone: true,
   imports: [CommonModule, RouterModule, ImageUrlPipe],
   templateUrl: './boutique-dashboard.component.html',
-  styleUrl: './boutique-dashboard.component.css'
+  styleUrls: ['./boutique-dashboard.component.css']
 })
 export class BoutiqueDashboardComponent implements OnInit {
   productService = inject(ProductService);
@@ -22,73 +21,64 @@ export class BoutiqueDashboardComponent implements OnInit {
   router = inject(Router);
   today: Date = new Date();
 
-  activeBoutiqueName: string = 'Chargement...';
-  activeBoutiqueId: string = '';
-  
-  userBoutiques: any[] = []; // Toutes les boutiques de l'utilisateur connecté
-  boutiquesStats: any[] = []; // Les statistiques séparées
-  derniersProduits: any[] = [];
+  // Nos nouvelles variables de données
+  userBoutiques: any[] = []; 
+  boutiquesData: any[] = []; // Contiendra TOUT (Produits, Stocks, Recette) séparé par boutique
+  recetteGlobale: number = 0; // La somme de toutes les recettes de toutes les boutiques
 
   ngOnInit() {
     const user = this.authService.getUser();
     
-    // Sécurité : si aucun utilisateur n'est connecté, on bloque.
-    if (!user || !user.id) {
+    if (!user || (!user.id && !user._id)) {
       this.router.navigate(['/login']);
       return;
     }
 
-    // 1. On récupère toutes les boutiques et on filtre pour CE vendeur
-    this.http.get<any[]>(`${environment.apiUrl}/boutiques/admin/all`).subscribe(all => {
-      this.userBoutiques = all.filter(b => b.id_responsable?._id === user.id || b.id_responsable === user.id);
+    const userId = user.id || user._id;
 
-      if (this.userBoutiques.length === 0) {
-        this.activeBoutiqueName = 'Aucune boutique';
-        return; // Le vendeur n'a pas encore de boutique
-      }
-
-      // 2. CORRECTION DU BUG LOCALSTORAGE : On vérifie si l'ID en mémoire appartient bien à ce vendeur
-      const savedBoutiqueId = localStorage.getItem('activeBoutiqueId');
-      const boutiqueValide = this.userBoutiques.find(b => b._id === savedBoutiqueId);
-
-      if (boutiqueValide) {
-        // La boutique en mémoire lui appartient bien
-        this.activeBoutiqueId = boutiqueValide._id;
-        this.activeBoutiqueName = boutiqueValide.nom;
-      } else {
-        // L'ID en mémoire appartient à l'ancien utilisateur ! On écrase avec SA première boutique.
-        this.activeBoutiqueId = this.userBoutiques[0]._id;
-        this.activeBoutiqueName = this.userBoutiques[0].nom;
-        localStorage.setItem('activeBoutiqueId', this.activeBoutiqueId);
-        localStorage.setItem('activeBoutiqueName', this.activeBoutiqueName);
-      }
-
-      // 3. Charger les stats pour CHAQUE boutique (pour les séparer)
-      this.loadAllStats();
-
-      // 4. Charger les derniers produits pour la liste rapide
-      this.loadActiveBoutiqueProducts();
+    // 1. On récupère toutes les boutiques du vendeur
+    this.http.get<any[]>(`${environment.apiUrl}/boutiques/responsable/${userId}`).subscribe({
+      next: (boutiques) => {
+        this.userBoutiques = boutiques;
+        this.loadBoutiquesData(); // On charge les détails
+      },
+      error: (err) => console.error("Erreur chargement boutiques", err)
     });
   }
 
-  loadAllStats() {
-    this.boutiquesStats = []; // On vide le tableau
-    
-    // On boucle sur chaque boutique du vendeur pour récupérer ses propres produits
+  // 2. On charge les statistiques, les stocks et les recettes pour CHAQUE boutique
+  loadBoutiquesData() {
+    this.recetteGlobale = 0;
+    this.boutiquesData = [];
+
     this.userBoutiques.forEach(boutique => {
-      this.productService.getAll(boutique._id).subscribe(produits => {
-        this.boutiquesStats.push({
-          nom: boutique.nom,
-          nbProduits: produits.length,
-          nbPromo: produits.filter(p => p.promo === true || p.promo === 'true').length
-        });
-      });
-    });
-  }
+      // On prépare un objet vide pour cette boutique
+      let boutiqueDetail = {
+        _id: boutique._id,
+        nom: boutique.nom,
+        produits: [] as any[],
+        nbProduits: 0,
+        nbPromo: 0,
+        recette: 0
+      };
 
-  loadActiveBoutiqueProducts() {
-    this.productService.getAll(this.activeBoutiqueId).subscribe(produits => {
-      this.derniersProduits = produits.slice().reverse().slice(0, 4); // Top 4 récents
+      // A. On va chercher les produits (pour le stock)
+      this.productService.getAll(boutique._id).subscribe(produits => {
+        boutiqueDetail.produits = produits;
+        boutiqueDetail.nbProduits = produits.length;
+        boutiqueDetail.nbPromo = produits.filter((p: any) => p.promo === true || p.promo === 'true').length;
+      });
+
+      // B. On va chercher les commandes (pour la recette)
+      this.http.get<any[]>(`${environment.apiUrl}/commandes/boutique/${boutique._id}`).subscribe(ventes => {
+        // On additionne l'argent gagné
+        const recetteBoutique = ventes.reduce((sum, v) => sum + v.total_gagne, 0);
+        boutiqueDetail.recette = recetteBoutique;
+        this.recetteGlobale += recetteBoutique; // On l'ajoute au grand total global
+      });
+
+      // On ajoute cette boutique configurée au tableau final
+      this.boutiquesData.push(boutiqueDetail);
     });
   }
 }

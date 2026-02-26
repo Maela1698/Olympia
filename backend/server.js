@@ -11,7 +11,7 @@ const boxRoutes = require("./routes/boxRoutes");
 const produitRoutes = require("./routes/produitRoutes");
 const categorieRoutes = require("./routes/categorieRoutes");
 const userRoutes = require("./routes/userRoutes");
-
+const commandeRoutes = require('./routes/commandeRoutes');
 const app = express();
 
 // 2. CONNEXION BDD
@@ -42,6 +42,7 @@ const corsOptions = {
 app.use(cors(corsOptions)); // Toujours mettre CORS en premier
 app.use(express.json());    // Pour parser le JSON
 app.use(express.urlencoded({ extended: true })); // Utile pour les formulaires classiques
+app.use('/api/commandes', commandeRoutes);
 
 // 5. FICHIERS STATIQUES (Images, etc.)
 app.use('/uploads', express.static(path.join(__dirname, 'uploads')));

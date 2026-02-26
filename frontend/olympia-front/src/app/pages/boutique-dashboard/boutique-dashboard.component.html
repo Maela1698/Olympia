@@ -3,81 +3,75 @@
   <div class="dashboard-header">
     <div class="welcome-text">
       <h1>Espace Commercial</h1>
-      <p>Gestion en cours : <span class="active-shop-tag">{{ activeBoutiqueName }}</span></p>
+      <p>Vue globale de vos activités et de vos stocks</p>
     </div>
-    <div class="header-date">
-      {{ today | date:'dd MMMM yyyy' }}
+    <div class="header-stats">
+      <div class="header-date">{{ today | date:'dd MMMM yyyy' }}</div>
+      <div class="global-revenue">
+        <span style="font-size: 0.9rem; color: #64748b; text-transform: uppercase;">Recette Totale</span>
+        <div style="font-size: 1.8rem; font-weight: 800; color: #10b981;">{{ recetteGlobale | number }} Ar</div>
+      </div>
     </div>
   </div>
 
-  <div class="kpi-grid">
-    <div class="kpi-card">
-      <div class="kpi-icon blue"><i class="fa-solid fa-store"></i></div>
-      <div class="kpi-info">
-        <span class="label">Mes Boutiques</span>
-        <h2 class="value">{{ userBoutiques.length }}</h2>
-        <span class="sub-label">Enseigne(s) active(s)</span>
-      </div>
-    </div>
-
-    <ng-container *ngFor="let stat of boutiquesStats">
-      <div class="kpi-card">
-        <div class="kpi-icon green"><i class="fa-solid fa-box-open"></i></div>
-        <div class="kpi-info">
-          <span class="label">Produits ({{ stat.nom }})</span>
-          <h2 class="value">{{ stat.nbProduits }}</h2>
-          <span class="sub-label">Articles en inventaire</span>
-        </div>
-      </div>
-
-      <div class="kpi-card">
-        <div class="kpi-icon red"><i class="fa-solid fa-tags"></i></div>
-        <div class="kpi-info">
-          <span class="label">Promos ({{ stat.nom }})</span>
-          <h2 class="value">{{ stat.nbPromo }}</h2>
-          <span class="sub-label">Offres spéciales en cours</span>
-        </div>
-      </div>
-    </ng-container>
+  <div class="pro-card actions-box" style="display: flex; gap: 15px; margin-bottom: 30px; padding: 15px 24px;">
+    <button routerLink="/boutique/ventes" class="btn-action secondary" style="width: auto; margin: 0;">
+      <i class="fa-solid fa-chart-line"></i> Mes Ventes
+    </button>
+    <button routerLink="/boutique/settings" class="btn-action tertiary" style="width: auto; margin: 0;">
+      <i class="fa-solid fa-gear"></i> Paramètres
+    </button>
   </div>
 
-  <div class="main-layout">
-    <div class="content-area pro-card">
-      <div class="card-header">
-        <h3>Nouveautés au catalogue ({{ activeBoutiqueName }})</h3>
-        <button routerLink="/boutique/produits" class="btn-text">Gérer l'inventaire →</button>
+  <div class="boutiques-grid">
+    
+    <div class="pro-card boutique-col" *ngFor="let b of boutiquesData">
+      
+      <div class="b-header">
+        <h3><i class="fa-solid fa-store" style="color: #4f46e5; margin-right: 8px;"></i> {{ b.nom }}</h3>
+        <span class="b-recette">+ {{ b.recette | number }} Ar</span>
       </div>
 
-      <div class="product-mini-list">
-        <div class="product-item" *ngFor="let p of derniersProduits">
-          <img [src]="p.images[0] | imageUrl" alt="">
-          <div class="p-info">
-            <span class="p-name">{{ p.nom }}</span>
-            <span class="p-price">{{ p.prix }} Ar</span>
+      <div class="b-kpis">
+        <div class="mini-kpi">
+          <span>Produits enregistrés</span>
+          <strong>{{ b.nbProduits }}</strong>
+        </div>
+        <div class="mini-kpi">
+          <span>En Promotion</span>
+          <strong style="color: #ef4444;">{{ b.nbPromo }}</strong>
+        </div>
+      </div>
+
+      <h4 style="margin-top: 25px; font-size: 0.95rem; color: #64748b; border-bottom: 2px solid #f1f5f9; padding-bottom: 10px; margin-bottom: 15px;">
+        <i class="fa-solid fa-boxes-stacked"></i> État des stocks par produit
+      </h4>
+      
+      <div class="stock-list">
+        
+        <div class="stock-item" *ngFor="let p of b.produits">
+          <div style="display: flex; align-items: center; gap: 12px;">
+            <img [src]="p.images[0] | imageUrl" alt="" style="width: 45px; height: 45px; border-radius: 8px; object-fit: cover; border: 1px solid #e2e8f0;">
+            <div>
+              <div style="font-weight: 700; font-size: 0.95rem; color: #1e293b;">{{ p.nom }}</div>
+              <div style="font-size: 0.85rem; color: #64748b;">{{ p.prix | number }} Ar</div>
+            </div>
           </div>
-          <span class="p-badge" *ngIf="p.promo">PROMO</span>
+          
+          <div class="stock-badge" 
+               [ngClass]="{'low-stock': p.stock <= 5 && p.stock > 0, 'out-of-stock': p.stock === 0}">
+            {{ p.stock }} en stock
+          </div>
+        </div>
+
+        <div *ngIf="b.produits.length === 0" style="text-align: center; color: #94a3b8; padding: 20px; font-style: italic;">
+          Aucun produit dans cette boutique.
         </div>
         
-        <div class="empty-msg" *ngIf="derniersProduits.length === 0">
-          Aucun produit enregistré pour le moment.
-        </div>
       </div>
+
     </div>
 
-    <div class="side-area">
-      <div class="pro-card actions-box">
-        <h3>Actions Rapides</h3>
-        <button routerLink="/boutique/produits/nouveau" class="btn-action primary">
-          <i class="fa-solid fa-plus" style="margin-right: 8px;"></i> Nouveau Produit
-        </button>
-        <button routerLink="/boutique/settings" class="btn-action secondary">
-          <i class="fa-solid fa-gear" style="margin-right: 8px;"></i> Paramètres
-        </button>
-        <button routerLink="/boutique/mes-boutiques" class="btn-action tertiary">
-          <i class="fa-solid fa-right-left" style="margin-right: 8px;"></i> Changer de Boutique
-        </button>
-      </div>
-    </div>
   </div>
 
 </div>
