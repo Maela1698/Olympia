@@ -5,9 +5,10 @@ import { HttpClient } from '@angular/common/http';
 import { Router, ActivatedRoute } from '@angular/router';
 import { environment } from '../../../environments/environment';
 import { RouterModule } from '@angular/router';
+import { ImageUrlPipe } from '../../pipes/image-url.pipe';
 
 @Component({
-  imports: [CommonModule, FormsModule, RouterModule],
+  imports: [CommonModule, FormsModule, RouterModule,ImageUrlPipe],
   selector: 'app-admin-boutique-creation',
   standalone: true,
   templateUrl: './admin-boutique-creation.component.html',
