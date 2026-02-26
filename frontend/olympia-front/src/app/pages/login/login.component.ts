@@ -1,24 +1,28 @@
-import { Component, inject } from '@angular/core';
+import { Component, OnInit, inject } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { ReactiveFormsModule, FormBuilder, FormGroup, Validators } from '@angular/forms';
-import { Router } from '@angular/router';
+import { Router, ActivatedRoute, RouterModule } from '@angular/router'; // 👈 Ajout de RouterModule
 import { AuthService } from '../../services/auth.service';
 
 @Component({
   selector: 'app-login',
   standalone: true,
-  imports: [CommonModule, ReactiveFormsModule], 
+  imports: [CommonModule, ReactiveFormsModule, RouterModule], // 👈 N'oublie pas RouterModule
   templateUrl: './login.component.html',
-  styleUrl: './login.component.css'
+  styleUrls: ['./login.component.css']
 })
-export class LoginComponent {
+export class LoginComponent implements OnInit {
   private fb = inject(FormBuilder);
   private authService = inject(AuthService);
   private router = inject(Router);
+  private route = inject(ActivatedRoute);
 
   loginForm: FormGroup;
   errorMessage: string = '';
   isLoading: boolean = false;
+  
+  // 👇 NOUVELLE VARIABLE : Détecte si on est sur le portail ou sur un formulaire
+  currentRole: string | null = null; 
 
   constructor() {
     this.loginForm = this.fb.group({
@@ -27,45 +31,51 @@ export class LoginComponent {
     });
   }
 
+  ngOnInit() {
+    this.route.queryParams.subscribe(params => {
+      // On lit le rôle dans l'URL (ex: /login?role=admin)
+      this.currentRole = params['role'] || null;
+
+      // Si un rôle est trouvé, on pré-remplit le formulaire !
+      if (this.currentRole === 'admin') {
+        this.loginForm.patchValue({ mail: 'admin@test.com', password: '123456' });
+      } else if (this.currentRole === 'commercial') {
+        this.loginForm.patchValue({ mail: 'commercial@olympia.mg', password: '123456' });
+      } else if (this.currentRole === 'client') {
+        this.loginForm.patchValue({ mail: 'safidy@client.mg', password: '123456' });
+      }
+    });
+  }
+
   onSubmit() {
     if (this.loginForm.invalid) return;
-
     this.isLoading = true;
 
     this.authService.login(this.loginForm.value).subscribe({
       next: (response) => {
         this.isLoading = false;
         
-        // IMPORTANT: Assure-toi que response.user.role renvoie bien 'admin', 'commercial' ou 'client'
         const role = response.user.role; 
-        const redirectUrl = localStorage.getItem('redirectAfterLogin');
+        const redirectUrl = sessionStorage.getItem('redirectAfterLogin');
 
-        // On nettoie la mémoire immédiatement
         if (redirectUrl) {
-          localStorage.removeItem('redirectAfterLogin');
+          sessionStorage.removeItem('redirectAfterLogin');
         }
 
-        // --- AIGUILLAGE STRICT SELON LE RÔLE ---
         switch (role) {
           case 'admin':
-            // L'admin va TOUJOURS sur son dashboard
             this.router.navigate(['/admin/dashboard']);
             break;
-            
           case 'commercial': 
-            // Le commercial va TOUJOURS sur son dashboard
             this.router.navigate(['/boutique/dashboard']);
             break;
-            
           case 'client':
-            // SEUL LE CLIENT a le droit de retourner au produit qu'il voulait acheter !
             if (redirectUrl) {
               this.router.navigateByUrl(redirectUrl);
             } else {
               this.router.navigate(['/']);
             }
             break;
-            
           default:
             this.router.navigate(['/']);
         }
