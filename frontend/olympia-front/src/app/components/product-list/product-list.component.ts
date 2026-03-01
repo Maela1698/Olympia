@@ -2,11 +2,13 @@ import { Component, OnInit, inject } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { Router, RouterModule } from '@angular/router';
 import { ProductService } from '../../services/product.service';
+import { ImageUrlPipe } from '../../pipes/image-url.pipe';
+
 
 @Component({
   selector: 'app-product-list',
   standalone: true,
-  imports: [CommonModule, RouterModule],
+  imports: [CommonModule, RouterModule, ImageUrlPipe],
   templateUrl: './product-list.component.html',
   styleUrl: './product-list.component.css'
 })

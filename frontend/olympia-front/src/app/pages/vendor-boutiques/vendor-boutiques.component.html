@@ -13,7 +13,7 @@
     
     <div class="boutique-card" *ngFor="let b of mesBoutiques">
       <div class="card-header">
-        <img [src]="b.logo || 'assets/placeholder-shop.jpg'" class="shop-logo" alt="Logo">
+        <img [src]="b.logo | imageUrl" class="shop-logo" alt="Logo">
       </div>
       
       <div class="card-body">

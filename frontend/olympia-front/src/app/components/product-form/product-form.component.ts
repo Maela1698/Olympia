@@ -6,11 +6,13 @@ import { ProductService } from '../../services/product.service';
 import { AuthService } from '../../services/auth.service';
 import { HttpClient } from '@angular/common/http';
 import { environment } from '../../../environments/environment';
+import { ImageUrlPipe } from '../../pipes/image-url.pipe';
+
 
 @Component({
   selector: 'app-product-form',
   standalone: true,
-  imports: [CommonModule, ReactiveFormsModule, RouterModule],
+  imports: [CommonModule, ReactiveFormsModule, RouterModule, ImageUrlPipe],
   templateUrl: './product-form.component.html'
 })
 export class ProductFormComponent implements OnInit {
@@ -36,6 +38,7 @@ export class ProductFormComponent implements OnInit {
     this.productForm = this.fb.group({
       nom: ['', Validators.required],
       prix: [0, Validators.required],
+      stock: [1, Validators.required],
       description: [''],
       promo: [false]
     });
@@ -85,6 +88,7 @@ export class ProductFormComponent implements OnInit {
     formData.append('nom', this.productForm.get('nom')?.value);
     formData.append('prix', this.productForm.get('prix')?.value);
     formData.append('description', this.productForm.get('description')?.value);
+    formData.append('stock', this.productForm.get('stock')?.value);
     formData.append('promo', this.productForm.get('promo')?.value);
     formData.append('id_boutique', this.boutiqueId);
 

@@ -17,6 +17,7 @@
           <th>Visuel</th>
           <th>Nom du produit</th>
           <th>Prix unitaire</th>
+          <th>Stock</th> 
           <th class="text-right">Actions</th>
         </tr>
       </thead>
@@ -25,20 +26,25 @@
           
           <td style="width: 120px;">
             <div class="carousel-container">
-              <button *ngIf="p.images?.length > 1" (click)="prevImage(p)" class="btn-arrow">◀</button>
+              <button *ngIf="p.images?.length > 1" (click)="prevImage(p)" class="btn-arrow"><span>&#10094;</span></button>
               
               <div class="img-badge-wrapper">
-                <img [src]="p.images[p.currentIndex] || 'assets/placeholder-shop.jpg'" class="product-thumb">
+                <img [src]="p.images[p.currentIndex] | imageUrl" class="product-thumb">
                 <span *ngIf="p.promo" class="promo-badge">PROMO</span>
               </div>
 
-              <button *ngIf="p.images?.length > 1" (click)="nextImage(p)" class="btn-arrow">▶</button>
+              <button *ngIf="p.images?.length > 1" (click)="nextImage(p)" class="btn-arrow"><span>&#10095;</span></button>
             </div>
             <div *ngIf="p.images?.length > 1" class="carousel-counter">{{ p.currentIndex + 1 }}/{{ p.images.length }}</div>
           </td>
           
           <td class="font-bold">{{ p.nom }}</td>
           <td class="price-text">{{ p.prix }} Ar</td>
+          <td>
+            <span [ngStyle]="{'color': p.stock > 0 ? '#10b981' : '#ef4444', 'font-weight': 'bold'}">
+              {{ p.stock > 0 ? p.stock + ' en stock' : 'Rupture' }}
+            </span>
+          </td>
           
           <td class="text-right actions-cell">
             <div class="table-actions">

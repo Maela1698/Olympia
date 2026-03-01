@@ -26,7 +26,7 @@
           <div class="file-upload-wrapper">
             <input type="file" (change)="onFileSelected($event)" accept="image/*" class="file-input">
             <div *ngIf="isEditMode && formData.logo" class="current-logo">
-              <img [src]="formData.logo" alt="Logo actuel">
+              <img [src]="formData.logo | imageUrl" alt="Logo actuel" style="max-width: 150px; border-radius: 8px;">
             </div>
           </div>
         </div>

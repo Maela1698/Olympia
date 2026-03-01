@@ -6,11 +6,13 @@ import { HttpClient } from '@angular/common/http';
 import { BoutiqueService } from '../../../services/boutique.service';
 import { AuthService } from '../../../services/auth.service';
 import { environment } from '../../../../environments/environment';
+import { ImageUrlPipe } from '../../../pipes/image-url.pipe';
+
 
 @Component({
   selector: 'app-boutique-settings',
   standalone: true,
-  imports: [CommonModule, ReactiveFormsModule, RouterModule],
+  imports: [CommonModule, ReactiveFormsModule, RouterModule, ImageUrlPipe],
   templateUrl: './boutique-settings.component.html',
   styleUrl: './boutique-settings.component.css'
 })

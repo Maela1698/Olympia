@@ -8,16 +8,107 @@
       <span class="logo-text">Olympia<span class="accent">.</span></span>
     </a>
 
-    <div class="search-wrapper-pro">
-      <span class="search-icon"></span>
-      <input type="text" placeholder="Rechercher un produit ou une boutique...">
-      <span class="search-shortcut">⌘K</span>
+    <div class="search-wrapper-pro" style="position: relative;">
+      <i class="fa-solid fa-magnifying-glass search-icon" style="color: #94a3b8; margin-right: 12px;"></i>
+      
+      <input type="text" 
+             [(ngModel)]="searchQuery" 
+             (ngModelChange)="onSearchInput()"
+             placeholder="Rechercher (ex: Savon, Restaurant...)"
+             style="border: none; background: transparent; outline: none; width: 100%; font-size: 0.95rem; color: #1e293b;">
+      
+      <span class="search-shortcut" *ngIf="!isSearching">⌘K</span>
+      <i class="fa-solid fa-spinner fa-spin search-shortcut" *ngIf="isSearching" style="background: none; color: #4f46e5;"></i>
+
+      <div class="search-results-panel" *ngIf="showResultsPanel">
+        
+        <div class="no-results" *ngIf="!isSearching && searchResults.produits.length === 0 && searchResults.boutiques.length === 0">
+          <i class="fa-solid fa-ghost"></i> Aucun résultat trouvé pour "{{ searchQuery }}"
+        </div>
+
+        <div class="result-section" *ngIf="searchResults.boutiques.length > 0">
+          <h4><i class="fa-solid fa-store" style="color: #10b981; margin-right: 5px;"></i> Boutiques trouvées</h4>
+          
+          <a *ngFor="let b of searchResults.boutiques" 
+             class="result-item" 
+             (click)="goToBoutique(b._id)"
+             style="cursor: pointer;">
+             
+            <div class="r-icon" style="background: #ecfdf5; color: #10b981; min-width: 40px; height: 40px; border-radius: 8px; display: flex; align-items: center; justify-content: center; font-size: 1.2rem;">
+              <i class="fa-solid fa-shop"></i>
+            </div>
+            
+            <div class="r-info">
+              <span class="r-name">{{ b.nom }}</span>
+              <span class="r-sub" style="color: #10b981; font-weight: 600;">Boutique partenaire</span>
+            </div>
+          </a>
+        </div>
+
+        <div class="result-section" *ngIf="searchResults.produits.length > 0">
+          <h4><i class="fa-solid fa-box-open" style="color: #4f46e5; margin-right: 5px;"></i> Produits trouvés</h4>
+          
+          <a *ngFor="let p of searchResults.produits" 
+             (click)="goToProduit(p._id)" 
+             class="result-item"
+             style="cursor: pointer;">
+             
+             <img [src]="p.images[0] | imageUrl" 
+                  class="r-img" 
+                  style="width: 45px; height: 45px; border-radius: 8px; object-fit: cover;" 
+                  alt="Produit">
+                  
+            <div class="r-info" style="margin-left: 10px;">
+              <span class="r-name">{{ p.nom }}</span>
+              <span class="r-sub" style="color: #4f46e5; font-weight: 700;">{{ p.prix | number }} Ar</span>
+            </div>
+          </a>
+        </div>
+
+      </div>
     </div>
 
-    <div class="nav-actions">
+    <button class="mobile-nav-toggle" (click)="toggleMobileMenu()">
+      <i class="fa-solid" [ngClass]="isMobileMenuOpen ? 'fa-xmark' : 'fa-bars'"></i>
+    </button>
+
+    <div class="nav-actions" [class.open]="isMobileMenuOpen" style="display: flex; align-items: center; gap: 15px;">
       <a routerLink="/" class="nav-link">Accueil</a>
       <div class="separator"></div>
-      <a routerLink="/login" class="btn-login-pro">Se connecter</a>
+      
+      <ng-container *ngIf="!currentUser">
+        <a routerLink="/login" class="btn-login-pro">Se connecter</a>
+      </ng-container>
+
+      <ng-container *ngIf="currentUser">
+        
+        <ng-container *ngIf="currentUser.id_role?.nom === 'client' || currentUser.role === 'client'">
+          <span style="font-weight: 600; color: #4f46e5;">
+            Bonjour, {{ currentUser.fname || currentUser.nom || currentUser.name }}
+          </span>
+
+          <a routerLink="/panier" style="position: relative; background: #f8fafc; color: #0f172a; padding: 8px 15px; border-radius: 8px; text-decoration: none; font-weight: 600; display: flex; align-items: center; gap: 8px; border: 1px solid #e2e8f0;">
+            <i class="fa-solid fa-cart-shopping"></i> Mon Panier
+            
+            <span *ngIf="cartItemCount > 0" style="position: absolute; top: -8px; right: -8px; background: #ef4444; color: white; font-size: 0.75rem; font-weight: bold; width: 20px; height: 20px; border-radius: 50%; display: flex; align-items: center; justify-content: center; box-shadow: 0 2px 4px rgba(0,0,0,0.2);">
+              {{ cartItemCount }}
+            </span>
+          </a>
+        </ng-container>
+
+        <a *ngIf="currentUser.id_role?.nom === 'commercial' || currentUser.role === 'commercial'" routerLink="/boutique/dashboard" class="btn-login-pro" style="background: #10b981; border-color: #10b981;">
+          Espace Vendeur
+        </a>
+
+        <a *ngIf="currentUser.id_role?.nom === 'admin' || currentUser.role === 'admin'" routerLink="/admin/dashboard" class="btn-login-pro" style="background: #0f172a; border-color: #0f172a;">
+          Espace Admin
+        </a>
+
+        <button (click)="onLogout()" class="btn-login-pro" style="background: #fee2e2; color: #ef4444; border: none; cursor: pointer;">
+          Déconnexion
+        </button>
+
+      </ng-container>
     </div>
 
   </div>

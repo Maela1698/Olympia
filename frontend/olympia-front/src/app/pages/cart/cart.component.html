@@ -1,0 +1,78 @@
+<div class="page-container" style="max-width: 1000px; margin: 2rem auto; padding: 0 1rem;">
+  
+  <h1 style="font-size: 2rem; color: #0f172a; margin-bottom: 1.5rem;">
+    <i class="fa-solid fa-cart-shopping"></i> Mon Panier
+  </h1>
+
+  <div *ngIf="cartItems.length === 0" style="text-align: center; padding: 4rem 2rem; background: white; border-radius: 12px; box-shadow: 0 4px 6px rgba(0,0,0,0.05);">
+    <i class="fa-solid fa-basket-shopping" style="font-size: 4rem; color: #cbd5e1; margin-bottom: 1rem;"></i>
+    <h2 style="color: #475569; margin-bottom: 1rem;">Votre panier est tristement vide</h2>
+    <p style="color: #64748b; margin-bottom: 2rem;">Découvrez nos boutiques et trouvez votre bonheur !</p>
+    <a routerLink="/" style="background: #4f46e5; color: white; padding: 12px 24px; border-radius: 8px; text-decoration: none; font-weight: bold;">
+      Retourner aux achats
+    </a>
+  </div>
+
+  <div *ngIf="cartItems.length > 0" style="display: grid; grid-template-columns: 2fr 1fr; gap: 2rem;">
+    
+    <div class="cart-items">
+      <div style="background: white; border-radius: 12px; box-shadow: 0 4px 6px rgba(0,0,0,0.05); overflow: hidden;">
+        
+        <div *ngFor="let item of cartItems; let last = last" [style.border-bottom]="last ? 'none' : '1px solid #e2e8f0'" style="padding: 1.5rem; display: flex; gap: 1.5rem; align-items: center;">
+          
+          <img [src]="item.image | imageUrl" alt="Produit" style="width: 100px; height: 100px; object-fit: cover; border-radius: 8px; border: 1px solid #e2e8f0;">
+          
+          <div style="flex: 1;">
+            <div style="font-size: 0.8rem; font-weight: 700; color: #10b981; text-transform: uppercase; margin-bottom: 4px;">
+              <i class="fa-solid fa-store"></i> {{ item.boutiqueNom }}
+            </div>
+            <h3 style="font-size: 1.2rem; margin: 0 0 8px 0; color: #1e293b;">{{ item.nom }}</h3>
+            <div style="color: #64748b; font-size: 0.95rem;">
+              Prix unitaire : <strong>{{ item.prix | number }} Ar</strong>
+            </div>
+            <div style="margin-top: 8px; font-weight: 600; color: #4f46e5;">
+              Quantité : {{ item.quantite }}
+            </div>
+          </div>
+
+          <div style="text-align: right; display: flex; flex-direction: column; align-items: flex-end; gap: 15px;">
+            <div style="font-size: 1.3rem; font-weight: 800; color: #0f172a;">
+              {{ (item.prix * item.quantite) | number }} Ar
+            </div>
+            <button (click)="removeItem(item.produitId)" style="background: none; border: none; color: #ef4444; cursor: pointer; display: flex; align-items: center; gap: 5px; font-size: 0.9rem;">
+              <i class="fa-solid fa-trash"></i> Retirer
+            </button>
+          </div>
+
+        </div>
+
+      </div>
+
+      <button (click)="clearAll()" style="margin-top: 1rem; background: none; border: none; color: #64748b; cursor: pointer; font-size: 0.9rem; display: flex; align-items: center; gap: 5px;">
+        <i class="fa-solid fa-broom"></i> Vider tout le panier
+      </button>
+    </div>
+
+    <div class="cart-summary">
+      <div style="background: white; border-radius: 12px; box-shadow: 0 4px 6px rgba(0,0,0,0.05); padding: 1.5rem; position: sticky; top: 20px;">
+        <h2 style="font-size: 1.2rem; color: #0f172a; margin-top: 0; margin-bottom: 1.5rem; border-bottom: 2px solid #e2e8f0; padding-bottom: 10px;">Résumé de la commande</h2>
+        
+        <div style="display: flex; justify-content: space-between; margin-bottom: 1rem; color: #475569;">
+          <span>Sous-total</span>
+          <span style="font-weight: 600;">{{ totalMontant | number }} Ar</span>
+        </div>
+
+        <div style="display: flex; justify-content: space-between; border-top: 2px solid #e2e8f0; padding-top: 1.5rem; margin-bottom: 2rem;">
+          <span style="font-weight: 800; font-size: 1.2rem; color: #0f172a;">Total</span>
+          <span style="font-weight: 800; font-size: 1.4rem; color: #4f46e5;">{{ totalMontant | number }} Ar</span>
+        </div>
+
+        <button routerLink="/paiement" style="width: 100%; background: #4f46e5; color: white; border: none; padding: 15px; border-radius: 8px; font-size: 1.1rem; font-weight: bold; cursor: pointer; box-shadow: 0 4px 6px rgba(79, 70, 229, 0.2); transition: 0.2s;">
+          Passer la commande
+        </button>
+      </div>
+    </div>
+
+  </div>
+
+</div>
