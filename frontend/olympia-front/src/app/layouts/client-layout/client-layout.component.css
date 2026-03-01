@@ -181,3 +181,100 @@
   font-size: 2rem;
   margin: 0 10px;
 }
+
+/* --- RESPONSIVE NAVBAR CLIENT --- */
+.mobile-nav-toggle {
+  display: none; /* Caché sur PC */
+  background: none;
+  border: none;
+  font-size: 1.5rem;
+  color: #0f172a;
+  cursor: pointer;
+}
+
+@media (max-width: 900px) {
+  /* On affiche le bouton Hamburger */
+  .mobile-nav-toggle {
+    display: block;
+  }
+
+  /* On cache la barre de recherche complexe pour le moment sur petit écran */
+  .search-wrapper-pro {
+    display: none;
+  }
+
+  /* On transforme la barre d'actions en menu vertical qui descend */
+  .nav-actions {
+    position: absolute;
+    top: 75px; /* Juste sous la navbar */
+    left: 0;
+    width: 100%;
+    background: white;
+    flex-direction: column; /* Les liens s'empilent */
+    padding: 20px;
+    box-shadow: 0 10px 20px rgba(0,0,0,0.1);
+    display: none !important; /* Caché par défaut */
+    align-items: stretch !important;
+    text-align: center;
+    gap: 15px !important;
+  }
+
+  /* Quand on clique, on l'affiche en Flex */
+  .nav-actions.open {
+    display: flex !important;
+  }
+
+  .separator {
+    display: none; /* On cache la petite ligne verticale */
+  }
+
+  /* Les créateurs du footer s'empilent proprement */
+  .creator-names {
+    font-size: 1.2rem;
+  }
+  .amp {
+    display: block; /* L'esperluette passe à la ligne */
+  }
+}
+
+/* --- LE PANNEAU DE RÉSULTATS (OMNIBOX) --- */
+.search-results-panel {
+  position: absolute;
+  top: 55px; /* Juste sous la barre de recherche */
+  left: 0;
+  width: 100%; /* Même largeur que la barre (qui s'agrandit au focus !) */
+  background: white;
+  border-radius: 12px;
+  box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+  border: 1px solid #e2e8f0;
+  max-height: 400px;
+  overflow-y: auto;
+  z-index: 2000;
+  padding: 10px 0;
+  animation: slideDown 0.2s ease;
+}
+
+@keyframes slideDown {
+  from { opacity: 0; transform: translateY(-10px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+.no-results {
+  padding: 20px; text-align: center; color: #64748b; font-style: italic; font-size: 0.9rem;
+}
+
+.result-section h4 {
+  margin: 0; padding: 10px 15px; font-size: 0.75rem; color: #64748b; text-transform: uppercase; letter-spacing: 1px; background: #f8fafc;
+}
+
+.result-item {
+  display: flex; align-items: center; gap: 12px; padding: 10px 15px; cursor: pointer; text-decoration: none; border-bottom: 1px solid #f1f5f9; transition: background 0.2s;
+}
+.result-item:hover { background: #f1f5f9; }
+
+.r-img { width: 40px; height: 40px; border-radius: 8px; object-fit: cover; }
+.r-icon { width: 40px; height: 40px; border-radius: 8px; display: flex; align-items: center; justify-content: center; font-size: 1.2rem; }
+
+.r-info { display: flex; flex-direction: column; }
+.r-name { font-weight: 600; color: #0f172a; font-size: 0.95rem; }
+.r-sub { color: #64748b; font-size: 0.8rem; font-weight: 500; }

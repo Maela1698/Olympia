@@ -17,6 +17,9 @@ import { AdminLayoutComponent } from './layouts/admin-layout/admin-layout.compon
 import { AdminBoxesComponent } from './pages/admin-boxes/admin-boxes.component';
 import { AdminBoutiquesComponent } from './pages/admin-boutiques/admin-boutiques.component';
 import { VendorBoutiquesComponent } from './pages/vendor-boutiques/vendor-boutiques.component';
+import { CartComponent } from './pages/cart/cart.component';
+import { CheckoutComponent } from './pages/checkout/checkout.component';
+import { BoutiqueVentesComponent } from './pages/boutique-ventes/boutique-ventes.component';
 
 
 export const routes: Routes = [
@@ -28,7 +31,10 @@ export const routes: Routes = [
       { path: '', component: HomeComponent },
       { path: 'login', component: LoginComponent },
       { path: 'boutique-client/:id', component: BoutiqueStoreComponent },
-      { path: 'produit-client/:id', component: ProductDetailComponent }
+      { path: 'produit-client/:id', component: ProductDetailComponent },
+      { path: 'panier', component: CartComponent },
+      { path: 'paiement', component: CheckoutComponent }
+      
     ]
   },
   // 2. Zone Admin (Protégée par adminGuard)
@@ -61,8 +67,9 @@ export const routes: Routes = [
       { path: 'produits/nouveau', component: ProductFormComponent }, // Création
       { path: 'produits/modifier/:id', component: ProductFormComponent }, // Modification
       { path: 'settings', component: BoutiqueSettingsComponent },
-      { path: '', redirectTo: 'mes-boutiques', pathMatch: 'full' }, // 👈 Change la redirection par défaut vers le Hub !
-      { path: 'mes-boutiques', component: VendorBoutiquesComponent } // 👈 AJOUTE CETTE LIGNE
+      { path: '', redirectTo: 'mes-boutiques', pathMatch: 'full' }, // Change la redirection par défaut vers le Hub !
+      { path: 'mes-boutiques', component: VendorBoutiquesComponent }, 
+      { path: 'ventes', component: BoutiqueVentesComponent },
      
     ]
   }

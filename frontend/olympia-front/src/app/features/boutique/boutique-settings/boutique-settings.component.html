@@ -25,7 +25,7 @@
       <div class="settings-sidebar">
         
         <div class="logo-upload-box">
-          <img [src]="currentLogo || 'assets/placeholder-shop.jpg'" class="preview-img" alt="Logo">
+          <img [src]="currentLogo | imageUrl" class="preview-img" alt="Logo">
           <br>
           <label class="btn-secondary w-100 upload-btn">
             Changer le logo

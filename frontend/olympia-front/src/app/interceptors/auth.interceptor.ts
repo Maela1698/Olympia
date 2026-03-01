@@ -2,9 +2,8 @@ import { HttpInterceptorFn } from '@angular/common/http';
 
 export const authInterceptor: HttpInterceptorFn = (req, next) => {
   
-  // 1. On récupère le token stocké lors du login
-  // (Vérifie bien que tu l'as appelé 'token' ou 'access_token' dans ton localStorage)
-  const token = localStorage.getItem('token'); 
+  // 1. On récupère le token stocké spécifiquement dans cet onglet
+  const token = sessionStorage.getItem('token'); 
 
   // 2. Si le token existe, on l'ajoute dans l'entête "Authorization"
   if (token) {

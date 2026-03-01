@@ -5,7 +5,7 @@
 
   <div class="store-profile-container">
     <div class="logo-wrapper">
-      <img [src]="shopData.boutique.logo || 'assets/placeholder-shop.jpg'" 
+      <img [src]="shopData.boutique.logo | imageUrl" 
            class="store-logo" 
            alt="Logo {{ shopData.boutique.nom }}">
     </div>
@@ -40,7 +40,7 @@
   <div class="products-grid">
     <a [routerLink]="['/produit-client', p._id]" class="product-card" *ngFor="let p of shopData.produits">
       <div class="product-image-box">
-         <img [src]="p.images[0] || 'assets/no-img.png'" loading="lazy">
+         <img [src]="p.images[0] | imageUrl" loading="lazy">
         <span class="btn-quick-view">Voir</span>
       </div>
       

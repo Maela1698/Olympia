@@ -18,6 +18,23 @@ exports.getPublicBoutiques = async (req, res) => {
   }
 };
 
+// Récupérer toutes les boutiques d'un vendeur spécifique
+exports.getBoutiquesParResponsable = async (req, res) => {
+  try {
+    const vendeurId = req.params.vendeurId;
+    // On cherche les boutiques où id_responsable correspond à l'ID reçu
+    const boutiques = await Boutique.find({ id_responsable: vendeurId });
+    
+    if (!boutiques) {
+      return res.status(404).json({ message: "Aucune boutique trouvée pour ce vendeur." });
+    }
+    
+    res.status(200).json(boutiques);
+  } catch (error) {
+    res.status(500).json({ message: "Erreur lors de la récupération des boutiques", error });
+  }
+};
+
 exports.getAdminBoutiques = async (req, res) => {
     try {
         const boutiques = await Boutique.find()
@@ -26,7 +43,7 @@ exports.getAdminBoutiques = async (req, res) => {
             .populate('id_responsable', 'name fname mail'); 
         res.status(200).json(boutiques);
     } catch (error) {
-        console.error("❌ ERREUR BACKEND :", error); 
+        console.error(" ERREUR BACKEND :", error); 
         res.status(500).json({ message: "Erreur serveur", error: error.message });
     }
 };
@@ -80,7 +97,7 @@ exports.createBoutique = async (req, res) => {
     
     if (req.file) {
       // On construit l'URL complète : http://localhost:3000/uploads/mon-image.jpg
-      logoUrl = `${req.protocol}://${req.get('host')}/uploads/${req.file.filename}`;
+      logoUrl = `${req.file.filename}`;
     } else if (boutiqueObject.logo) {
        // Si l'utilisateur a quand même mis une URL texte (cas rare)
        logoUrl = boutiqueObject.logo;

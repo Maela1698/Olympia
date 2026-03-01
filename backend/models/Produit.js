@@ -9,6 +9,12 @@ const ProduitSchema = new mongoose.Schema({
     type: [String], // Tableau de chaînes de caractères (URLs)
     default: [] 
   },
+  // NOUVEAU : Le stock du produit
+  stock: { 
+    type: Number, 
+    required: true, 
+    default: 1 
+  },
   
   // Relation
   id_boutique: { 

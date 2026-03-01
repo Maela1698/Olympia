@@ -1,4 +1,5 @@
 export const environment = {
   production: true,
-  apiUrl: 'https://olympia-zj83.onrender.com/api'
+  apiUrl: 'https://olympia-zj83.onrender.com/api',
+  imageUrl: 'https://olympia-zj83.onrender.com'
 };

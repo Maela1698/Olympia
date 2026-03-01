@@ -5,12 +5,12 @@
     <div class="visual-col">
       <div class="main-frame">
         <span *ngIf="product.promo" class="tag-promo">PROMO</span>
-        <img [src]="selectedImage || 'assets/no-img.png'" class="hero-img">
+        <img [src]="selectedImage | imageUrl" class="hero-img">
       </div>
       
       <div class="thumbs-list" *ngIf="product.images.length > 1">
         <img *ngFor="let img of product.images" 
-             [src]="img" 
+             [src]="img | imageUrl"
              (click)="changeImage(img)"
              [class.active]="selectedImage === img">
       </div>
@@ -25,15 +25,30 @@
       <p class="p-desc">{{ product.description }}</p>
 
       <div class="buy-box">
-        <div class="qty-control">
-          <button>-</button>
-          <span>1</span>
-          <button>+</button>
+        
+        <div *ngIf="product.stock === 0" style="color: #ef4444; font-weight: bold; padding: 10px 0; font-size: 1.1rem;">
+          <i class="fa-solid fa-circle-xmark"></i> Rupture de stock
         </div>
-       <button (click)="addToCart()" class="btn-add-cart">
-          <i class="fa-solid fa-cart-shopping"></i> Ajouter au panier
-        </button>
+
+        <ng-container *ngIf="product.stock > 0">
+          <div class="qty-control">
+            <button (click)="decrementQty()" [disabled]="quantiteChoisie <= 1">-</button>
+            
+            <span>{{ quantiteChoisie }}</span>
+            
+            <button (click)="incrementQty()" [disabled]="quantiteChoisie >= product.stock">+</button>
+          </div>
+          
+          <button (click)="addToCart()" class="btn-add-cart">
+            <i class="fa-solid fa-cart-shopping"></i> Ajouter au panier
+          </button>
+        </ng-container>
+
       </div>
+
+      <p *ngIf="product.stock > 0" style="font-size: 0.85rem; color: #64748b; margin-top: -5px; margin-bottom: 20px;">
+        Plus que <strong>{{ product.stock }}</strong> exemplaire(s) en stock.
+      </p>
 
       <div class="trust-badges">
         <div class="badge-item">

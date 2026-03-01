@@ -1,58 +1,57 @@
-import { Injectable, inject } from '@angular/core'; // inject est nouveau et pratique
+import { Injectable, inject } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
+import { Router } from '@angular/router'; 
 import { Observable, tap } from 'rxjs';
-import { environment } from '../../environments/environment'; // Assure-toi que ce fichier existe !
+import { environment } from '../../environments/environment';
 
 @Injectable({
   providedIn: 'root'
 })
 export class AuthService {
-  // On utilise 'inject' ou le constructeur classique, ici le constructeur est plus simple pour débuter
-  constructor(private http: HttpClient) {}
+  // Injection moderne et propre
+  private http = inject(HttpClient);
+  private router = inject(Router); 
 
-  private apiUrl = `${environment.apiUrl}/auth`; // ex: http://localhost:3000/api/auth
+  private apiUrl = `${environment.apiUrl}/auth`;
 
-  // Méthode de Connexion
+  // --- MÉTHODE DE CONNEXION ---
   login(credentials: { mail: string, password: string }): Observable<any> {
     return this.http.post<any>(`${this.apiUrl}/login`, credentials).pipe(
       tap(response => {
-        // Si la connexion réussit, on sauvegarde le token tout de suite
-        // ✅ TRÈS IMPORTANT : Stocker le token pour l'intercepteur
-      localStorage.setItem('token', response.token);
-      // ✅ Stocker l'utilisateur pour connaître son ID et son rôle
-      localStorage.setItem('user', JSON.stringify(response.user));
-        if (response.token) {
+        // On sauvegarde proprement une seule fois
+        if (response.token && response.user) {
           this.saveToken(response.token);
-          this.saveUser(response.user); // Si ton backend renvoie aussi les infos user
+          this.saveUser(response.user);
         }
       })
     );
   }
 
-  // Gestion du Token (Stockage local)
+  // --- GESTION DU TOKEN (SESSION ISOLÉE PAR ONGLET) ---
   saveToken(token: string): void {
-    localStorage.setItem('token', token);
+    sessionStorage.setItem('token', token);
   }
 
   getToken(): string | null {
-    return localStorage.getItem('token');
+    return sessionStorage.getItem('token');
   }
 
-  // Gestion de l'Utilisateur
+  // --- GESTION DE L'UTILISATEUR (SESSION ISOLÉE PAR ONGLET) ---
   saveUser(user: any): void {
-    localStorage.setItem('user', JSON.stringify(user));
+    sessionStorage.setItem('user', JSON.stringify(user));
   }
 
   getUser(): any {
-    const user = localStorage.getItem('user');
+    const user = sessionStorage.getItem('user');
     return user ? JSON.parse(user) : null;
   }
 
-  
-
-  // Déconnexion
+  // --- L'ARME ANTI-F12 (DÉCONNEXION) ---
   logout(): void {
-    localStorage.removeItem('token');
-    localStorage.removeItem('user');
+    // 1. On détruit ABSOLUMENT TOUT le contenu du cache de CET onglet
+    sessionStorage.clear(); 
+    
+    // 2. On renvoie l'utilisateur à la porte d'entrée
+    this.router.navigate(['/login']);
   }
 }
