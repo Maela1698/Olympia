@@ -20,7 +20,7 @@ connectDB();
 // 3. CONFIGURATION CORS
 // Note : Vérifiez bien que l'URL Netlify est exacte (sans / à la fin)
 const allowedOrigins = [
-  'https://olympia-front.netlify.app', 
+  'https://m1p13mean-jaona-maela.netlify.app', 
   'http://localhost:4200'
 ];
 
