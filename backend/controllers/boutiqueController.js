@@ -2,7 +2,7 @@ const Boutique = require('../models/Boutique');
 const Produit = require('../models/Produit');
 const Categorie = require('../models/Categorie');
 const Box = require('../models/Box');
-const fs = require('fs'); // Permet de supprimer les fichiers
+const fs = require('fs');
 
 // --- LECTURE (Pas de changement pour l'image ici) ---
 
@@ -78,7 +78,7 @@ exports.getMaBoutique = async (req, res) => {
 
 // --- ÉCRITURE (C'est ici que ça change pour Multer) ---
 
-// 1. CREATE avec Image Upload
+// CREATE avec Image Upload
 exports.createBoutique = async (req, res) => {
   try {
     // req.body contient les champs texte (envoyés via FormData)
@@ -93,7 +93,7 @@ exports.createBoutique = async (req, res) => {
     }
 
     // Gestion de l'URL de l'image
-    let logoUrl = 'https://placehold.co/200x200?text=Pas+de+Logo'; // Image par défaut
+    let logoUrl = 'https://placehold.co/200x200?text=Pas+de+Logo'; 
     
     if (req.file) {
       // On construit l'URL complète : http://localhost:3000/uploads/mon-image.jpg
@@ -131,7 +131,6 @@ exports.updateBoutique = async (req, res) => {
     const boutiqueAmodifier = await Boutique.findById(boutiqueId);
     if (!boutiqueAmodifier) return res.status(404).json({ message: "Boutique non trouvée" });
 
-    // 2. LA RÈGLE D'OR : 
     // SI c'est un admin -> OK il passe.
     // SINON SI c'est le responsable -> OK il passe.
     // SINON -> 403.
